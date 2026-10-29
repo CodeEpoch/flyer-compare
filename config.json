@@ -63,7 +63,7 @@
     }
   ],
   "store_overrides": {},
-  "ocr_engine": "windows",
+  "ocr_engine": "paddle",
   "claude_model": "claude-opus-5-5",
   "anthropic_api_key": ""
 }

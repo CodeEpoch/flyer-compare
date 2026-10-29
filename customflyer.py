@@ -4,12 +4,14 @@ Finds the flyer images (or PDF) on a page, reads them, and saves the result
 in the same shape as a Flipp flyer under data/flyers/custom-*.json so the
 rest of the app treats it like any other store.
 
-Two readers:
-  windows - Windows' built-in OCR + layout rules. Free and offline, but it
-            can't read stylised sale prices, so it works them out from the
-            "Reg: $x" and "save $y" labels and skips items it can't price.
+Three readers:
+  paddle  - PaddleOCR (setup_paddleocr.ps1 installs it into .venv-ocr). Free and
+            offline, reads English and Chinese, run as a separate process.
+  windows - Windows' built-in OCR. Free, nothing to install, but rougher.
   claude  - Claude vision via the Anthropic API (pip install anthropic, plus an
-            API key). Much more accurate; costs a few cents per flyer page.
+            API key). Most accurate; costs a few cents per flyer page.
+Both OCR readers feed the same layout rules, which work prices out from the
+"Reg: $x" and "save $y" labels and skip items they can't price.
 """
 
 import base64
@@ -112,6 +114,28 @@ def windows_ocr(image_path):
     return rows[0], rows[1:]
 
 
+# ---------------------------------------------------------------- PaddleOCR reader
+
+PADDLE_PY = ROOT / ".venv-ocr" / "Scripts" / "python.exe"
+
+
+def paddle_available():
+    return PADDLE_PY.exists()
+
+
+def paddle_ocr(image_path):
+    """Runs paddle_ocr.py in its own environment; the models leave memory when it exits."""
+    r = subprocess.run(
+        [str(PADDLE_PY), str(ROOT / "paddle_ocr.py"), str(image_path)],
+        capture_output=True, timeout=900, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+    )
+    if r.returncode != 0:
+        err = r.stderr.decode("utf-8", "replace").strip().splitlines()
+        raise RuntimeError("PaddleOCR failed: " + (err[-1] if err else f"exit code {r.returncode}"))
+    rows = [json.loads(l) for l in r.stdout.decode("utf-8").splitlines() if l.startswith("{")]
+    return rows[0], rows[1:]
+
+
 def _lines(words):
     """Group OCR words into text lines."""
     words = sorted(words, key=lambda w: (w["y"], w["x"]))
@@ -134,8 +158,12 @@ def _lines(words):
 def _clean_name(text):
     """Drop OCR junk words ('Sl.oo', 'Uhl', '•') and keep the readable product name."""
     words = [w.strip("_•*'\".,") for w in text.split()]
-    keep = [w for w in words if re.fullmatch(r"[A-Za-z][A-Za-z&'/()\-]*[A-Za-z)]|&|w/", w)]
+    keep = [w for w in words if re.fullmatch(r"[A-Za-z][A-Za-z&'/()\-]*[A-Za-z)]|&|w/", w) or CJK.fullmatch(w)]
     return " ".join(keep)
+
+
+# Chinese words (PaddleOCR reads them; names become "Garlic Shoot 蒜芯")
+CJK = re.compile(r"[㐀-䶿一-鿿][㐀-䶿一-鿿()（）·]*")
 
 
 def _money(tok):
@@ -166,12 +194,15 @@ def _bubble_price(tok):
 
 
 def _is_name(text):
+    if len(re.findall(r"[㐀-䶿一-鿿]", text)) >= 2 and not re.search(r"\$|\d\.\d", text):
+        # a Chinese name line, unless it's a promo label (weekday-only, while stocks last, tasting, "great value")
+        return not re.search(r"星期|售完|即止|试吃|試吃|超值|震撼|限时|限時", text)
     letters = sum(c.isalpha() and c.isascii() for c in text)
     return letters >= 3 and letters / max(len(text), 1) > 0.6 and re.search(r"[aeiouAEIOU]", text) \
         and not re.match(r"(?i)\s*(reg|save|thurs|sat|fri|demo|while|order)\b", text)
 
 
-def parse_windows(meta, words, image_url):
+def parse_ocr(meta, words, image_url):
     """Items from OCR words, using each 'Reg: $x' label as the anchor of a product cell."""
     W, H = meta["width"], meta["height"]
     lines = _lines(words)
@@ -188,6 +219,8 @@ def parse_windows(meta, words, image_url):
              [x for r in regs for x in r["words"]]]
     unit_words = [w for w in words if re.fullmatch(r"(?i)/?(lb|lbs|ea|box|bag|order|ph|pk)\.?/?", w["t"])]
     bubbles = [(w, b) for w in words if (b := _bubble_price(w["t"]))]
+    # Big sale prices print the cents small and raised, so OCR reads "1.39" as "139" (PaddleOCR catches these)
+    big_nums = [w for w in words if re.fullmatch(r"\d{2,4}", w["t"]) and not 1900 <= int(w["t"]) <= 2100]
 
     items = []
     for r in regs:
@@ -221,10 +254,19 @@ def parse_windows(meta, words, image_url):
 
         # Only keep prices that make sense next to the regular price: a misread is worse than a gap
         reg, qty, price = r["reg"], 1, None
+        derived = round(reg - save, 2) if reg and save and 0.05 * reg <= save <= 0.6 * reg else None
+        big = None
+        for w in sorted((w for w in big_nums if in_cell(w)), key=lambda w: -w["h"])[:2]:  # largest text first
+            p = int(w["t"]) / 100
+            if reg and 0.3 * reg <= p < reg and (derived is None or abs(p - derived) <= 0.02):
+                big = p  # agrees with the Reg/save labels (or there's no save label to check against)
+                break
         if bub and reg and 0.3 * reg <= bub[1] / bub[0] < reg:
             qty, price = bub
-        elif reg and save and 0.05 * reg <= save <= 0.6 * reg:
-            price = round(reg - save, 2)
+        elif big:
+            price = big
+        elif derived:
+            price = derived
         if not price:
             continue
 
@@ -241,6 +283,10 @@ def parse_windows(meta, words, image_url):
 def find_dates(text, today=None):
     """'OCT 29, 2026 - NOV 04, 2026' style flyer periods -> (from, to) ISO dates."""
     today = today or date.today()
+    # OCR slips: "0CT 29，2026-N0V04" -> "OCT 29,2026-NOV04"
+    text = text.replace("，", ",").replace("－", "-")
+    text = re.sub(r"(?i)\b[A-Z0]{3}(?=\s*\d)",
+                  lambda m: m.group(0).replace("0", "O") if m.group(0).replace("0", "O").lower() in MONTHS else m.group(0), text)
     pat = r"([A-Za-z]{3})[a-z]*\.?\s*(\d{1,2})(?:,?\s*(\d{4}))?"
     m = re.search(pat + r"\s*(?:-|–|to)\s*" + pat, text)
     if m:
@@ -366,7 +412,12 @@ def read_flyer(entry, cfg, log):
     ok, why = claude_available(cfg)
     if engine == "claude" and not ok:
         raise RuntimeError(why)
-    use_claude = engine == "claude" or (engine == "auto" and ok)
+    if engine == "paddle" and not paddle_available():
+        raise RuntimeError("PaddleOCR isn't installed. Run setup_paddleocr.ps1.")
+    if engine == "auto":  # best available: Claude, then PaddleOCR, then Windows OCR
+        engine = "claude" if ok else "paddle" if paddle_available() else "windows"
+    use_claude = engine == "claude"
+    reader_name = {"claude": "Claude", "paddle": "PaddleOCR", "windows": "Windows OCR"}[engine]
 
     folder = CUSTOM / slug(store)
     folder.mkdir(parents=True, exist_ok=True)
@@ -376,8 +427,7 @@ def read_flyer(entry, cfg, log):
     for n, src in enumerate(sources, 1):
         data, ctype = fetch(src, timeout=60)
         digest = hashlib.sha256(data).hexdigest()[:16]
-        reader = "claude" if use_claude else "windows"
-        key = f"{digest}:{reader}"
+        key = f"{digest}:{engine}"
         if key in cached:  # unchanged image: reuse last week's reading
             pages.append(cached[key])
             continue
@@ -386,7 +436,7 @@ def read_flyer(entry, cfg, log):
         ext = ".pdf" if ctype == "application/pdf" else Path(urllib.parse.urlparse(src).path).suffix or ".jpg"
         local = folder / f"page{n}{ext}"
         local.write_bytes(data)
-        log(f"Reading {store} flyer page {n}/{len(sources)} with {'Claude' if use_claude else 'Windows OCR'}...")
+        log(f"Reading {store} flyer page {n}/{len(sources)} with {reader_name}...")
         size = _image_size(local) or (0, 0)
         if use_claude:
             out = parse_claude(cfg, data, ctype if ctype.startswith(("image/", "application/pdf")) else "image/jpeg")
@@ -401,10 +451,10 @@ def read_flyer(entry, cfg, log):
             page = {"src": src, "size": size, "items": items,
                     "dates": [out["valid_from"], out["valid_to"]] if out["valid_from"] and out["valid_to"] else None}
         else:
-            meta, words = windows_ocr(local)
+            meta, words = paddle_ocr(local) if engine == "paddle" else windows_ocr(local)
             text = " ".join(w["t"] for w in words)
             page = {"src": src, "size": [meta["width"], meta["height"]],
-                    "items": parse_windows(meta, words, src), "dates": find_dates(text)}
+                    "items": parse_ocr(meta, words, src), "dates": find_dates(text)}
         cached[key] = page
         pages.append(page)
     cache.write_text(json.dumps({k: v for k, v in cached.items() if v in pages}, indent=1), encoding="utf-8")
@@ -431,7 +481,7 @@ def read_flyer(entry, cfg, log):
     return {
         "flyer": {"id": fid, "merchant": store, "name": title or "Flyer", "url": url,
                   "valid_from": dates[0], "valid_to": dates[1], "categories": ["Groceries"],
-                  "reader": "claude" if use_claude else "windows"},
+                  "reader": engine},
         "items": items,
         "fetched_at": datetime.now().isoformat(timespec="seconds"),
     }

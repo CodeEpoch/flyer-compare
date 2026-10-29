@@ -1,0 +1,2 @@
+# PaddleOCR's private Python environment (large; recreate with setup_paddleocr.ps1)
+.venv-ocr/

@@ -240,6 +240,7 @@
         <div class="line"><span data-i18n="readWith">Read flyer images with</span>
           <select id="sEngine">
             <option value="auto" data-i18n="engAuto"></option>
+            <option value="paddle" data-i18n="engPaddle"></option>
             <option value="windows" data-i18n="engWindows"></option>
             <option value="claude" data-i18n="engClaude"></option>
           </select>
@@ -600,7 +601,9 @@ function fillSettings(s) {
   $("sEngine").value = s.ocr_engine;
   $("sKey").value = "";
   $("sKey").placeholder = s.claude.key_saved ? t("keySavedPh") : t("keyPh");
-  $("sKeyNote").textContent = s.claude.ready ? t("keyReady") : t("keyUnavailable", { why: s.claude.why });
+  const fallback = s.paddle_ready ? "PaddleOCR" : "Windows OCR";
+  $("sKeyNote").textContent = [s.claude.ready ? t("keyReady") : t("keyUnavailable", { why: s.claude.why, fallback }),
+    s.paddle_ready ? "" : t("paddleMissing")].filter(Boolean).join(" ");
   const n = s.custom_flyers.length;
   $("cfCount").textContent = n ? t("cfCount", { n }) : "";
 }

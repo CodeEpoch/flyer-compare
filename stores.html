@@ -158,7 +158,7 @@ function row(s) {
   const st = s.status;
   const linkLine = s.source === "link" ? `<div class="linkrow">
       <span>${t("flyerPage")} <a href="${esc(s.link)}" target="_blank" rel="noopener">${esc(s.link)}</a></span>
-      <span class="${st && !st.ok ? "err" : "muted"}">${!st ? t("notRead") : st.ok ? esc(t("readBy", { n: st.items, reader: st.reader === "claude" ? "Claude" : "Windows OCR", when: new Date(st.at).toLocaleString(LOCALE) })) : esc(t("failed", { err: st.error }))}</span>
+      <span class="${st && !st.ok ? "err" : "muted"}">${!st ? t("notRead") : st.ok ? esc(t("readBy", { n: st.items, reader: { claude: "Claude", paddle: "PaddleOCR" }[st.reader] || "Windows OCR", when: new Date(st.at).toLocaleString(LOCALE) })) : esc(t("failed", { err: st.error }))}</span>
       <button class="btn" data-act="reread">${t("reread")}</button><button class="btn" data-act="remove">${t("removeLink")}</button></div>` : "";
   return `<article class="store${s.excluded ? " off" : ""}" data-store="${esc(s.store)}">
     <div>

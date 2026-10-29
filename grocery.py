@@ -355,7 +355,7 @@ def normalize(cfg):
                 "flyer_url": flyer_url,
                 # custom flyers: no product cut-out, so the page shows this region of the flyer page
                 "crop": it.get("crop"), "page_size": it.get("page_size"),
-                "ocr": f.get("reader") == "windows",
+                "ocr": f.get("reader") in ("windows", "paddle"),
                 "valid_from": (it.get("valid_from") or f["valid_from"])[:10],
                 "valid_to": (it.get("valid_to") or f["valid_to"])[:10],
                 "category": categories.classify(toks, cat_index),

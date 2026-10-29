@@ -83,6 +83,7 @@ def public_settings(cfg):
                              "status": state.get("custom", {}).get(e["url"])} for e in cfg["custom_flyers"]]
     ok, why = customflyer.claude_available(cfg)
     out["claude"] = {"ready": ok, "why": why, "key_saved": bool(cfg["anthropic_api_key"])}  # never send the key back
+    out["paddle_ready"] = customflyer.paddle_available()
     try:
         out["installed"] = autorun.status()
     except Exception as e:
@@ -104,7 +105,7 @@ def validate(body, cfg):
             raise ValueError("Time must look like 08:00.")
         new["refresh_time"] = body["refresh_time"]
     if "ocr_engine" in body:
-        if body["ocr_engine"] not in ("auto", "windows", "claude"):
+        if body["ocr_engine"] not in ("auto", "paddle", "windows", "claude"):
             raise ValueError("Unknown flyer reader.")
         new["ocr_engine"] = body["ocr_engine"]
     if body.get("anthropic_api_key"):  # blank = keep the saved key
