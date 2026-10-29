@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flyer Deals Stores</title>
+<style>
+  :root {
+    --nav: #131921; --nav2: #232f3e; --accent: #febd69;
+    --bg: #eaeded; --card: #fff; --text: #0f1111; --muted: #565959; --line: #d5d9d9;
+    --link: #007185; --deal: #cc0c39; --best: #067d62; --badge: #c45500; --chip: #e7f4f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1418; --card: #1a2128; --text: #e6e8ea; --muted: #9aa4ad; --line: #2b343c;
+      --link: #4fc3d4; --deal: #ff6b81; --best: #3ddc97; --chip: #17323a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.4 Arial, sans-serif; background: var(--bg); color: var(--text); }
+  button, input, select { font: inherit; }
+  header { background: var(--nav); color: #fff; display: flex; gap: 16px; align-items: center; padding: 12px 16px; position: sticky; top: 0; z-index: 5; }
+  .logo { font-weight: 700; font-size: 20px; color: #fff; text-decoration: none; }
+  .logo span { color: var(--accent); }
+  header h1 { font-size: 18px; margin: 0; font-weight: 400; }
+  header .back { margin-left: auto; color: #fff; text-decoration: none; border: 1px solid transparent; padding: 6px 8px; border-radius: 3px; }
+  header .back:hover { border-color: #fff; }
+  .lang { background: var(--nav); color: #fff; border: 1px solid #485769; border-radius: 4px; padding: 4px; }
+  #job { display: none; background: #fff8e1; color: #5b4500; padding: 8px 16px; font-size: 13px; }
+  #job.on { display: block; }
+  #job.err { background: #fdecea; color: #8a1c1c; }
+  main { max-width: 1000px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .panel { background: var(--card); border-radius: 6px; padding: 14px 16px; }
+  .panel h2 { font-size: 16px; margin: 0 0 8px; }
+  .muted { color: var(--muted); font-size: 13px; }
+  .tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .tools input[type=search] { flex: 1; min-width: 180px; }
+  input[type=text], input[type=search] { padding: 7px 9px; border: 1px solid var(--line); border-radius: 4px; background: var(--card); color: var(--text); }
+  .seg { display: flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .seg button { border: 0; background: var(--card); color: var(--text); padding: 6px 12px; cursor: pointer; border-left: 1px solid var(--line); }
+  .seg button:first-child { border-left: 0; }
+  .seg button.on { background: var(--nav2); color: #fff; }
+  .btn { border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 8px; padding: 6px 12px; cursor: pointer; white-space: nowrap; }
+  .btn.primary { background: #ffd814; border-color: #fcd200; color: #0f1111; }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .add { display: grid; grid-template-columns: 2fr 1fr 2fr auto; gap: 8px; }
+  #addMsg { margin-top: 6px; font-size: 13px; }
+  .err { color: var(--deal); }
+  .ok { color: var(--best); }
+
+  .store { background: var(--card); border-radius: 6px; padding: 12px 16px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; }
+  .store.off { opacity: .6; }
+  .name { font-size: 16px; font-weight: 700; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .tag { font-size: 11px; font-weight: 400; padding: 1px 8px; border-radius: 10px; background: var(--chip); color: var(--text); border: 1px solid var(--line); }
+  .tag.ex { background: #fdecea; color: #8a1c1c; border-color: #f2b8b5; }
+  .meta { font-size: 13px; color: var(--muted); }
+  .meta a { color: var(--link); }
+  .toggles { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+  .toggles label { display: flex; gap: 6px; align-items: center; cursor: pointer; white-space: nowrap; }
+  .loc { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .loc input { flex: 1; min-width: 220px; }
+  .loc .where { flex-basis: 100%; font-size: 13px; }
+  .linkrow { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 13px; border-top: 1px solid var(--line); padding-top: 8px; }
+  .empty { text-align: center; color: var(--muted); padding: 30px; }
+  #mapBox { padding: 0; overflow: hidden; }
+  #map { height: min(70vh, 640px); background: var(--bg); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 8px 14px; font-size: 12px; align-items: center; }
+  .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; border: 2px solid #fff; box-shadow: 0 0 0 1px #888; }
+  .leaflet-popup-content { font: 13px/1.4 Arial, sans-serif; margin: 10px 12px; }
+  .pop b { font-size: 14px; }
+  .pop .acts { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .pop .acts a, .pop .acts button { font-size: 12px; padding: 3px 8px; border-radius: 6px; border: 1px solid #d5d9d9; background: #fff; color: #0f1111; cursor: pointer; text-decoration: none; }
+  .leaflet-tooltip.mine-label { font-weight: 700; border-color: #c45500; }
+  .store.flash { outline: 3px solid var(--accent); transition: outline-color 1s; }
+  @media (max-width: 700px) {
+    .add { grid-template-columns: 1fr; }
+    .store { grid-template-columns: 1fr; }
+    .toggles { flex-direction: row; flex-wrap: wrap; gap: 4px 14px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="/">flyer<span>deals</span></a>
+  <h1 data-i18n="storesTitle">Stores</h1>
+  <a class="back" href="/" data-i18n="back">&larr; Back to deals</a>
+  <select class="lang" id="lang"></select>
+</header>
+<div id="job"></div>
+<main>
+  <section class="panel">
+    <h2 data-i18n="addH"></h2>
+    <p class="muted" data-i18n="addNote"></p>
+    <div class="add">
+      <input type="text" id="aUrl" placeholder="https://kingsfairsupermarket.com/flyer.html">
+      <input type="text" id="aStore" data-i18n-ph="namePh">
+      <input type="text" id="aAddr" data-i18n-ph="addrOptPh">
+      <button class="btn primary" id="aBtn" data-i18n="addBtn"></button>
+    </div>
+    <div id="addMsg"></div>
+  </section>
+
+  <section class="panel tools">
+    <input type="search" id="find" data-i18n-ph="findStore">
+    <div class="seg" id="seg">
+      <button data-v="all" class="on" data-i18n="segAll"></button><button data-v="mine" data-i18n="segMine"></button><button data-v="excluded" data-i18n="segExcluded"></button><button data-v="link" data-i18n="segLink"></button><button data-v="noloc" data-i18n="segNoloc"></button>
+    </div>
+    <div class="seg" id="mode">
+      <button data-m="list" class="on" data-i18n="modeList"></button><button data-m="map" data-i18n="modeMap"></button>
+    </div>
+  </section>
+  <p class="muted" id="home"></p>
+  <section id="mapBox" class="panel" hidden>
+    <div id="map"></div>
+    <div class="legend">
+      <span><i style="background:#131921"></i><span data-i18n="legYou"></span></span>
+      <span><i style="background:#c45500"></i><span data-i18n="legMine"></span></span>
+      <span><i style="background:#007185"></i><span data-i18n="legFlipp"></span></span>
+      <span><i style="background:#7b3fb0"></i><span data-i18n="legLink"></span></span>
+      <span><i style="background:#9aa4ad"></i><span data-i18n="legExcl"></span></span>
+      <span class="muted" id="mapNote"></span>
+    </div>
+  </section>
+  <div id="list"></div>
+</main>
+
+<script src="i18n.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const saved = {
+  get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+};
+applyI18n();
+langPicker($("lang"));
+const api = (path, body) => fetch(path, {
+  method: body ? "POST" : "GET",
+  headers: { "X-Flyer-Deals": "1", "Content-Type": "application/json" },
+  body: body ? JSON.stringify(body) : undefined,
+}).then(async r => { const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || r.statusText); return j; });
+
+let data = { stores: [] }, view = "all";
+// Same browser storage as the deals page, so these stay in sync
+const mine = () => new Set(saved.get("myStores", []));
+const off = () => new Set(saved.get("storesOff", []));
+const flip = (key, store, on) => { const s = new Set(saved.get(key, [])); on ? s.add(store) : s.delete(store); saved.set(key, [...s]); };
+
+function where(s) {
+  const o = s.override, i = s.info;
+  if (o) return `<span class="ok">${i && i.km != null ? i.km + " km · " : ""}${t("setByYou")}</span> · ${esc(t("foundPlace", { place: o.found || o.address }))}`;
+  if (i) return `${i.km} km · ${esc(t("nearestOSM", { branch: i.branch + (i.address ? ", " + i.address : "") }))}`;
+  return `<span class="err">${t("locUnknown")}</span> · ${t("enterAddr")}`;
+}
+
+function row(s) {
+  const my = mine().has(s.store), compared = !off().has(s.store);
+  const st = s.status;
+  const linkLine = s.source === "link" ? `<div class="linkrow">
+      <span>${t("flyerPage")} <a href="${esc(s.link)}" target="_blank" rel="noopener">${esc(s.link)}</a></span>
+      <span class="${st && !st.ok ? "err" : "muted"}">${!st ? t("notRead") : st.ok ? esc(t("readBy", { n: st.items, reader: st.reader === "claude" ? "Claude" : "Windows OCR", when: new Date(st.at).toLocaleString(LOCALE) })) : esc(t("failed", { err: st.error }))}</span>
+      <button class="btn" data-act="reread">${t("reread")}</button><button class="btn" data-act="remove">${t("removeLink")}</button></div>` : "";
+  return `<article class="store${s.excluded ? " off" : ""}" data-store="${esc(s.store)}">
+    <div>
+      <div class="name">${esc(s.store)}${my ? ` <span class="tag">${t("myStoreTag")}</span>` : ""}
+        <span class="tag">${s.source === "link" ? t("srcLink") : t("srcFlipp")}</span>${s.excluded ? `<span class="tag ex">${t("excludedTag")}</span>` : ""}</div>
+      <div class="meta">${s.excluded ? t("notFetched") : t("nDeals", { n: s.items })}${s.flyer ? ` · ${t("validTo", { date: esc(s.flyer.valid_to) })} · <a href="${esc(s.flyer.url)}" target="_blank" rel="noopener">${t("openFlyer")}</a>` : ""}</div>
+    </div>
+    <div class="toggles">
+      <label><input type="checkbox" data-act="show" ${s.excluded ? "" : "checked"}> ${t("showDeals")}</label>
+      <label><input type="checkbox" data-act="compare" ${compared ? "checked" : ""} ${s.excluded ? "disabled" : ""}> ${t("useInCompare")}</label>
+      <label><input type="checkbox" data-act="mine" ${my ? "checked" : ""} ${s.excluded ? "disabled" : ""}> ${t("myStoreToggle")}</label>
+    </div>
+    <div class="loc">
+      <input type="text" data-addr placeholder="${esc(t("addrPh2"))}" value="${esc(s.override?.address || "")}">
+      <button class="btn" data-act="addr">${t("saveAddr")}</button>
+      ${s.override ? `<button class="btn" data-act="clear">${t("useOSM")}</button>` : ""}
+      <div class="where">${where(s)}</div>
+    </div>${linkLine}
+  </article>`;
+}
+
+function draw() {
+  const q = $("find").value.trim().toLowerCase();
+  const my = mine();
+  const rows = data.stores.filter(s => s.store.toLowerCase().includes(q) && (
+    view === "all" || (view === "mine" && my.has(s.store)) || (view === "excluded" && s.excluded) ||
+    (view === "link" && s.source === "link") || (view === "noloc" && !s.info && !s.override)));
+  // Nearest first, unknown locations last
+  rows.sort((a, b) => (a.info?.km ?? 1e9) - (b.info?.km ?? 1e9) || a.store.localeCompare(b.store));
+  $("list").hidden = mode === "map";
+  $("mapBox").hidden = mode !== "map";
+  if (mode === "map") drawMap(rows);
+  else $("list").innerHTML = rows.length ? rows.map(row).join("") : `<div class="empty">${t("noStores")}</div>`;
+  $("home").textContent = data.home ? t("homeLine", { place: data.home.address || data.home.display, n: data.stores.length }) : t("setAddrFirst");
+}
+
+async function load() { data = await api("/api/stores"); draw(); }
+
+// ------------------------------------------------------------ map view
+// Leaflet + OpenStreetMap tiles, loaded only the first time the map is opened
+let mode = saved.get("storesMode", "list"), map, layer, fitNext = true, leaflet;
+function loadLeaflet() {
+  if (window.L) return Promise.resolve();
+  return leaflet ||= new Promise((resolve, reject) => {
+    const css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
+    const js = document.createElement("script");
+    js.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
+    js.onload = resolve;
+    js.onerror = () => { leaflet = null; reject(new Error(t("mapLoadFail"))); };
+    document.head.append(css, js);
+  });
+}
+
+const pinColor = (s, my) => s.excluded ? "#9aa4ad" : my.has(s.store) ? "#c45500" : s.source === "link" ? "#7b3fb0" : "#007185";
+
+function popup(s) {
+  const loc = s.override || s.info;
+  const km = s.info?.km != null ? t("kmAway", { km: s.info.km }) : "";
+  const src = s.override ? t("addrByYou") : esc(t("nearestBranch", { branch: s.info.branch + (s.info.address ? ", " + s.info.address : "") }));
+  return `<div class="pop"><b>${esc(s.store)}</b><br>${km}${km ? " · " : ""}${s.excluded ? t("excludedTag") : t("nDeals", { n: s.items })}
+    <br><span style="color:#565959">${src}</span>
+    <div class="acts">${s.flyer ? `<a href="${esc(s.flyer.url)}" target="_blank" rel="noopener">${t("openFlyer")}</a>` : ""}
+      <button data-goto="${esc(s.store)}">${t("showInList")}</button>
+      <a href="https://www.openstreetmap.org/?mlat=${loc.lat}&mlon=${loc.lon}#map=17/${loc.lat}/${loc.lon}" target="_blank" rel="noopener">${t("directions")}</a></div></div>`;
+}
+
+async function drawMap(rows) {
+  try { await loadLeaflet(); } catch (e) { $("mapNote").textContent = e.message; return; }
+  if (!map) {
+    map = L.map("map");
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+    layer = L.layerGroup().addTo(map);
+  }
+  layer.clearLayers();
+  const pts = [], my = mine(), h = data.home;
+  if (h) {
+    for (const km of [5, 10, 15])
+      L.circle([h.lat, h.lon], { radius: km * 1000, color: "#131921", weight: 1, opacity: 0.5, dashArray: "4 6", fill: false, interactive: false }).addTo(layer);
+    L.circleMarker([h.lat, h.lon], { radius: 9, color: "#fff", weight: 3, fillColor: "#131921", fillOpacity: 1 })
+      .bindTooltip(t("youTip", { place: h.address || h.display })).addTo(layer);
+    pts.push([h.lat, h.lon]);
+  }
+  let missing = 0;
+  // draw My stores last so they sit on top
+  for (const s of [...rows].sort((a, b) => my.has(a.store) - my.has(b.store))) {
+    const loc = s.override || s.info;
+    if (!loc || loc.lat == null) { missing++; continue; }
+    const isMine = my.has(s.store);
+    L.circleMarker([loc.lat, loc.lon], { radius: isMine ? 9 : 7, color: "#fff", weight: 2, fillColor: pinColor(s, my), fillOpacity: 0.95 })
+      .bindPopup(popup(s))
+      .bindTooltip(s.store, isMine ? { permanent: true, direction: "right", offset: [8, 0], className: "mine-label" } : { direction: "top" })
+      .addTo(layer);
+    pts.push([loc.lat, loc.lon]);
+  }
+  $("mapNote").textContent = (h ? t("rings") : "") + (missing ? t("noLocShown", { n: missing }) : "");
+  map.invalidateSize();
+  if (fitNext && pts.length) { map.fitBounds(pts, { padding: [30, 30], maxZoom: 14 }); fitNext = false; }
+}
+
+function setMode(m) {
+  mode = m; saved.set("storesMode", m); fitNext = true;
+  $("mode").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.m === m));
+  draw();
+}
+$("mode").onclick = e => { if (e.target.dataset.m) setMode(e.target.dataset.m); };
+// "Show in list" in a map popup: jump to that store's card
+$("map").addEventListener("click", e => {
+  const s = e.target.dataset?.goto;
+  if (!s) return;
+  setMode("list");
+  const card = [...document.querySelectorAll(".store")].find(c => c.dataset.store === s);
+  if (card) { card.scrollIntoView({ block: "center", behavior: "smooth" }); card.classList.add("flash"); setTimeout(() => card.classList.remove("flash"), 1500); }
+});
+$("mode").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.m === mode));
+
+// Background jobs (rebuilds, flyer reads): show progress, then reload the list
+let watching = false;
+async function watch() {
+  if (watching) return; watching = true;
+  while (true) {
+    let j; try { j = await fetch("/api/status").then(r => r.json()); } catch { break; }
+    $("job").className = j.running ? "on" : j.error ? "on err" : "";
+    $("job").textContent = j.running ? j.message : j.error;
+    if (!j.running) break;
+    await new Promise(r => setTimeout(r, 1000));
+  }
+  watching = false;
+  await load();
+}
+
+$("seg").onclick = e => {
+  const v = e.target.dataset.v; if (!v) return;
+  view = v; fitNext = true;
+  $("seg").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.v === v)); draw();
+};
+$("find").oninput = draw;
+
+$("list").addEventListener("change", async e => {
+  const card = e.target.closest(".store"); const act = e.target.dataset.act;
+  if (!card || !act) return;
+  const store = card.dataset.store;
+  if (act === "compare") flip("storesOff", store, !e.target.checked);
+  else if (act === "mine") flip("myStores", store, e.target.checked);
+  else if (act === "show") {
+    try { data = await api("/api/exclude", { store, exclude: !e.target.checked }); watch(); }
+    catch (err) { card.querySelector(".where").innerHTML = `<span class="err">${esc(err.message)}</span>`; return; }
+  }
+  draw();
+});
+
+$("list").addEventListener("click", async e => {
+  const b = e.target.closest("button[data-act]"); if (!b) return;
+  const card = b.closest(".store"), store = card.dataset.store, act = b.dataset.act;
+  const s = data.stores.find(x => x.store === store);
+  const status = card.querySelector(".where");
+  b.disabled = true;
+  try {
+    if (act === "addr" || act === "clear") {
+      const address = act === "clear" ? "" : card.querySelector("[data-addr]").value.trim();
+      if (act === "addr" && !address) { status.innerHTML = `<span class="err">${t("typeAddrFirst")}</span>`; return; }
+      status.textContent = address ? t("lookingUp") : t("switchingBack");
+      data = await api("/api/store", { store, address }); draw(); watch();
+    } else if (act === "remove" && !b.dataset.sure) {
+      b.dataset.sure = "1"; b.textContent = t("clickAgain");  // no pop-ups: confirm in place
+    } else if (act === "reread" || act === "remove") {
+      await api("/api/custom", { action: act, url: s.link }); watch();
+    }
+  } catch (err) { status.innerHTML = `<span class="err">${esc(err.message)}</span>`; }
+  finally { b.disabled = false; }
+});
+$("list").addEventListener("keydown", e => {
+  if (e.key === "Enter" && e.target.matches("[data-addr]")) e.target.closest(".store").querySelector('[data-act="addr"]').click();
+});
+
+$("aBtn").onclick = async () => {
+  const url = $("aUrl").value.trim();
+  if (!url) { $("addMsg").innerHTML = `<span class="err">${t("pasteFirst")}</span>`; return; }
+  $("addMsg").textContent = t("adding");
+  try {
+    await api("/api/custom", { action: "add", url, store: $("aStore").value.trim(), address: $("aAddr").value.trim() });
+    $("aUrl").value = $("aStore").value = $("aAddr").value = "";
+    $("addMsg").innerHTML = `<span class="ok">${t("addedReading")}</span>`;
+    watch();
+  } catch (err) { $("addMsg").innerHTML = `<span class="err">${esc(err.message)}</span>`; }
+};
+
+load().then(watch).catch(() => { $("list").innerHTML = `<div class="empty">${t("appNotRunning")}</div>`; });
+setInterval(() => api("/api/ping", {}).catch(() => {}), 60_000);
+</script>
+</body>
+</html>

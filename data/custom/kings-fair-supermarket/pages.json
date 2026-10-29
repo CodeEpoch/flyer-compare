@@ -1,0 +1,361 @@
+{
+ "56ff497a9f45189b:windows": {
+  "src": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+  "size": [
+   2550,
+   1650
+  ],
+  "items": [
+   {
+    "name": "Wintermelon",
+    "price": 0.79,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 0.99,
+    "deal_text": "Reg $0.99",
+    "crop": [
+     339,
+     92,
+     304,
+     286.0
+    ]
+   },
+   {
+    "name": "White Radish",
+    "price": 0.88,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 1.29,
+    "deal_text": "Reg $1.29 \u00b7 save $0.41",
+    "crop": [
+     633,
+     92,
+     311,
+     471
+    ]
+   },
+   {
+    "name": "Kohlrabi",
+    "price": 0.88,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 0.99,
+    "deal_text": "Reg $0.99 \u00b7 save $0.11",
+    "crop": [
+     435,
+     327,
+     405,
+     286.0
+    ]
+   },
+   {
+    "name": "Persimmon in Box",
+    "price": 11.99,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 15.99,
+    "deal_text": "Reg $15.99 \u00b7 save $4.00",
+    "crop": [
+     40,
+     570,
+     309,
+     284.0
+    ]
+   },
+   {
+    "name": "Broccoli",
+    "price": 1.39,
+    "qty": 1,
+    "unit": "lb",
+    "regular_price": 1.99,
+    "deal_text": "Reg $1.99 \u00b7 save $0.60",
+    "crop": [
+     2113,
+     580,
+     367.0,
+     284.0
+    ]
+   },
+   {
+    "name": "Fresh Sea Bass",
+    "price": 6.99,
+    "qty": 1,
+    "unit": "lb",
+    "regular_price": 9.99,
+    "deal_text": "Reg $9.99 \u00b7 save $3.00",
+    "crop": [
+     1341,
+     580,
+     401,
+     287.0
+    ]
+   },
+   {
+    "name": "Fresh Chicken Drumsticks",
+    "price": 1.59,
+    "qty": 1,
+    "unit": "lb",
+    "regular_price": 2.99,
+    "deal_text": "Reg $2.99 \u00b7 save $1.40",
+    "crop": [
+     1732,
+     580,
+     391,
+     287.0
+    ]
+   },
+   {
+    "name": "Australian Mandarin",
+    "price": 2.29,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 2.99,
+    "deal_text": "Reg $2.99 \u00b7 save $0.70",
+    "crop": [
+     339,
+     570,
+     307,
+     308.0
+    ]
+   },
+   {
+    "name": "Austrailia Orange",
+    "price": 1.59,
+    "qty": 1,
+    "unit": "lb",
+    "regular_price": 1.99,
+    "deal_text": "Reg $1.99 \u00b7 save $0.40",
+    "crop": [
+     636,
+     570,
+     715,
+     312.0
+    ]
+   },
+   {
+    "name": "Live Green Bass",
+    "price": 14.99,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 18.99,
+    "deal_text": "Reg $18.99 \u00b7 save $4.00",
+    "crop": [
+     1307,
+     878,
+     250,
+     287.0
+    ]
+   },
+   {
+    "name": "Crab Sticks",
+    "price": 5.99,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 7.99,
+    "deal_text": "Reg $7.99 \u00b7 save $2.00",
+    "crop": [
+     46,
+     893,
+     205,
+     308.0
+    ]
+   },
+   {
+    "name": "Fresh Beef Omasum",
+    "price": 6.99,
+    "qty": 1,
+    "unit": "lb",
+    "regular_price": 8.99,
+    "deal_text": "Reg $8.99 \u00b7 save $2.00",
+    "crop": [
+     438,
+     893,
+     207,
+     308.0
+    ]
+   },
+   {
+    "name": "SWest & Piqeappleeg",
+    "price": 8.6,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 10.99,
+    "deal_text": "Reg $10.99 \u00b7 save $2.39",
+    "crop": [
+     591,
+     1171,
+     221,
+     394
+    ]
+   },
+   {
+    "name": "Fish Fillet Fried w/ YithZ",
+    "price": 9.99,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 12.99,
+    "deal_text": "Reg $12.99 \u00b7 save $3.00",
+    "crop": [
+     802,
+     1169,
+     367.0,
+     307.0
+    ]
+   },
+   {
+    "name": "Rich Cauliflower",
+    "price": 1.29,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 1.99,
+    "deal_text": "Reg $1.99 \u00b7 save $0.70",
+    "crop": [
+     1307,
+     1341,
+     252,
+     287.0
+    ]
+   },
+   {
+    "name": "Qiuyue Pear",
+    "price": 2.79,
+    "qty": 1,
+    "unit": "lb",
+    "regular_price": 3.59,
+    "deal_text": "Reg $3.59 \u00b7 save $0.80",
+    "crop": [
+     2268,
+     1341,
+     282,
+     309
+    ]
+   },
+   {
+    "name": "Coconut Bun",
+    "price": 2.99,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 3.99,
+    "deal_text": "Reg $3.99 \u00b7 save $1.00",
+    "crop": [
+     997,
+     1377,
+     320,
+     273
+    ]
+   }
+  ],
+  "dates": [
+   "2026-10-29",
+   "2026-11-04"
+  ]
+ },
+ "9cfa3ac64b55496b:windows": {
+  "src": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshBack.jpg",
+  "size": [
+   2550,
+   1650
+  ],
+  "items": [
+   {
+    "name": "Baskets Dried Beancurd",
+    "price": 5.0,
+    "qty": 2,
+    "unit": "ea",
+    "regular_price": 3.99,
+    "deal_text": "Reg $3.99 \u00b7 save $2.98",
+    "crop": [
+     1913,
+     294,
+     307,
+     285.0
+    ]
+   },
+   {
+    "name": "KSF Haczlwei Instant Noodles",
+    "price": 2.99,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 3.99,
+    "deal_text": "Reg $3.99 \u00b7 save $1.00",
+    "crop": [
+     342,
+     285,
+     988,
+     390
+    ]
+   },
+   {
+    "name": "Xin Rui Fish Ball",
+    "price": 18.99,
+    "qty": 1,
+    "unit": "lb",
+    "regular_price": 26.99,
+    "deal_text": "Reg $26.99 \u00b7 save $8.00",
+    "crop": [
+     2212,
+     503,
+     338,
+     656
+    ]
+   },
+   {
+    "name": "Lotte Milkies",
+    "price": 2.99,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 3.99,
+    "deal_text": "Reg $3.99 \u00b7 save $1.00",
+    "crop": [
+     639,
+     678,
+     367.0,
+     309.0
+    ]
+   },
+   {
+    "name": "Fresh Beef Rib",
+    "price": 4.99,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 6.99,
+    "deal_text": "Reg $6.99 \u00b7 save $2.00",
+    "crop": [
+     1913,
+     779,
+     367.0,
+     372
+    ]
+   },
+   {
+    "name": "Frozen Fresh hel",
+    "price": 3.99,
+    "qty": 1,
+    "unit": "lb",
+    "regular_price": 6.99,
+    "deal_text": "Reg $6.99 \u00b7 save $3.00",
+    "crop": [
+     2105,
+     1208,
+     367.0,
+     367
+    ]
+   },
+   {
+    "name": "Bawang Conditioner",
+    "price": 4.99,
+    "qty": 1,
+    "unit": "ea",
+    "regular_price": 6.99,
+    "deal_text": "Reg $6.99 \u00b7 save $2.00",
+    "crop": [
+     46,
+     1355,
+     1284,
+     295
+    ]
+   }
+  ],
+  "dates": null
+ }
+}

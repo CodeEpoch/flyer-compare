@@ -1,0 +1,545 @@
+{
+  "flyer": {
+    "id": "custom-kings-fair-supermarket",
+    "merchant": "Kings Fair Supermarket",
+    "name": "Home",
+    "url": "https://kingsfairsupermarket.com/flyer.html",
+    "valid_from": "2026-10-29",
+    "valid_to": "2026-11-04",
+    "categories": [
+      "Groceries"
+    ],
+    "reader": "windows"
+  },
+  "items": [
+    {
+      "id": "custom-kings-fair-supermarket-0",
+      "name": "Wintermelon",
+      "brand": "",
+      "current_price": 0.79,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $0.99",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        339,
+        92,
+        304,
+        286.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-1",
+      "name": "White Radish",
+      "brand": "",
+      "current_price": 0.88,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $1.29 · save $0.41",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        633,
+        92,
+        311,
+        471
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-2",
+      "name": "Kohlrabi",
+      "brand": "",
+      "current_price": 0.88,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $0.99 · save $0.11",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        435,
+        327,
+        405,
+        286.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-3",
+      "name": "Persimmon in Box",
+      "brand": "",
+      "current_price": 11.99,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $15.99 · save $4.00",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        40,
+        570,
+        309,
+        284.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-4",
+      "name": "Broccoli",
+      "brand": "",
+      "current_price": 1.39,
+      "pre_price_text": "",
+      "post_price_text": "/lb",
+      "sale_story": "Reg $1.99 · save $0.60",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        2113,
+        580,
+        367.0,
+        284.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-5",
+      "name": "Fresh Sea Bass",
+      "brand": "",
+      "current_price": 6.99,
+      "pre_price_text": "",
+      "post_price_text": "/lb",
+      "sale_story": "Reg $9.99 · save $3.00",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        1341,
+        580,
+        401,
+        287.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-6",
+      "name": "Fresh Chicken Drumsticks",
+      "brand": "",
+      "current_price": 1.59,
+      "pre_price_text": "",
+      "post_price_text": "/lb",
+      "sale_story": "Reg $2.99 · save $1.40",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        1732,
+        580,
+        391,
+        287.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-7",
+      "name": "Australian Mandarin",
+      "brand": "",
+      "current_price": 2.29,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $2.99 · save $0.70",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        339,
+        570,
+        307,
+        308.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-8",
+      "name": "Austrailia Orange",
+      "brand": "",
+      "current_price": 1.59,
+      "pre_price_text": "",
+      "post_price_text": "/lb",
+      "sale_story": "Reg $1.99 · save $0.40",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        636,
+        570,
+        715,
+        312.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-9",
+      "name": "Live Green Bass",
+      "brand": "",
+      "current_price": 14.99,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $18.99 · save $4.00",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        1307,
+        878,
+        250,
+        287.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-10",
+      "name": "Crab Sticks",
+      "brand": "",
+      "current_price": 5.99,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $7.99 · save $2.00",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        46,
+        893,
+        205,
+        308.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-11",
+      "name": "Fresh Beef Omasum",
+      "brand": "",
+      "current_price": 6.99,
+      "pre_price_text": "",
+      "post_price_text": "/lb",
+      "sale_story": "Reg $8.99 · save $2.00",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        438,
+        893,
+        207,
+        308.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-12",
+      "name": "SWest & Piqeappleeg",
+      "brand": "",
+      "current_price": 8.6,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $10.99 · save $2.39",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        591,
+        1171,
+        221,
+        394
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-13",
+      "name": "Fish Fillet Fried w/ YithZ",
+      "brand": "",
+      "current_price": 9.99,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $12.99 · save $3.00",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        802,
+        1169,
+        367.0,
+        307.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-14",
+      "name": "Rich Cauliflower",
+      "brand": "",
+      "current_price": 1.29,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $1.99 · save $0.70",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        1307,
+        1341,
+        252,
+        287.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-15",
+      "name": "Qiuyue Pear",
+      "brand": "",
+      "current_price": 2.79,
+      "pre_price_text": "",
+      "post_price_text": "/lb",
+      "sale_story": "Reg $3.59 · save $0.80",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        2268,
+        1341,
+        282,
+        309
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-16",
+      "name": "Coconut Bun",
+      "brand": "",
+      "current_price": 2.99,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $3.99 · save $1.00",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg",
+      "crop": [
+        997,
+        1377,
+        320,
+        273
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-17",
+      "name": "Baskets Dried Beancurd",
+      "brand": "",
+      "current_price": 5.0,
+      "pre_price_text": "2/",
+      "post_price_text": "",
+      "sale_story": "Reg $3.99 · save $2.98",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshBack.jpg",
+      "crop": [
+        1913,
+        294,
+        307,
+        285.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-18",
+      "name": "KSF Haczlwei Instant Noodles",
+      "brand": "",
+      "current_price": 2.99,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $3.99 · save $1.00",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshBack.jpg",
+      "crop": [
+        342,
+        285,
+        988,
+        390
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-19",
+      "name": "Xin Rui Fish Ball",
+      "brand": "",
+      "current_price": 18.99,
+      "pre_price_text": "",
+      "post_price_text": "/lb",
+      "sale_story": "Reg $26.99 · save $8.00",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshBack.jpg",
+      "crop": [
+        2212,
+        503,
+        338,
+        656
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-20",
+      "name": "Lotte Milkies",
+      "brand": "",
+      "current_price": 2.99,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $3.99 · save $1.00",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshBack.jpg",
+      "crop": [
+        639,
+        678,
+        367.0,
+        309.0
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-21",
+      "name": "Fresh Beef Rib",
+      "brand": "",
+      "current_price": 4.99,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $6.99 · save $2.00",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshBack.jpg",
+      "crop": [
+        1913,
+        779,
+        367.0,
+        372
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-22",
+      "name": "Frozen Fresh hel",
+      "brand": "",
+      "current_price": 3.99,
+      "pre_price_text": "",
+      "post_price_text": "/lb",
+      "sale_story": "Reg $6.99 · save $3.00",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshBack.jpg",
+      "crop": [
+        2105,
+        1208,
+        367.0,
+        367
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    },
+    {
+      "id": "custom-kings-fair-supermarket-23",
+      "name": "Bawang Conditioner",
+      "brand": "",
+      "current_price": 4.99,
+      "pre_price_text": "",
+      "post_price_text": "",
+      "sale_story": "Reg $6.99 · save $2.00",
+      "image_url": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshBack.jpg",
+      "crop": [
+        46,
+        1355,
+        1284,
+        295
+      ],
+      "page_size": [
+        2550,
+        1650
+      ],
+      "valid_from": "2026-10-29",
+      "valid_to": "2026-11-04"
+    }
+  ],
+  "fetched_at": "2026-10-29T01:06:37"
+}

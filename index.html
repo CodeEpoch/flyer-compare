@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flyer Deals</title>
+<style>
+  :root {
+    --nav: #131921; --nav2: #232f3e; --accent: #febd69; --accent-dark: #f3a847;
+    --bg: #eaeded; --card: #fff; --text: #0f1111; --muted: #565959; --line: #d5d9d9;
+    --link: #007185; --deal: #cc0c39; --best: #067d62; --badge: #c45500; --chip: #e7f4f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1418; --card: #1a2128; --text: #e6e8ea; --muted: #9aa4ad; --line: #2b343c;
+      --link: #4fc3d4; --deal: #ff6b81; --best: #3ddc97; --chip: #17323a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.4 "Amazon Ember", Arial, sans-serif; background: var(--bg); color: var(--text); }
+  button, select, input { font: inherit; }
+  header { background: var(--nav); color: #fff; display: flex; gap: 14px; align-items: center; padding: 10px 16px; position: sticky; top: 0; z-index: 5; }
+  .logo { font-weight: 700; font-size: 20px; white-space: nowrap; }
+  .logo span { color: var(--accent); }
+  .loc { background: none; border: 1px solid transparent; color: #fff; text-align: left; cursor: pointer; padding: 2px 6px; border-radius: 3px; line-height: 1.2; max-width: 220px; }
+  .loc:hover { border-color: #fff; }
+  .loc small { display: block; color: #ccc; font-size: 12px; }
+  .loc b { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .search { flex: 1; display: flex; max-width: 760px; }
+  .search input { flex: 1; border: 0; border-radius: 4px 0 0 4px; padding: 10px 12px; font-size: 15px; min-width: 0; }
+  .search button { border: 0; background: var(--accent); border-radius: 0 4px 4px 0; padding: 0 16px; cursor: pointer; font-size: 16px; }
+  .search button:hover { background: var(--accent-dark); }
+  .hbtn { background: none; border: 1px solid transparent; color: #fff; cursor: pointer; padding: 6px 8px; border-radius: 3px; white-space: nowrap; text-decoration: none; }
+  .hbtn:hover { border-color: #fff; }
+  .lang { background: var(--nav); color: #fff; border: 1px solid #485769; border-radius: 4px; padding: 4px; }
+  .subnav { background: var(--nav2); color: #fff; padding: 6px 16px; font-size: 13px; display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
+  .subnav label { cursor: pointer; display: flex; gap: 6px; align-items: center; }
+  .subnav select { background: var(--nav2); color: #fff; border: 1px solid #485769; border-radius: 4px; padding: 2px 4px; }
+  .subnav .meta { margin-left: auto; color: #ccc; font-size: 12px; }
+  #job { display: none; background: #fff8e1; color: #5b4500; padding: 8px 16px; font-size: 13px; border-bottom: 1px solid #f0d58c; }
+  #job.on { display: flex; gap: 10px; align-items: center; }
+  #job.err { background: #fdecea; color: #8a1c1c; border-color: #f2b8b5; }
+  .spin { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: s 0.8s linear infinite; }
+  #job.err .spin, #job.done .spin { display: none; }
+  @keyframes s { to { transform: rotate(360deg); } }
+
+  main { display: grid; grid-template-columns: 250px 1fr; gap: 16px; padding: 16px; }
+  aside { background: var(--card); border-radius: 6px; padding: 12px; align-self: start; position: sticky; top: 70px; max-height: calc(100vh - 90px); overflow: auto; }
+  aside section + section { border-top: 1px solid var(--line); margin-top: 12px; padding-top: 10px; }
+  aside h3 { font-size: 15px; margin: 0 0 6px; }
+  aside .hint { font-size: 12px; color: var(--muted); margin: 0 0 6px; }
+  aside .row { display: flex; gap: 6px; align-items: center; padding: 2px 0; cursor: pointer; font-size: 13px; }
+  aside .row.far { opacity: 0.45; }
+  aside .row small { color: var(--muted); margin-left: auto; white-space: nowrap; }
+  aside .links { font-size: 12px; margin-bottom: 6px; }
+  aside .links a { color: var(--link); cursor: pointer; margin-right: 10px; }
+  aside select, aside input[type=search] { width: 100%; padding: 4px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--card); color: var(--text); margin-bottom: 6px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+  .chip { background: var(--chip); border: 1px solid var(--line); border-radius: 12px; padding: 1px 4px 1px 8px; font-size: 12px; display: flex; align-items: center; gap: 2px; }
+  .chip button { border: 0; background: none; cursor: pointer; color: var(--muted); font-size: 14px; line-height: 1; padding: 0 3px; }
+  #storeList { max-height: 320px; overflow: auto; }
+  .row .x { border: 0; background: none; color: var(--muted); cursor: pointer; padding: 0 2px; font-size: 13px; flex: none; opacity: .55; }
+  .row:hover .x, .row .x:focus { opacity: 1; }
+  .row .x:hover { color: var(--deal); }
+  .suggest-wrap { position: relative; }
+  .suggest-wrap input { margin-bottom: 6px; }
+  .suggest { position: absolute; left: 0; right: 0; top: 100%; margin: -4px 0 0; padding: 4px 0; list-style: none; background: var(--card); border: 1px solid var(--line); border-radius: 4px; box-shadow: 0 4px 14px rgba(0,0,0,.18); max-height: 240px; overflow: auto; z-index: 10; }
+  .suggest li { padding: 5px 8px; cursor: pointer; display: flex; justify-content: space-between; gap: 6px; font-size: 13px; }
+  .suggest li small { color: var(--muted); white-space: nowrap; }
+  .suggest li.on, .suggest li:hover { background: var(--chip); }
+  #exclNote { font-size: 12px; color: var(--muted); margin: 4px 0 0; }
+  #exclNote a { color: var(--link); cursor: pointer; }
+  .crop { width: 100%; height: 180px; }
+  .ocr { font-size: 11px; color: var(--badge); }
+
+  #notice { background: var(--card); border-left: 4px solid var(--accent-dark); padding: 10px 12px; border-radius: 4px; margin-bottom: 10px; display: none; }
+  #notice button { margin-left: 8px; }
+  #summary { margin: 0 0 10px; color: var(--muted); }
+  #active { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
+  #active:empty { display: none; }
+  #active .chip { background: var(--card); padding: 3px 4px 3px 10px; font-size: 13px; }
+  #active a { color: var(--link); cursor: pointer; font-size: 13px; margin-left: 4px; }
+  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+  .card { background: var(--card); border-radius: 6px; padding: 14px; display: flex; flex-direction: column; gap: 6px; content-visibility: auto; contain-intrinsic-size: 240px 480px; position: relative; }
+  .badge { position: absolute; top: 10px; left: 10px; background: var(--badge); color: #fff; font-size: 12px; padding: 2px 8px; border-radius: 0 0 6px 0; z-index: 1; }
+  .cat { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .imgbox { height: 180px; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 4px; }
+  .imgbox img { max-width: 100%; max-height: 180px; object-fit: contain; }
+  .title { font-size: 15px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .stores { font-size: 12px; color: var(--link); }
+  .stores a { color: inherit; }
+  .offer:hover .s { color: var(--link); text-decoration: underline; }
+  .price { font-size: 28px; line-height: 1; }
+  .price sup { font-size: 13px; position: relative; top: -0.3em; vertical-align: top; }
+  .price .unit { font-size: 13px; color: var(--muted); }
+  .deal { font-size: 12px; color: var(--deal); }
+  .cheapest { font-size: 13px; color: var(--best); font-weight: 700; }
+  .valid { font-size: 12px; color: var(--muted); }
+  .offers { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 6px; display: flex; flex-direction: column; gap: 2px; }
+  .offer { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; font-size: 12px; padding: 4px 6px; border-radius: 4px; text-decoration: none; color: var(--text); }
+  .offer:hover { background: var(--bg); }
+  .offer.best { background: color-mix(in srgb, var(--best) 12%, transparent); }
+  .offer.mine .s::after { content: " ★"; color: var(--badge); }
+  .offer .s { font-weight: 700; }
+  .offer .km { font-weight: 400; color: var(--muted); }
+  .offer .p { text-align: right; white-space: nowrap; }
+  .offer .n { grid-column: 1 / -1; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .offer .diff { color: var(--deal); }
+  .more { font-size: 12px; color: var(--link); cursor: pointer; background: none; border: 0; text-align: left; padding: 2px 6px; }
+  #sentinel { height: 40px; }
+  .empty { padding: 40px; text-align: center; color: var(--muted); grid-column: 1 / -1; }
+
+  dialog { border: 0; border-radius: 8px; padding: 0; width: min(520px, calc(100vw - 32px)); background: var(--card); color: var(--text); box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+  dialog::backdrop { background: rgba(0,0,0,.45); }
+  .dlg-head { background: var(--nav2); color: #fff; padding: 12px 16px; font-size: 16px; font-weight: 700; display: flex; justify-content: space-between; }
+  .dlg-head button { background: none; border: 0; color: #fff; font-size: 20px; cursor: pointer; line-height: 1; }
+  .dlg-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .dlg-body fieldset { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .dlg-body legend { font-weight: 700; padding: 0 4px; }
+  .dlg-body input[type=text], .dlg-body select, .dlg-body input[type=time] { padding: 7px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--card); color: var(--text); }
+  .dlg-body input[type=text] { width: 100%; }
+  .dlg-body .line { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .dlg-body .note { font-size: 12px; color: var(--muted); }
+  .dlg-body .found { font-size: 12px; color: var(--best); }
+  .dlg-foot { display: flex; gap: 8px; justify-content: flex-end; padding: 0 16px 16px; flex-wrap: wrap; }
+  .btn { border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 8px; padding: 7px 14px; cursor: pointer; }
+  .btn.primary { background: #ffd814; border-color: #fcd200; color: #0f1111; }
+  .btn.primary:hover { background: #f7ca00; }
+  .btn:disabled { opacity: .5; cursor: default; }
+  #setMsg { font-size: 13px; margin-right: auto; align-self: center; }
+  #setMsg.err { color: var(--deal); }
+
+  @media (max-width: 760px) {
+    header { flex-wrap: wrap; }
+    .search { order: 5; flex-basis: 100%; }
+    main { grid-template-columns: 1fr; }
+    aside { position: static; max-height: none; }
+    #storeList { max-height: 200px; }
+    #grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+    .subnav .meta { display: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">flyer<span>deals</span></div>
+  <button class="loc" id="locBtn" data-i18n-title="changeAddress"><small data-i18n="locSmall">Your location</small><b id="locText">Set address</b></button>
+  <form class="search" onsubmit="event.preventDefault();render()">
+    <input id="q" type="search" data-i18n-ph="searchPh" autocomplete="off">
+    <button data-i18n-aria="search">&#128269;</button>
+  </form>
+  <a class="hbtn" href="stores.html" id="storesBtn" data-i18n="storesBtn">&#127978; Stores</a>
+  <button class="hbtn" id="setBtn" data-i18n="settingsBtn">&#9881; Settings</button>
+  <select class="lang" id="lang"></select>
+</header>
+<div class="subnav">
+  <label><input type="checkbox" id="multi"> <span data-i18n="multi">Only items at 2+ stores</span></label>
+  <label><span data-i18n="sort">Sort</span>
+    <select id="sort">
+      <option value="stores" data-i18n="sortStores">Most stores compared</option>
+      <option value="savings" data-i18n="sortSavings">Biggest savings</option>
+      <option value="near" data-i18n="sortNear">Nearest cheapest store</option>
+      <option value="low" data-i18n="sortLow">Price: low to high</option>
+      <option value="high" data-i18n="sortHigh">Price: high to low</option>
+      <option value="name" data-i18n="sortName">Name</option>
+    </select>
+  </label>
+  <span class="meta" id="meta"></span>
+</div>
+<div id="job"><span class="spin"></span><span id="jobText"></span></div>
+<main>
+  <aside>
+    <section>
+      <h3 data-i18n="catH">Category</h3>
+      <div class="links"><a id="catAll" data-i18n="catAll">All categories</a></div>
+      <div id="catList"></div>
+    </section>
+    <section>
+      <h3 data-i18n="distH">Distance</h3>
+      <select id="maxKm"></select>
+      <label class="row"><input type="checkbox" id="unknown"> <span data-i18n="unknownBranch">Include stores with no known branch nearby</span></label>
+    </section>
+    <section>
+      <h3 data-i18n="myH">My stores</h3>
+      <p class="hint" data-i18n="myHint"></p>
+      <div class="chips" id="myChips"></div>
+      <div class="suggest-wrap">
+        <input type="search" id="myAdd" data-i18n-ph="myPh" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="myList">
+        <ul id="myList" class="suggest" role="listbox" hidden></ul>
+      </div>
+      <label class="row"><input type="checkbox" id="myCheapest"> <span data-i18n="myCheapest">Only where my store is cheapest</span></label>
+    </section>
+    <section>
+      <h3 data-i18n="compareH">Compare stores</h3>
+      <div class="links"><a id="all" data-i18n="selectAll">Select all</a><a id="none" data-i18n="clear">Clear</a></div>
+      <input type="search" id="storeFind" data-i18n-ph="findStore">
+      <div id="storeList"></div>
+      <p id="exclNote"></p>
+      <p class="hint" style="margin-top:6px"><span data-i18n="exclHint"></span> <a href="stores.html" style="color:var(--link)" data-i18n="editStores"></a></p>
+    </section>
+    <section id="exclSection" hidden>
+      <h3 data-i18n="exclH">Excluded stores</h3>
+      <p class="hint" data-i18n="exclHint2"></p>
+      <div class="chips" id="exclChips"></div>
+    </section>
+  </aside>
+  <section>
+    <div id="notice"></div>
+    <div id="active"></div>
+    <p id="summary"></p>
+    <div id="grid"></div>
+    <div id="sentinel"></div>
+  </section>
+</main>
+
+<dialog id="dlg">
+  <form method="dialog" id="setForm">
+    <div class="dlg-head"><span data-i18n="settings">Settings</span> <button value="cancel" data-i18n-aria="close">&times;</button></div>
+    <div class="dlg-body">
+      <fieldset>
+        <legend data-i18n="addrLegend">Your address</legend>
+        <input type="text" id="sAddr" data-i18n-ph="addrPh" autocomplete="street-address">
+        <div class="found" id="sFound"></div>
+        <div class="note" data-i18n="addrNote"></div>
+      </fieldset>
+      <fieldset>
+        <legend data-i18n="autoLegend">Automatic refresh</legend>
+        <label class="line"><input type="checkbox" id="sWeekly"> <span data-i18n="weekly">Refresh flyers once a week</span></label>
+        <div class="line"><span data-i18n="onDay">on</span> <select id="sDay"></select> <span data-i18n="atTime">at</span> <input type="time" id="sTime" step="900"></div>
+        <div class="note" id="sNext"></div>
+      </fieldset>
+      <fieldset>
+        <legend data-i18n="startLegend">When Windows starts</legend>
+        <label class="line"><input type="checkbox" id="sStartRun"> <span data-i18n="startRun"></span></label>
+        <label class="line"><input type="checkbox" id="sStartOpen"> <span data-i18n="startOpen">Open this page</span></label>
+      </fieldset>
+      <fieldset>
+        <legend data-i18n="otherLegend">Flyers from other websites</legend>
+        <div class="note"><span data-i18n-html="otherNote"></span> <span id="cfCount"></span></div>
+        <div class="line"><span data-i18n="readWith">Read flyer images with</span>
+          <select id="sEngine">
+            <option value="auto" data-i18n="engAuto"></option>
+            <option value="windows" data-i18n="engWindows"></option>
+            <option value="claude" data-i18n="engClaude"></option>
+          </select>
+        </div>
+        <input type="password" id="sKey" data-i18n-ph="keyPh" autocomplete="off">
+        <div class="note" id="sKeyNote"></div>
+      </fieldset>
+    </div>
+    <div class="dlg-foot">
+      <span id="setMsg"></span>
+      <button type="button" class="btn" id="refreshNow" data-i18n="refreshNow">Refresh flyers now</button>
+      <button type="button" class="btn primary" id="save" data-i18n="save">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="i18n.js"></script>
+
+<script src="data/catalog.js"></script>
+<script>
+const C = window.CATALOG || { groups: [], stores: [], store_info: {}, categories: [], postal_code: "" };
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const money = n => "$" + n.toFixed(2);
+const unitLabel = u => ({ lb: "/lb", kg: "/kg", "100g": "/100g" }[u] || "");
+const PAGE = 60;
+const LIVE = location.protocol.startsWith("http");  // served by FlyerDeals (settings work)
+const info = s => (C.store_info || {})[s];
+const kmText = s => info(s) ? `${info(s).km} km` : "";
+
+const saved = {
+  get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+};
+applyI18n();
+langPicker($("lang"));
+$("maxKm").innerHTML = [0, 2, 5, 10, 15, 25].map(km =>
+  `<option value="${km}">${km ? t("within", { km }) : t("anyDist")}</option>`).join("");
+
+// ------------------------------------------------------------ header
+const home = C.home;
+$("locText").textContent = home ? (home.address || home.display) : (C.postal_code || t("setAddress"));
+$("meta").textContent = C.generated_at ? t("updated", { when: new Date(C.generated_at).toLocaleString(LOCALE) }) : "";
+
+// ------------------------------------------------------------ filters state
+const byDistance = (a, b) => (info(a)?.km ?? 1e9) - (info(b)?.km ?? 1e9) || a.localeCompare(b);
+const storesSorted = [...C.stores].sort(byDistance);
+// Remember stores switched *off*, so stores new to a later week's flyers start switched on
+const off = new Set(saved.get("storesOff", []));
+let compare = new Set(C.stores.filter(s => !off.has(s)));
+const saveCompare = () => saved.set("storesOff", C.stores.filter(s => !compare.has(s)).concat([...off].filter(s => !C.stores.includes(s))));
+let mine = new Set(saved.get("myStores", []).filter(s => C.stores.includes(s)));
+const excluded = new Set(C.excluded || []);
+let cats = new Set(saved.get("cats", []).filter(c => C.categories.includes(c)));
+
+$("multi").checked = saved.get("multi", false);
+$("sort").value = saved.get("sort", "stores");
+$("maxKm").value = String(saved.get("maxKm", 0));
+$("unknown").checked = saved.get("unknown", true);
+$("myCheapest").checked = saved.get("myCheapest", false);
+const maxKm = () => +$("maxKm").value;
+const inRange = s => !maxKm() || (info(s) ? info(s).km <= maxKm() : $("unknown").checked);
+
+// Category list
+const catCount = {};
+C.groups.forEach(g => catCount[g.category] = (catCount[g.category] || 0) + 1);
+$("catList").innerHTML = C.categories.map(c =>
+  `<label class="row"><input type="checkbox" value="${esc(c)}" ${cats.has(c) ? "checked" : ""}>${esc(tCat(c))}<small>${catCount[c]}</small></label>`).join("");
+$("catList").onchange = e => { e.target.checked ? cats.add(e.target.value) : cats.delete(e.target.value); saved.set("cats", [...cats]); render(); };
+$("catAll").onclick = () => { cats.clear(); $("catList").querySelectorAll("input").forEach(i => i.checked = false); saved.set("cats", []); render(); };
+
+// Compare-stores list (sorted nearest first)
+const offerCount = {};
+C.groups.forEach(g => g.offers.forEach(o => offerCount[o.store] = (offerCount[o.store] || 0) + 1));
+function drawStores() {
+  const find = $("storeFind").value.trim().toLowerCase();
+  $("storeList").innerHTML = storesSorted.filter(s => !excluded.has(s) && s.toLowerCase().includes(find)).map(s => {
+    const i = info(s);
+    const tip = i ? t("tipNearest", { branch: i.branch + (i.address ? ", " + i.address : "") }) : t("tipNoBranch");
+    const x = LIVE ? `<button class="x" data-ex="${esc(s)}" title="${esc(t("excludeTitle", { store: s }))}" aria-label="${esc(t("excludeTitle", { store: s }))}">⊘</button>` : "";
+    return `<label class="row${inRange(s) ? "" : " far"}" title="${esc(tip)}"><input type="checkbox" value="${esc(s)}" ${compare.has(s) ? "checked" : ""}>${esc(s)}${mine.has(s) ? " ★" : ""}<small>${i ? i.km + " km" : home ? "?" : offerCount[s]}</small>${x}</label>`;
+  }).join("");
+  const ex = [...excluded].sort((a, b) => a.localeCompare(b));
+  $("exclSection").hidden = !ex.length;
+  $("exclChips").innerHTML = ex.map(s =>
+    `<span class="chip">${esc(s)}${LIVE ? `<button data-unex="${esc(s)}" title="${esc(t("showAgain", { store: s }))}">↺</button>` : ""}</span>`).join("");
+}
+// Excluding takes effect here at once; the server saves it and rebuilds in the background,
+// so several stores can be excluded in a row without waiting
+async function setExcluded(store, exclude) {
+  exclude ? excluded.add(store) : excluded.delete(store);
+  $("exclNote").innerHTML = exclude ? `${esc(t("excludedNote", { store }))} <a data-undo="${esc(store)}">${t("undo")}</a>` : "";
+  drawStores(); drawMine(); render();
+  try {
+    await api("/api/exclude", { store, exclude });
+    if (!exclude && !C.stores.includes(store)) watchJob();  // its deals aren't loaded here: reload once fetched
+  } catch (e) {
+    exclude ? excluded.delete(store) : excluded.add(store);
+    $("exclNote").innerHTML = `<span style="color:var(--deal)">${esc(e.message)}</span>`;
+    drawStores(); render();
+  }
+}
+$("storeList").addEventListener("click", e => {
+  const s = e.target.dataset.ex;
+  if (!s) return;
+  e.preventDefault();  // don't toggle the checkbox
+  setExcluded(s, true);
+});
+$("exclChips").onclick = e => { const s = e.target.dataset.unex; if (s) setExcluded(s, false); };
+$("exclNote").onclick = e => { const s = e.target.dataset.undo; if (s) setExcluded(s, false); };
+$("storeFind").oninput = drawStores;
+$("storeList").onchange = e => {
+  e.target.checked ? compare.add(e.target.value) : compare.delete(e.target.value);
+  saveCompare(); render();
+};
+const setAll = on => { compare = new Set(on ? C.stores : []); saveCompare(); drawStores(); render(); };
+$("all").onclick = () => setAll(true);
+$("none").onclick = () => setAll(false);
+
+// My stores chips
+function drawMine() {
+  $("myChips").innerHTML = [...mine].map(s =>
+    `<span class="chip">${esc(s)}<button data-s="${esc(s)}" aria-label="${esc(t("removeStore", { store: s }))}">&times;</button></span>`).join("");
+}
+const setMine = () => { saved.set("myStores", [...mine]); drawMine(); drawStores(); render(); };
+
+// Type-ahead for My stores: our own list (the browser's <datalist> popup misbehaves in some windows)
+let sugg = [], suggAt = 0;
+function suggest() {
+  const v = $("myAdd").value.trim().toLowerCase();
+  const pool = storesSorted.filter(s => !mine.has(s) && !excluded.has(s));
+  // names starting with the text first, then names containing it
+  sugg = v ? pool.filter(s => s.toLowerCase().startsWith(v)).concat(pool.filter(s => !s.toLowerCase().startsWith(v) && s.toLowerCase().includes(v)))
+           : pool;
+  sugg = sugg.slice(0, 8); suggAt = 0;
+  $("myList").innerHTML = sugg.length ? sugg.map((s, i) =>
+    `<li role="option" data-i="${i}" class="${i === suggAt ? "on" : ""}">${esc(s)}<small>${kmText(s)}</small></li>`).join("")
+    : `<li aria-disabled="true"><small>${t("noStoreName")}</small></li>`;
+  $("myList").hidden = false; $("myAdd").setAttribute("aria-expanded", "true");
+}
+const closeSuggest = () => { $("myList").hidden = true; $("myAdd").setAttribute("aria-expanded", "false"); };
+function pickSuggestion(i) {
+  if (!sugg[i]) return;
+  mine.add(sugg[i]); $("myAdd").value = ""; closeSuggest(); setMine();
+}
+$("myAdd").oninput = suggest;
+$("myAdd").onfocus = suggest;
+$("myAdd").onblur = () => setTimeout(closeSuggest, 120);
+$("myAdd").onkeydown = e => {
+  if ($("myList").hidden && e.key !== "Escape") suggest();
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    e.preventDefault();
+    suggAt = (suggAt + (e.key === "ArrowDown" ? 1 : -1) + sugg.length) % Math.max(sugg.length, 1);
+    $("myList").querySelectorAll("li").forEach((li, i) => li.classList.toggle("on", i === suggAt));
+    $("myList").children[suggAt]?.scrollIntoView({ block: "nearest" });
+  } else if (e.key === "Enter") { e.preventDefault(); pickSuggestion(suggAt); }
+  else if (e.key === "Escape") closeSuggest();
+};
+$("myList").onmousedown = e => {  // mousedown, so it fires before the input's blur
+  const li = e.target.closest("li[data-i]");
+  if (li) { e.preventDefault(); pickSuggestion(+li.dataset.i); }
+};
+$("myChips").onclick = e => { const s = e.target.dataset.s; if (s) { mine.delete(s); setMine(); } };
+
+for (const [id, key] of [["multi", "multi"], ["unknown", "unknown"], ["myCheapest", "myCheapest"]])
+  $(id).onchange = () => { saved.set(key, $(id).checked); drawStores(); render(); };
+$("sort").onchange = () => { saved.set("sort", $("sort").value); render(); };
+$("maxKm").onchange = () => { saved.set("maxKm", maxKm()); drawStores(); render(); };
+let searchTimer; $("q").oninput = () => { clearTimeout(searchTimer); searchTimer = setTimeout(render, 150); };
+
+// ------------------------------------------------------------ results
+// Re-rank each group within the visible stores so "cheapest" reflects your filters
+function view(g) {
+  if (cats.size && !cats.has(g.category)) return null;
+  // My stores always count, even when unticked under Compare or outside the distance
+  const offers = g.offers.filter(o => !excluded.has(o.store) &&
+    (mine.has(o.store) || (compare.has(o.store) && inRange(o.store))));
+  if (!offers.length) return null;
+  const same = offers.filter(o => o.cmp_unit === g.unit);
+  const ranked = same.length ? same : offers;
+  const best = ranked[0];
+  if (mine.size) {
+    if (!offers.some(o => mine.has(o.store))) return null;
+    if ($("myCheapest").checked && !(mine.has(best.store) || ranked.some(o => mine.has(o.store) && o.cmp_price === best.cmp_price))) return null;
+  }
+  const stores = new Set(offers.map(o => o.store));
+  const runner = ranked.find(o => o.store !== best.store);
+  return {
+    g, best, offers: same.length ? same.concat(offers.filter(o => o.cmp_unit !== g.unit)) : offers,
+    // A runner-up 3x the price is a different pack/product, not a real saving
+    storeCount: stores.size, savings: runner && runner.cmp_price <= best.cmp_price * 3 ? runner.cmp_price - best.cmp_price : 0,
+    text: (g.title + " " + tCat(g.category) + " " + offers.map(o => o.name + " " + o.brand + " " + o.store).join(" ")).toLowerCase(),
+  };
+}
+
+let list = [], shown = 0;
+function render() {
+  const q = $("q").value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  const multi = $("multi").checked;
+  list = [];
+  for (const g of C.groups) {
+    const v = view(g);
+    if (!v || (multi && v.storeCount < 2) || !q.every(w => v.text.includes(w))) continue;
+    list.push(v);
+  }
+  const near = v => info(v.best.store)?.km ?? 1e9;
+  const sorters = {
+    stores: (a, b) => b.storeCount - a.storeCount || b.savings - a.savings,
+    savings: (a, b) => b.savings - a.savings,
+    near: (a, b) => near(a) - near(b) || b.storeCount - a.storeCount,
+    low: (a, b) => a.best.each - b.best.each,
+    high: (a, b) => b.best.each - a.best.each,
+    name: (a, b) => a.best.name.localeCompare(b.best.name),
+  };
+  list.sort(sorters[$("sort").value]);
+  drawActive();
+  const compared = list.filter(v => v.storeCount > 1).length;
+  $("summary").textContent = t("summary", { n: list.length.toLocaleString(LOCALE), m: compared.toLocaleString(LOCALE) });
+  $("grid").innerHTML = list.length ? "" : `<div class="empty">${C.groups.length ? t("noMatch") : t("noFlyers")}</div>`;
+  shown = 0; more();
+}
+
+// Chips for every filter that's narrowing the results, each removable
+const clearers = {
+  q: () => { $("q").value = ""; },
+  cat: c => { cats.delete(c); $("catList").querySelectorAll("input").forEach(i => i.checked = cats.has(i.value)); saved.set("cats", [...cats]); },
+  km: () => { $("maxKm").value = "0"; saved.set("maxKm", 0); },
+  mine: s => { mine.delete(s); saved.set("myStores", [...mine]); drawMine(); },
+  cheapest: () => { $("myCheapest").checked = false; saved.set("myCheapest", false); },
+  compare: () => { compare = new Set(C.stores); saveCompare(); },
+  multi: () => { $("multi").checked = false; saved.set("multi", false); },
+};
+function drawActive() {
+  const chips = [];
+  const add = (label, k, v = "") => chips.push(`<span class="chip">${esc(label)}<button data-k="${k}" data-v="${esc(v)}" aria-label="${t("removeFilter")}">&times;</button></span>`);
+  if ($("q").value.trim()) add(`“${$("q").value.trim()}”`, "q");
+  cats.forEach(c => add(tCat(c), "cat", c));
+  if (maxKm()) add(t("within", { km: maxKm() }), "km");
+  mine.forEach(s => add(t("myStoreChip", { store: s }), "mine", s));
+  if (mine.size && $("myCheapest").checked) add(t("cheapestChip"), "cheapest");
+  const offCount = C.stores.length - compare.size;
+  if (offCount) add(t("comparingChip", { n: compare.size, total: C.stores.length }), "compare");
+  if ($("multi").checked) add(t("multiChip"), "multi");
+  $("active").innerHTML = chips.length > 1 ? chips.join("") + `<a data-k="all">${t("clearAll")}</a>` : chips.join("");
+}
+$("active").onclick = e => {
+  const k = e.target.dataset.k;
+  if (!k) return;
+  if (k === "all") {
+    [...cats].forEach(clearers.cat);
+    [...mine].forEach(clearers.mine);
+    ["q", "km", "cheapest", "compare", "multi"].forEach(n => clearers[n]());
+  } else clearers[k](e.target.dataset.v);
+  drawStores(); render();
+};
+
+// Product image: Flipp gives a cut-out; custom flyers show the item's region of the flyer page
+function picture(o) {
+  if (o.image) return `<img loading="lazy" src="${esc(o.image)}" alt="">`;
+  if (o.crop && o.page_size && o.flyer_page) {
+    const [x, y, w, h] = o.crop.map(Math.round), [W, H] = o.page_size;
+    return `<svg class="crop" viewBox="${x} ${y} ${w} ${h}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(o.name)}"><image href="${esc(o.flyer_page)}" width="${W}" height="${H}"/></svg>`;
+  }
+  return o.flyer_page ? `<img loading="lazy" src="${esc(o.flyer_page)}" alt="">` : "";
+}
+
+function priceHTML(o) {
+  const [d, c] = o.each.toFixed(2).split(".");
+  return `<span class="price"><sup>$</sup>${d}<sup>${c}</sup> <span class="unit">${unitLabel(o.unit)}</span></span>`;
+}
+
+function offerRow(o, v) {
+  const best = o === v.best && v.storeCount > 1;
+  const diff = o.cmp_unit === v.best.cmp_unit && o.cmp_price > v.best.cmp_price
+    ? ` <span class="diff">+${money(o.cmp_price - v.best.cmp_price)}</span>` : "";
+  const deal = o.qty > 1 ? t("nFor", { qty: o.qty, price: money(o.price) }) : money(o.price) + unitLabel(o.unit);
+  const href = o.flyer_url || o.flyer_page || o.link;
+  const km = kmText(o.store);
+  return `<a class="offer${best ? " best" : ""}${mine.has(o.store) ? " mine" : ""}" href="${esc(href)}" target="_blank" rel="noopener" title="${esc(t("offerTitle", { store: o.store }))}" data-img="${esc(o.image)}">
+    <span class="s">${esc(o.store)}${km ? ` <span class="km">· ${km}</span>` : ""}</span><span class="p">${deal}${diff}</span>
+    <span class="n" title="${esc(o.name)}">${esc(o.name)}</span></a>`;
+}
+
+function card(v) {
+  const b = v.best, multiStore = v.storeCount > 1, km = kmText(b.store);
+  const rows = v.offers.slice(0, 4).map(o => offerRow(o, v)).join("");
+  const extra = v.offers.length > 4
+    ? `<div hidden>${v.offers.slice(4).map(o => offerRow(o, v)).join("")}</div>
+       <button class="more">${t("seeAll", { n: v.offers.length })}</button>` : "";
+  return `<article class="card">
+    ${multiStore ? `<div class="badge">${t("badge")}</div>` : ""}
+    <div class="imgbox">${picture(b)}</div>
+    <div class="cat">${esc(tCat(v.g.category))}</div>
+    <div class="title" title="${esc(b.name)}">${esc(b.name)}</div>
+    <div class="stores">${multiStore ? t("comparedAt", { n: v.storeCount })
+      : `<a href="${esc(b.flyer_url || b.flyer_page)}" target="_blank" rel="noopener" title="${esc(t("offerTitle", { store: b.store }))}">${esc(b.store)}</a>${km ? ` · ${km}` : ""}`}</div>
+    <div>${b.qty > 1 ? `<span class="valid">${t("nFor", { qty: b.qty, price: money(b.price) })} · </span>` : ""}${priceHTML(b)}</div>
+    ${multiStore ? `<div class="cheapest">${esc(t("lowestAt", { store: b.store }))}${km ? ` (${km})` : ""}${v.savings > 0.005 ? " · " + t("saveAmt", { amount: money(v.savings) + (b.cmp_unit === "lb" ? "/lb" : "") }) : ""}</div>` : ""}
+    ${b.sale_story ? `<div class="deal">${esc(b.sale_story)}</div>` : ""}
+    ${b.ocr ? `<div class="ocr" title="${esc(t("ocrTitle"))}">${t("ocrNote")}</div>` : ""}
+    <div class="valid">${t("valid", { from: b.valid_from, to: b.valid_to })}</div>
+    <div class="offers">${rows}${extra}</div>
+  </article>`;
+}
+
+function more() {
+  if (shown >= list.length) return;
+  $("grid").insertAdjacentHTML("beforeend", list.slice(shown, shown + PAGE).map(card).join(""));
+  shown += PAGE;
+}
+
+$("grid").addEventListener("click", e => {
+  if (!e.target.classList.contains("more")) return;
+  e.target.previousElementSibling.hidden = false; e.target.remove();
+});
+// Hovering a store row previews that store's flyer image
+$("grid").addEventListener("mouseover", e => {
+  const row = e.target.closest(".offer");
+  const img = row && row.dataset.img && row.closest(".card").querySelector(".imgbox img");
+  if (img) img.src = row.dataset.img;
+});
+new IntersectionObserver(es => es[0].isIntersecting && more(), { rootMargin: "800px" }).observe($("sentinel"));
+
+// ------------------------------------------------------------ settings + refresh (needs the local app)
+const api = (path, body) => fetch(path, {
+  method: body ? "POST" : "GET",
+  headers: { "X-Flyer-Deals": "1", "Content-Type": "application/json" },
+  body: body ? JSON.stringify(body) : undefined,
+}).then(async r => {
+  const j = await r.json().catch(() => ({}));
+  // 409 on refresh just means one is already running, which watchJob() then follows
+  if (!r.ok && !(r.status === 409 && path === "/api/refresh")) throw new Error(j.error || r.statusText);
+  return j;
+});
+
+const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+$("sDay").innerHTML = DAYS.map(d => `<option value="${d}">${t("day." + d)}</option>`).join("");
+
+function showNotice(html) { $("notice").innerHTML = html; $("notice").style.display = html ? "block" : "none"; }
+if (!LIVE) showNotice(t("fileMode"));
+else if (!home) showNotice(`${t("addAddr")} <button class="btn primary" id="noticeBtn">${t("setAddress")}</button>`);
+document.addEventListener("click", e => { if (e.target.id === "noticeBtn") openSettings(); });
+
+function fillSettings(s) {
+  $("sAddr").value = s.address || "";
+  $("sFound").textContent = home ? t("found", { place: home.display }) + (s.postal_code ? t("flyersFor", { pc: s.postal_code }) : "") : "";
+  $("sWeekly").checked = s.weekly_refresh;
+  $("sDay").value = s.refresh_day;
+  $("sTime").value = s.refresh_time;
+  $("sStartRun").checked = s.run_on_startup;
+  $("sStartOpen").checked = s.open_page_on_startup;
+  const ins = s.installed || {};
+  $("sNext").textContent = ins.error ? t("schedErr", { err: ins.error })
+    : (ins.weekly && ins.next_run ? t("nextRun", { when: new Date(ins.next_run).toLocaleString(LOCALE,
+        { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) }) : t("notScheduled"))
+      + (s.last_refresh ? t("lastRefresh", { when: new Date(s.last_refresh).toLocaleString(LOCALE) }) : "");
+  syncDay();
+  $("sEngine").value = s.ocr_engine;
+  $("sKey").value = "";
+  $("sKey").placeholder = s.claude.key_saved ? t("keySavedPh") : t("keyPh");
+  $("sKeyNote").textContent = s.claude.ready ? t("keyReady") : t("keyUnavailable", { why: s.claude.why });
+  const n = s.custom_flyers.length;
+  $("cfCount").textContent = n ? t("cfCount", { n }) : "";
+}
+const syncDay = () => { $("sDay").disabled = $("sTime").disabled = !$("sWeekly").checked; };
+$("sWeekly").onchange = syncDay;
+
+function setMsg(text, err) { $("setMsg").textContent = text; $("setMsg").className = err ? "err" : ""; }
+
+async function openSettings() {
+  if (!LIVE) { showNotice(t("launchToChange")); return; }
+  setMsg("");
+  $("dlg").showModal();
+  try { fillSettings(await api("/api/settings")); } catch (e) { setMsg(t("appNotRunning"), true); }
+}
+$("setBtn").onclick = $("locBtn").onclick = openSettings;
+
+$("save").onclick = async () => {
+  $("save").disabled = true; setMsg(t("saving"));
+  try {
+    const s = await api("/api/settings", {
+      address: $("sAddr").value.trim(), weekly_refresh: $("sWeekly").checked, refresh_day: $("sDay").value,
+      refresh_time: $("sTime").value, run_on_startup: $("sStartRun").checked, open_page_on_startup: $("sStartOpen").checked,
+      ocr_engine: $("sEngine").value, anthropic_api_key: $("sKey").value.trim(),
+    });
+    fillSettings(s); setMsg(t("saved"));
+    watchJob();
+  } catch (e) { setMsg(e.message, true); }
+  $("save").disabled = false;
+};
+$("refreshNow").onclick = async () => {
+  try { await api("/api/refresh", {}); setMsg(t("refreshing")); watchJob(); } catch (e) { setMsg(e.message, true); }
+};
+
+// Progress strip while a refresh / address lookup runs; reload when new data lands
+let watching = false;
+async function watchJob(first) {
+  if (watching) return; watching = true;
+  let sawRun = false;
+  while (true) {
+    let j; try { j = await fetch("/api/status").then(r => r.json()); } catch { break; }
+    const bar = $("job");
+    if (j.running) {
+      sawRun = true; bar.className = "on"; $("jobText").textContent = j.message;
+    } else {
+      if (sawRun && j.error) { bar.className = "on err"; $("jobText").textContent = j.error; setMsg(j.error, true); }
+      else if (sawRun) { bar.className = "on done"; $("jobText").textContent = t("updatedReloading"); location.reload(); }
+      else if (!first) { /* nothing started */ }
+      break;
+    }
+    await new Promise(r => setTimeout(r, 1200));
+  }
+  watching = false;
+}
+
+if (LIVE) {
+  watchJob(true);  // pick up a refresh already running (e.g. first launch)
+  setInterval(() => api("/api/ping", {}).catch(() => {}), 60_000);  // keeps the app alive while the page is open
+}
+
+drawStores(); drawMine(); render();
+</script>
+</body>
+</html>

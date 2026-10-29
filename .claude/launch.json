@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "deals",
+      "runtimeExecutable": "py",
+      "runtimeArgs": ["-c", "import server; server.main(open_browser=False)"],
+      "port": 5178
+    }
+  ]
+}
