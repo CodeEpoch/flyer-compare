@@ -1,0 +1,1792 @@
+{
+ "pages": {
+  "56ff497a9f45189b": {
+   "layout": {
+    "containers": [
+     {
+      "rect": [
+       0,
+       0,
+       2550,
+       1650
+      ],
+      "grid": {
+       "t": "split",
+       "dir": "v",
+       "cuts": [
+        1299,
+        1542,
+        2021
+       ],
+       "kids": [
+        {
+         "t": "split",
+         "dir": "h",
+         "cuts": [
+          563,
+          885,
+          1164
+         ],
+         "kids": [
+          {
+           "t": "split",
+           "dir": "v",
+           "cuts": [
+            332
+           ],
+           "kids": [
+            {
+             "t": "split",
+             "dir": "h",
+             "cuts": [
+              323
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "Garlic Shoot 蒜芯",
+               "price": 0.99,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": 1.59,
+               "deal_text": "Reg $1.59"
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "Baby Napa 娃娃菜",
+               "price": 1.39,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": 1.99,
+               "deal_text": "Reg $1.99"
+              }
+             ]
+            },
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              825
+             ],
+             "kids": [
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                320
+               ],
+               "kids": [
+                {
+                 "t": "split",
+                 "dir": "v",
+                 "cuts": [
+                  640
+                 ],
+                 "kids": [
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "Wintermelon 冬瓜",
+                   "price": 0.79,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": 0.99,
+                   "deal_text": "Reg $0.99"
+                  },
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "",
+                   "price": null,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": null,
+                   "deal_text": ""
+                  }
+                 ]
+                },
+                {
+                 "t": "split",
+                 "dir": "v",
+                 "cuts": [
+                  708
+                 ],
+                 "kids": [
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "Kohlrabi 菜果",
+                   "price": 0.88,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": 0.99,
+                   "deal_text": "Reg $0.99 · save $0.11"
+                  },
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "White Radish 白蘿卜",
+                   "price": 0.88,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": 1.29,
+                   "deal_text": "Reg $1.29 · save $0.41"
+                  }
+                 ]
+                }
+               ]
+              },
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                318
+               ],
+               "kids": [
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "Baby Mustard 芥菜仔",
+                 "price": 0.99,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": 1.59,
+                 "deal_text": "Reg $1.59"
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "Chinese Celery 唐芹",
+                 "price": 1.59,
+                 "qty": 1,
+                 "unit": "lb",
+                 "regular_price": 1.99,
+                 "deal_text": "Reg $1.99 · save $0.40"
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "t": "split",
+           "dir": "v",
+           "cuts": [
+            644
+           ],
+           "kids": [
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              332
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "Persimmon in 柿子（禮盒）",
+               "price": 11.99,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": 15.99,
+               "deal_text": "Reg $15.99 · save $4.00"
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "澳洲桔",
+               "price": 2.29,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": 2.99,
+               "deal_text": "Reg $2.99 · save $0.70"
+              }
+             ]
+            },
+            {
+             "t": "leaf",
+             "skip": false,
+             "edited": [],
+             "name": "",
+             "price": null,
+             "qty": 1,
+             "unit": "ea",
+             "regular_price": null,
+             "deal_text": ""
+            }
+           ]
+          },
+          {
+           "t": "split",
+           "dir": "v",
+           "cuts": [
+            236
+           ],
+           "kids": [
+            {
+             "t": "leaf",
+             "skip": false,
+             "edited": [],
+             "name": "",
+             "price": null,
+             "qty": 1,
+             "unit": "ea",
+             "regular_price": null,
+             "deal_text": ""
+            },
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              432,
+              628,
+              827,
+              1022
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "Frozen Grass Carp Slice 脆肉皖魚片",
+               "price": 5.99,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": 10.99,
+               "deal_text": "Reg $10.99 · save $5.00"
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "Fresh Beef Omasum 新鮮牛栢葉",
+               "price": 6.99,
+               "qty": 1,
+               "unit": "lb",
+               "regular_price": 8.99,
+               "deal_text": "Reg $8.99 · save $2.00"
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "Fresh Pork Skin 新鲜猪皮",
+               "price": 7.99,
+               "qty": 1,
+               "unit": "lb",
+               "regular_price": 8.99,
+               "deal_text": "Reg $8.99 · save $1.00"
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "HDL Hotpot Dipping Sauce 海底撈火鍋蘸料",
+               "price": 3.0,
+               "qty": 2,
+               "unit": "ea",
+               "regular_price": 2.59,
+               "deal_text": "Reg $2.59 · save $2.18"
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "CQ Soup Base Series 川崎高湯調味料",
+               "price": 2.99,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": 3.99,
+               "deal_text": "Reg $3.99 · save $1.00"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "t": "split",
+           "dir": "v",
+           "cuts": [
+            205,
+            371,
+            796,
+            992
+           ],
+           "kids": [
+            {
+             "t": "split",
+             "dir": "h",
+             "cuts": [
+              1360
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "Sticky Rice Chicken 糯米雞",
+               "price": 4.59,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": 4.79,
+               "deal_text": "Reg $4.79 · save $0.20"
+              }
+             ]
+            },
+            {
+             "t": "split",
+             "dir": "h",
+             "cuts": [
+              1360
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "Sesame Balls 芝麻球仔",
+               "price": 3.59,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": 3.99,
+               "deal_text": "Reg $3.99 · save $0.40"
+              }
+             ]
+            },
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              543
+             ],
+             "kids": [
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                1363
+               ],
+               "kids": [
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "Kung Pao 宮保雞丁",
+                 "price": 9.99,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": 12.99,
+                 "deal_text": "Reg $12.99 · save $3.00"
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "Ham Sui Gok/Red Glutinous Sesame Balls 綠豆西米露",
+                 "price": 3.29,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": 3.59,
+                 "deal_text": "Reg $3.59 · save $0.30"
+                }
+               ]
+              },
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                1385
+               ],
+               "kids": [
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "Sweet & Sour Pineapple Pork 菠蘿咕咤肉",
+                 "price": 7.99,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": 10.99,
+                 "deal_text": "Reg $10.99 · save $3.00"
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "Green Bean",
+                 "price": 2.19,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": 2.39,
+                 "deal_text": "Reg $2.39 · save $0.20"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "t": "leaf",
+             "skip": false,
+             "edited": [],
+             "name": "Stir-fried Pork Intestines Fish Fillet Fried w/ With Pepper 尖椒肥腸",
+             "price": 9.99,
+             "qty": 1,
+             "unit": "ea",
+             "regular_price": 12.99,
+             "deal_text": "Reg $12.99 · save $3.00"
+            },
+            {
+             "t": "split",
+             "dir": "h",
+             "cuts": [
+              1374
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "Eggplant 斑腩茄子",
+               "price": 5.99,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": 10.99,
+               "deal_text": "Reg $10.99 · save $5.00"
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "Coconut Bun 鶏尾排包",
+               "price": 2.99,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": 3.99,
+               "deal_text": "Reg $3.99 · save $1.00"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "t": "split",
+         "dir": "h",
+         "cuts": [
+          896
+         ],
+         "kids": [
+          {
+           "t": "leaf",
+           "skip": false,
+           "edited": [],
+           "name": "",
+           "price": null,
+           "qty": 1,
+           "unit": "ea",
+           "regular_price": null,
+           "deal_text": ""
+          },
+          {
+           "t": "split",
+           "dir": "h",
+           "cuts": [
+            1337
+           ],
+           "kids": [
+            {
+             "t": "leaf",
+             "skip": false,
+             "edited": [],
+             "name": "游水青斑",
+             "price": 14.99,
+             "qty": 1,
+             "unit": "ea",
+             "regular_price": 18.99,
+             "deal_text": "Reg $18.99"
+            },
+            {
+             "t": "leaf",
+             "skip": false,
+             "edited": [],
+             "name": "Rich Cauliflower 富貴花",
+             "price": 1.29,
+             "qty": 1,
+             "unit": "ea",
+             "regular_price": 1.99,
+             "deal_text": "Reg $1.99 · save $0.70"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "t": "split",
+         "dir": "h",
+         "cuts": [
+          298
+         ],
+         "kids": [
+          {
+           "t": "leaf",
+           "skip": false,
+           "edited": [],
+           "name": "",
+           "price": null,
+           "qty": 1,
+           "unit": "ea",
+           "regular_price": null,
+           "deal_text": ""
+          },
+          {
+           "t": "split",
+           "dir": "h",
+           "cuts": [
+            575,
+            871
+           ],
+           "kids": [
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              1725
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "Frozen Roasted Eel 蒲燒鰻魚",
+               "price": 7.99,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": 13.99,
+               "deal_text": "Reg $13.99"
+              }
+             ]
+            },
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              1726
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "Fresh Chicken Drumsticks",
+               "price": 1.59,
+               "qty": 1,
+               "unit": "lb",
+               "regular_price": 2.99,
+               "deal_text": "Reg $2.99 · save $1.40"
+              }
+             ]
+            },
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              1783
+             ],
+             "kids": [
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                1420
+               ],
+               "kids": [
+                {
+                 "t": "split",
+                 "dir": "h",
+                 "cuts": [
+                  1100
+                 ],
+                 "kids": [
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "Fresh Atlantic 新鲜大西洋整條 無骨三文魚柳",
+                   "price": 10.88,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": 16.99,
+                   "deal_text": "Reg $16.99 · save $6.11"
+                  },
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "Vifon Rice Noodles",
+                   "price": 2.99,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": 3.99,
+                   "deal_text": "Reg $3.99"
+                  }
+                 ]
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                }
+               ]
+              },
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                1337
+               ],
+               "kids": [
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "Zucchini 意大利瓜",
+                 "price": 0.99,
+                 "qty": 1,
+                 "unit": "lb",
+                 "regular_price": 1.99,
+                 "deal_text": "Reg $1.99 · save $1.00"
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "t": "split",
+         "dir": "h",
+         "cuts": [
+          574
+         ],
+         "kids": [
+          {
+           "t": "leaf",
+           "skip": false,
+           "edited": [],
+           "name": "",
+           "price": null,
+           "qty": 1,
+           "unit": "ea",
+           "regular_price": null,
+           "deal_text": ""
+          },
+          {
+           "t": "split",
+           "dir": "h",
+           "cuts": [
+            870
+           ],
+           "kids": [
+            {
+             "t": "leaf",
+             "skip": false,
+             "edited": [],
+             "name": "Broccoli 西蘭花",
+             "price": 1.39,
+             "qty": 1,
+             "unit": "lb",
+             "regular_price": 1.99,
+             "deal_text": "Reg $1.99 · save $0.60"
+            },
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              2260
+             ],
+             "kids": [
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                1125,
+                1333
+               ],
+               "kids": [
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "龍利鱼柳",
+                 "price": 4.59,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": 6.99,
+                 "deal_text": "Reg $6.99"
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "Shoulder Butt 新鲜梅頭肉",
+                 "price": 2.59,
+                 "qty": 1,
+                 "unit": "lb",
+                 "regular_price": 2.99,
+                 "deal_text": "Reg $2.99 · save $0.40"
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "Sugar Tangerin",
+                 "price": 2.88,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": 3.59,
+                 "deal_text": "Reg $3.59 · save $0.71"
+                }
+               ]
+              },
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                1420
+               ],
+               "kids": [
+                {
+                 "t": "split",
+                 "dir": "h",
+                 "cuts": [
+                  1104
+                 ],
+                 "kids": [
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "Crispy Roast Duck 脆皮燒鴨",
+                   "price": 19.99,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": 29.99,
+                   "deal_text": "Reg $29.99 · save $10.00"
+                  },
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "Glutinous Rice Ball 糯米糍",
+                   "price": 2.99,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": 3.99,
+                   "deal_text": "Reg $3.99 · save $1.00"
+                  }
+                 ]
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      "whole": true
+     }
+    ]
+   },
+   "saved_at": "2026-10-30T00:34:00"
+  }
+ },
+ "template": {
+  "1": {
+   "size": [
+    2550,
+    1650
+   ],
+   "layout": {
+    "containers": [
+     {
+      "rect": [
+       0,
+       0,
+       2550,
+       1650
+      ],
+      "grid": {
+       "t": "split",
+       "dir": "v",
+       "cuts": [
+        1299,
+        1542,
+        2021
+       ],
+       "kids": [
+        {
+         "t": "split",
+         "dir": "h",
+         "cuts": [
+          563,
+          885,
+          1164
+         ],
+         "kids": [
+          {
+           "t": "split",
+           "dir": "v",
+           "cuts": [
+            332
+           ],
+           "kids": [
+            {
+             "t": "split",
+             "dir": "h",
+             "cuts": [
+              323
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              }
+             ]
+            },
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              825
+             ],
+             "kids": [
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                320
+               ],
+               "kids": [
+                {
+                 "t": "split",
+                 "dir": "v",
+                 "cuts": [
+                  640
+                 ],
+                 "kids": [
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "",
+                   "price": null,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": null,
+                   "deal_text": ""
+                  },
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "",
+                   "price": null,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": null,
+                   "deal_text": ""
+                  }
+                 ]
+                },
+                {
+                 "t": "split",
+                 "dir": "v",
+                 "cuts": [
+                  708
+                 ],
+                 "kids": [
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "",
+                   "price": null,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": null,
+                   "deal_text": ""
+                  },
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "",
+                   "price": null,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": null,
+                   "deal_text": ""
+                  }
+                 ]
+                }
+               ]
+              },
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                318
+               ],
+               "kids": [
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "t": "split",
+           "dir": "v",
+           "cuts": [
+            644
+           ],
+           "kids": [
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              332
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              }
+             ]
+            },
+            {
+             "t": "leaf",
+             "skip": false,
+             "edited": [],
+             "name": "",
+             "price": null,
+             "qty": 1,
+             "unit": "ea",
+             "regular_price": null,
+             "deal_text": ""
+            }
+           ]
+          },
+          {
+           "t": "split",
+           "dir": "v",
+           "cuts": [
+            236
+           ],
+           "kids": [
+            {
+             "t": "leaf",
+             "skip": false,
+             "edited": [],
+             "name": "",
+             "price": null,
+             "qty": 1,
+             "unit": "ea",
+             "regular_price": null,
+             "deal_text": ""
+            },
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              432,
+              628,
+              827,
+              1022
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "t": "split",
+           "dir": "v",
+           "cuts": [
+            205,
+            371,
+            796,
+            992
+           ],
+           "kids": [
+            {
+             "t": "split",
+             "dir": "h",
+             "cuts": [
+              1360
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              }
+             ]
+            },
+            {
+             "t": "split",
+             "dir": "h",
+             "cuts": [
+              1360
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              }
+             ]
+            },
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              543
+             ],
+             "kids": [
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                1363
+               ],
+               "kids": [
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                }
+               ]
+              },
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                1385
+               ],
+               "kids": [
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "t": "leaf",
+             "skip": false,
+             "edited": [],
+             "name": "",
+             "price": null,
+             "qty": 1,
+             "unit": "ea",
+             "regular_price": null,
+             "deal_text": ""
+            },
+            {
+             "t": "split",
+             "dir": "h",
+             "cuts": [
+              1374
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "t": "split",
+         "dir": "h",
+         "cuts": [
+          896
+         ],
+         "kids": [
+          {
+           "t": "leaf",
+           "skip": false,
+           "edited": [],
+           "name": "",
+           "price": null,
+           "qty": 1,
+           "unit": "ea",
+           "regular_price": null,
+           "deal_text": ""
+          },
+          {
+           "t": "split",
+           "dir": "h",
+           "cuts": [
+            1337
+           ],
+           "kids": [
+            {
+             "t": "leaf",
+             "skip": false,
+             "edited": [],
+             "name": "",
+             "price": null,
+             "qty": 1,
+             "unit": "ea",
+             "regular_price": null,
+             "deal_text": ""
+            },
+            {
+             "t": "leaf",
+             "skip": false,
+             "edited": [],
+             "name": "",
+             "price": null,
+             "qty": 1,
+             "unit": "ea",
+             "regular_price": null,
+             "deal_text": ""
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "t": "split",
+         "dir": "h",
+         "cuts": [
+          298
+         ],
+         "kids": [
+          {
+           "t": "leaf",
+           "skip": false,
+           "edited": [],
+           "name": "",
+           "price": null,
+           "qty": 1,
+           "unit": "ea",
+           "regular_price": null,
+           "deal_text": ""
+          },
+          {
+           "t": "split",
+           "dir": "h",
+           "cuts": [
+            575,
+            871
+           ],
+           "kids": [
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              1725
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              }
+             ]
+            },
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              1726
+             ],
+             "kids": [
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              },
+              {
+               "t": "leaf",
+               "skip": false,
+               "edited": [],
+               "name": "",
+               "price": null,
+               "qty": 1,
+               "unit": "ea",
+               "regular_price": null,
+               "deal_text": ""
+              }
+             ]
+            },
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              1783
+             ],
+             "kids": [
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                1420
+               ],
+               "kids": [
+                {
+                 "t": "split",
+                 "dir": "h",
+                 "cuts": [
+                  1100
+                 ],
+                 "kids": [
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "",
+                   "price": null,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": null,
+                   "deal_text": ""
+                  },
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "",
+                   "price": null,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": null,
+                   "deal_text": ""
+                  }
+                 ]
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                }
+               ]
+              },
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                1337
+               ],
+               "kids": [
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "t": "split",
+         "dir": "h",
+         "cuts": [
+          574
+         ],
+         "kids": [
+          {
+           "t": "leaf",
+           "skip": false,
+           "edited": [],
+           "name": "",
+           "price": null,
+           "qty": 1,
+           "unit": "ea",
+           "regular_price": null,
+           "deal_text": ""
+          },
+          {
+           "t": "split",
+           "dir": "h",
+           "cuts": [
+            870
+           ],
+           "kids": [
+            {
+             "t": "leaf",
+             "skip": false,
+             "edited": [],
+             "name": "",
+             "price": null,
+             "qty": 1,
+             "unit": "ea",
+             "regular_price": null,
+             "deal_text": ""
+            },
+            {
+             "t": "split",
+             "dir": "v",
+             "cuts": [
+              2260
+             ],
+             "kids": [
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                1125,
+                1333
+               ],
+               "kids": [
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                }
+               ]
+              },
+              {
+               "t": "split",
+               "dir": "h",
+               "cuts": [
+                1420
+               ],
+               "kids": [
+                {
+                 "t": "split",
+                 "dir": "h",
+                 "cuts": [
+                  1104
+                 ],
+                 "kids": [
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "",
+                   "price": null,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": null,
+                   "deal_text": ""
+                  },
+                  {
+                   "t": "leaf",
+                   "skip": false,
+                   "edited": [],
+                   "name": "",
+                   "price": null,
+                   "qty": 1,
+                   "unit": "ea",
+                   "regular_price": null,
+                   "deal_text": ""
+                  }
+                 ]
+                },
+                {
+                 "t": "leaf",
+                 "skip": false,
+                 "edited": [],
+                 "name": "",
+                 "price": null,
+                 "qty": 1,
+                 "unit": "ea",
+                 "regular_price": null,
+                 "deal_text": ""
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      "whole": true
+     }
+    ]
+   },
+   "digest": "56ff497a9f45189b"
+  }
+ }
+}

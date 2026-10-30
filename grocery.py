@@ -57,7 +57,7 @@ DEFAULT_CONFIG = {
     "open_page_on_startup": False,
     "custom_flyers": [],       # [{url, store}] stores not on Flipp
     "store_overrides": {},     # {store: {address, lat, lon, found}} your store's real location
-    "ocr_engine": "auto",      # auto (Claude if an API key is set, else Windows OCR) | windows | claude
+    "ocr_engine": "auto",      # auto (Claude if an API key is set, else PaddleOCR) | paddle | claude
     "claude_model": "claude-opus-5-5",
     "anthropic_api_key": "",   # optional; ANTHROPIC_API_KEY env var works too
 }
@@ -199,6 +199,17 @@ def sync_flyers(cfg):
 
 def custom_path(store):
     return FLYERS / f"custom-{customflyer.slug(store)}.json"
+
+
+def reassemble_custom(store):
+    """After editing boxes: rebuild that store's flyer from the cached readings (no download/OCR)."""
+    data = customflyer.assemble(store)
+    write_json(custom_path(store), data)
+    state = read_json(STATE, {})
+    url = data["flyer"]["url"]
+    state.setdefault("custom", {}).setdefault(url, {}).update(ok=True, items=len(data["items"]))
+    write_json(STATE, state)
+    return len(data["items"])
 
 
 def sync_custom(cfg, only_url=None):
@@ -355,7 +366,8 @@ def normalize(cfg):
                 "flyer_url": flyer_url,
                 # custom flyers: no product cut-out, so the page shows this region of the flyer page
                 "crop": it.get("crop"), "page_size": it.get("page_size"),
-                "ocr": f.get("reader") in ("windows", "paddle"),
+                "ocr": f.get("reader", "claude") != "claude" and not it.get("checked"),  # read by OCR
+                "checked": bool(it.get("checked")),  # boxed/corrected by you in the flyer editor
                 "valid_from": (it.get("valid_from") or f["valid_from"])[:10],
                 "valid_to": (it.get("valid_to") or f["valid_to"])[:10],
                 "category": categories.classify(toks, cat_index),

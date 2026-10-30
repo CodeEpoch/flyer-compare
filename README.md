@@ -20,11 +20,22 @@ In **Settings**:
   The flyer images/PDF on it are read every week (only re-read when the images change):
   - *PaddleOCR* (free, offline, reads English and Chinese): run `setup_paddleocr.ps1` once to install it
     into `.venv-ocr` (~1 GB). It runs as a separate process only while a flyer is read.
-  - *Windows OCR* (free, nothing to install): rougher.
-  - Both OCR readers work prices out from "Reg $x / save $y" labels and skip items they can't price.
+  - PaddleOCR's text is turned into items by working prices out from the big printed price and the
+    "Reg $x / save $y" labels; items it can't price are skipped.
     Partial and approximate; those cards say "Read by OCR".
   - *Claude* (`pip install anthropic` + an Anthropic API key in Settings or `ANTHROPIC_API_KEY`):
     reads every item accurately, including PDFs. Costs a few cents per flyer page.
+  - **✎ Mark items** (Stores page) opens a panel editor. Draw **▭ Areas** (key A) around the parts of a page
+    that hold groceries: each area is OCR'd on its own (cropped and enlarged, so small prices read better)
+    and gets its own grid; everything outside your areas is ignored. Drag an area's edges to resize it.
+    Areas are remembered and re-read sharply on next week's flyer. Inside, each page or area is a comic-book grid of panels
+    (one per item) made of straight lines only, so panels never overlap. Drag a line to resize the panels
+    on both sides, cut a panel with ┃ / ━ (keys V / H), or draw a long line across many panels with
+    ✎ (L): parallel lines that overlap it and sit within a few pixels snap onto it. Click a line to remove
+    it, or ✂ split it into sections where lines on both sides meet it. Each panel lists the text found in
+    it: click a word to fill the selected field, or re-read the panel sharper. Panels without a name and
+    price aren't saved. Saved grids make items "Checked by you" and are reused on next
+    week's flyer when the page size matches.
 
 **Stores page** (🏪 Stores in the header): every store in one list. Set a store's real address
 (fixes or adds its distance; saved to `store_overrides` in `config.json`), show/exclude it, use it in

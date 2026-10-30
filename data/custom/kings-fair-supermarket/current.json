@@ -1,0 +1,21 @@
+{
+ "title": "Home",
+ "url": "https://kingsfairsupermarket.com/flyer.html",
+ "engine": "paddle",
+ "pages": [
+  {
+   "n": 1,
+   "digest": "56ff497a9f45189b",
+   "key": "56ff497a9f45189b:paddle",
+   "file": "page1.jpg",
+   "src": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshFront.jpg"
+  },
+  {
+   "n": 2,
+   "digest": "9cfa3ac64b55496b",
+   "key": "9cfa3ac64b55496b:paddle",
+   "file": "page2.jpg",
+   "src": "https://kingsfairsupermarket.com/weeklyFlyer/fieldFreshBack.jpg"
+  }
+ ]
+}

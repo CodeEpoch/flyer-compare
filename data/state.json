@@ -1,12 +1,12 @@
 {
-  "last_refresh": "2026-10-29T01:06:36",
+  "last_refresh": "2026-10-29T21:01:48",
   "postal_code": "L3S3E9",
   "custom": {
     "https://kingsfairsupermarket.com/flyer.html": {
       "ok": true,
       "items": 65,
       "reader": "paddle",
-      "at": "2026-10-29T01:55:50"
+      "at": "2026-10-30T00:38:16"
     }
   }
 }

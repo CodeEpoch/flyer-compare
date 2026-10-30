@@ -7,12 +7,12 @@
   ],
   "items": [
    {
-    "name": "White Radish \u767d\u863f\u535c",
+    "name": "White Radish 白蘿卜",
     "price": 0.88,
     "qty": 1,
     "unit": "ea",
     "regular_price": 1.29,
-    "deal_text": "Reg $1.29 \u00b7 save $0.41",
+    "deal_text": "Reg $1.29 · save $0.41",
     "crop": [
      628,
      88,
@@ -21,7 +21,7 @@
     ]
    },
    {
-    "name": "Garlic Shoot \u849c\u82af",
+    "name": "Garlic Shoot 蒜芯",
     "price": 0.99,
     "qty": 1,
     "unit": "ea",
@@ -35,7 +35,7 @@
     ]
    },
    {
-    "name": "Wintermelon \u51ac\u74dc",
+    "name": "Wintermelon 冬瓜",
     "price": 0.79,
     "qty": 1,
     "unit": "ea",
@@ -49,7 +49,7 @@
     ]
    },
    {
-    "name": "Baby Mustard \u82a5\u83dc\u4ed4",
+    "name": "Baby Mustard 芥菜仔",
     "price": 0.99,
     "qty": 1,
     "unit": "ea",
@@ -63,12 +63,12 @@
     ]
    },
    {
-    "name": "Kohlrabi \u83dc\u679c",
+    "name": "Kohlrabi 菜果",
     "price": 0.88,
     "qty": 1,
     "unit": "ea",
     "regular_price": 0.99,
-    "deal_text": "Reg $0.99 \u00b7 save $0.11",
+    "deal_text": "Reg $0.99 · save $0.11",
     "crop": [
      430,
      322,
@@ -77,12 +77,12 @@
     ]
    },
    {
-    "name": "Chinese Celery \u5510\u82b9",
+    "name": "Chinese Celery 唐芹",
     "price": 1.59,
     "qty": 1,
     "unit": "lb",
     "regular_price": 1.99,
-    "deal_text": "Reg $1.99 \u00b7 save $0.40",
+    "deal_text": "Reg $1.99 · save $0.40",
     "crop": [
      827,
      320,
@@ -91,7 +91,7 @@
     ]
    },
    {
-    "name": "Frozen Roasted Eel \u84b2\u71d2\u9c3b\u9b5a",
+    "name": "Frozen Roasted Eel 蒲燒鰻魚",
     "price": 7.99,
     "qty": 1,
     "unit": "ea",
@@ -105,7 +105,7 @@
     ]
    },
    {
-    "name": "Baby Napa \u5a03\u5a03\u83dc",
+    "name": "Baby Napa 娃娃菜",
     "price": 1.39,
     "qty": 1,
     "unit": "ea",
@@ -119,12 +119,12 @@
     ]
    },
    {
-    "name": "Persimmon in \u67ff\u5b50\uff08\u79ae\u76d2\uff09",
+    "name": "Persimmon in 柿子（禮盒）",
     "price": 11.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 15.99,
-    "deal_text": "Reg $15.99 \u00b7 save $4.00",
+    "deal_text": "Reg $15.99 · save $4.00",
     "crop": [
      34,
      565,
@@ -133,12 +133,12 @@
     ]
    },
    {
-    "name": "Broccoli \u897f\u862d\u82b1",
+    "name": "Broccoli 西蘭花",
     "price": 1.39,
     "qty": 1,
     "unit": "lb",
     "regular_price": 1.99,
-    "deal_text": "Reg $1.99 \u00b7 save $0.60",
+    "deal_text": "Reg $1.99 · save $0.60",
     "crop": [
      2108,
      576,
@@ -152,7 +152,7 @@
     "qty": 1,
     "unit": "lb",
     "regular_price": 2.99,
-    "deal_text": "Reg $2.99 \u00b7 save $1.40",
+    "deal_text": "Reg $2.99 · save $1.40",
     "crop": [
      1728,
      577,
@@ -161,12 +161,12 @@
     ]
    },
    {
-    "name": "\u6fb3\u6d32\u6854",
+    "name": "澳洲桔",
     "price": 2.29,
     "qty": 1,
     "unit": "ea",
     "regular_price": 2.99,
-    "deal_text": "Reg $2.99 \u00b7 save $0.70",
+    "deal_text": "Reg $2.99 · save $0.70",
     "crop": [
      334,
      604,
@@ -175,7 +175,7 @@
     ]
    },
    {
-    "name": "\u6e38\u6c34\u9752\u6591",
+    "name": "游水青斑",
     "price": 14.99,
     "qty": 1,
     "unit": "ea",
@@ -189,12 +189,12 @@
     ]
    },
    {
-    "name": "Crispy Roast Duck \u8106\u76ae\u71d2\u9d28",
+    "name": "Crispy Roast Duck 脆皮燒鴨",
     "price": 19.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 29.99,
-    "deal_text": "Reg $29.99 \u00b7 save $10.00",
+    "deal_text": "Reg $29.99 · save $10.00",
     "crop": [
      2262,
      872,
@@ -203,12 +203,12 @@
     ]
    },
    {
-    "name": "Fresh Pork Skin \u65b0\u9c9c\u732a\u76ae",
+    "name": "Fresh Pork Skin 新鲜猪皮",
     "price": 7.99,
     "qty": 1,
     "unit": "lb",
     "regular_price": 8.99,
-    "deal_text": "Reg $8.99 \u00b7 save $1.00",
+    "deal_text": "Reg $8.99 · save $1.00",
     "crop": [
      630,
      890,
@@ -217,7 +217,7 @@
     ]
    },
    {
-    "name": "\u9f8d\u5229\u9c7c\u67f3",
+    "name": "龍利鱼柳",
     "price": 4.59,
     "qty": 1,
     "unit": "ea",
@@ -231,12 +231,12 @@
     ]
    },
    {
-    "name": "Fresh Beef Omasum \u65b0\u9bae\u725b\u6822\u8449",
+    "name": "Fresh Beef Omasum 新鮮牛栢葉",
     "price": 6.99,
     "qty": 1,
     "unit": "lb",
     "regular_price": 8.99,
-    "deal_text": "Reg $8.99 \u00b7 save $2.00",
+    "deal_text": "Reg $8.99 · save $2.00",
     "crop": [
      434,
      890,
@@ -245,12 +245,12 @@
     ]
    },
    {
-    "name": "Fresh Atlantic \u65b0\u9c9c\u5927\u897f\u6d0b\u6574\u689d \u7121\u9aa8\u4e09\u6587\u9b5a\u67f3",
+    "name": "Fresh Atlantic 新鲜大西洋整條 無骨三文魚柳",
     "price": 10.88,
     "qty": 1,
     "unit": "ea",
     "regular_price": 16.99,
-    "deal_text": "Reg $16.99 \u00b7 save $6.11",
+    "deal_text": "Reg $16.99 · save $6.11",
     "crop": [
      1544,
      873,
@@ -259,12 +259,12 @@
     ]
    },
    {
-    "name": "CQ Soup Base Series \u5ddd\u5d0e\u9ad8\u6e6f\u8abf\u5473\u6599",
+    "name": "CQ Soup Base Series 川崎高湯調味料",
     "price": 2.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 3.99,
-    "deal_text": "Reg $3.99 \u00b7 save $1.00",
+    "deal_text": "Reg $3.99 · save $1.00",
     "crop": [
      1024,
      888,
@@ -273,12 +273,12 @@
     ]
    },
    {
-    "name": "Frozen Grass Carp Slice \u8106\u8089\u7696\u9b5a\u7247",
+    "name": "Frozen Grass Carp Slice 脆肉皖魚片",
     "price": 5.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 10.99,
-    "deal_text": "Reg $10.99 \u00b7 save $5.00",
+    "deal_text": "Reg $10.99 · save $5.00",
     "crop": [
      238,
      889,
@@ -287,12 +287,12 @@
     ]
    },
    {
-    "name": "HDL Hotpot Dipping Sauce \u6d77\u5e95\u6488\u706b\u934b\u8638\u6599",
+    "name": "HDL Hotpot Dipping Sauce 海底撈火鍋蘸料",
     "price": 3.0,
     "qty": 2,
     "unit": "ea",
     "regular_price": 2.59,
-    "deal_text": "Reg $2.59 \u00b7 save $2.18",
+    "deal_text": "Reg $2.59 · save $2.18",
     "crop": [
      829,
      887,
@@ -301,12 +301,12 @@
     ]
    },
    {
-    "name": "Shoulder Butt \u65b0\u9c9c\u6885\u982d\u8089",
+    "name": "Shoulder Butt 新鲜梅頭肉",
     "price": 2.59,
     "qty": 1,
     "unit": "lb",
     "regular_price": 2.99,
-    "deal_text": "Reg $2.99 \u00b7 save $0.40",
+    "deal_text": "Reg $2.99 · save $0.40",
     "crop": [
      2024,
      1127,
@@ -315,12 +315,12 @@
     ]
    },
    {
-    "name": "Glutinous Rice Ball \u7cef\u7c73\u7ccd",
+    "name": "Glutinous Rice Ball 糯米糍",
     "price": 2.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 3.99,
-    "deal_text": "Reg $3.99 \u00b7 save $1.00",
+    "deal_text": "Reg $3.99 · save $1.00",
     "crop": [
      2263,
      1106,
@@ -343,12 +343,12 @@
     ]
    },
    {
-    "name": "Kung Pao \u5bae\u4fdd\u96de\u4e01",
+    "name": "Kung Pao 宮保雞丁",
     "price": 9.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 12.99,
-    "deal_text": "Reg $12.99 \u00b7 save $3.00",
+    "deal_text": "Reg $12.99 · save $3.00",
     "crop": [
      373,
      1166,
@@ -357,12 +357,12 @@
     ]
    },
    {
-    "name": "Sweet & Sour Pineapple Pork \u83e0\u863f\u5495\u54a4\u8089",
+    "name": "Sweet & Sour Pineapple Pork 菠蘿咕咤肉",
     "price": 7.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 10.99,
-    "deal_text": "Reg $10.99 \u00b7 save $3.00",
+    "deal_text": "Reg $10.99 · save $3.00",
     "crop": [
      587,
      1167,
@@ -371,12 +371,12 @@
     ]
    },
    {
-    "name": "Eggplant \u6591\u8169\u8304\u5b50",
+    "name": "Eggplant 斑腩茄子",
     "price": 5.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 10.99,
-    "deal_text": "Reg $10.99 \u00b7 save $5.00",
+    "deal_text": "Reg $10.99 · save $5.00",
     "crop": [
      1008,
      1191,
@@ -385,12 +385,12 @@
     ]
    },
    {
-    "name": "Stir-fried Pork Intestines Fish Fillet Fried w/ With Pepper \u5c16\u6912\u80a5\u8178",
+    "name": "Stir-fried Pork Intestines Fish Fillet Fried w/ With Pepper 尖椒肥腸",
     "price": 9.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 12.99,
-    "deal_text": "Reg $12.99 \u00b7 save $3.00",
+    "deal_text": "Reg $12.99 · save $3.00",
     "crop": [
      798,
      1166,
@@ -399,12 +399,12 @@
     ]
    },
    {
-    "name": "Rich Cauliflower \u5bcc\u8cb4\u82b1",
+    "name": "Rich Cauliflower 富貴花",
     "price": 1.29,
     "qty": 1,
     "unit": "ea",
     "regular_price": 1.99,
-    "deal_text": "Reg $1.99 \u00b7 save $0.70",
+    "deal_text": "Reg $1.99 · save $0.70",
     "crop": [
      1303,
      1339,
@@ -413,12 +413,12 @@
     ]
    },
    {
-    "name": "Zucchini \u610f\u5927\u5229\u74dc",
+    "name": "Zucchini 意大利瓜",
     "price": 0.99,
     "qty": 1,
     "unit": "lb",
     "regular_price": 1.99,
-    "deal_text": "Reg $1.99 \u00b7 save $1.00",
+    "deal_text": "Reg $1.99 · save $1.00",
     "crop": [
      1785,
      1339,
@@ -432,7 +432,7 @@
     "qty": 1,
     "unit": "ea",
     "regular_price": 3.59,
-    "deal_text": "Reg $3.59 \u00b7 save $0.71",
+    "deal_text": "Reg $3.59 · save $0.71",
     "crop": [
      2024,
      1335,
@@ -441,12 +441,12 @@
     ]
    },
    {
-    "name": "Sesame Balls \u829d\u9ebb\u7403\u4ed4",
+    "name": "Sesame Balls 芝麻球仔",
     "price": 3.59,
     "qty": 1,
     "unit": "ea",
     "regular_price": 3.99,
-    "deal_text": "Reg $3.99 \u00b7 save $0.40",
+    "deal_text": "Reg $3.99 · save $0.40",
     "crop": [
      207,
      1362,
@@ -455,12 +455,12 @@
     ]
    },
    {
-    "name": "Coconut Bun \u9d8f\u5c3e\u6392\u5305",
+    "name": "Coconut Bun 鶏尾排包",
     "price": 2.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 3.99,
-    "deal_text": "Reg $3.99 \u00b7 save $1.00",
+    "deal_text": "Reg $3.99 · save $1.00",
     "crop": [
      994,
      1376,
@@ -469,12 +469,12 @@
     ]
    },
    {
-    "name": "Sticky Rice Chicken \u7cef\u7c73\u96de",
+    "name": "Sticky Rice Chicken 糯米雞",
     "price": 4.59,
     "qty": 1,
     "unit": "ea",
     "regular_price": 4.79,
-    "deal_text": "Reg $4.79 \u00b7 save $0.20",
+    "deal_text": "Reg $4.79 · save $0.20",
     "crop": [
      41,
      1362,
@@ -488,7 +488,7 @@
     "qty": 1,
     "unit": "ea",
     "regular_price": 2.39,
-    "deal_text": "Reg $2.39 \u00b7 save $0.20",
+    "deal_text": "Reg $2.39 · save $0.20",
     "crop": [
      545,
      1387,
@@ -497,12 +497,12 @@
     ]
    },
    {
-    "name": "Ham Sui Gok/Red Glutinous Sesame Balls \u7da0\u8c46\u897f\u7c73\u9732",
+    "name": "Ham Sui Gok/Red Glutinous Sesame Balls 綠豆西米露",
     "price": 3.29,
     "qty": 1,
     "unit": "ea",
     "regular_price": 3.59,
-    "deal_text": "Reg $3.59 \u00b7 save $0.30",
+    "deal_text": "Reg $3.59 · save $0.30",
     "crop": [
      376,
      1365,
@@ -524,12 +524,12 @@
   ],
   "items": [
    {
-    "name": "Ningxia Wolfberry \u5be7 \u590f\u67b8\u675e\u738b",
+    "name": "Ningxia Wolfberry 寧 夏枸杞王",
     "price": 6.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 9.99,
-    "deal_text": "Reg $9.99 \u00b7 save $3.00",
+    "deal_text": "Reg $9.99 · save $3.00",
     "crop": [
      932,
      81,
@@ -538,7 +538,7 @@
     ]
    },
    {
-    "name": "ZLS Taro Balls \u5f20\u529b\u751f\u828b\u5713",
+    "name": "ZLS Taro Balls 张力生芋圓",
     "price": 2.99,
     "qty": 1,
     "unit": "ea",
@@ -552,7 +552,7 @@
     ]
    },
    {
-    "name": "Thousand Layer HT Oil Noodle Steam Bun \u8fd9\u5173\u5e72\u5c40\u6240",
+    "name": "Thousand Layer HT Oil Noodle Steam Bun 这关干局所",
     "price": 4.0,
     "qty": 2,
     "unit": "ea",
@@ -571,7 +571,7 @@
     "qty": 1,
     "unit": "ea",
     "regular_price": 5.99,
-    "deal_text": "Reg $5.99 \u00b7 save $1.00",
+    "deal_text": "Reg $5.99 · save $1.00",
     "crop": [
      2206,
      79,
@@ -580,12 +580,12 @@
     ]
    },
    {
-    "name": "LQ Snail Flavour Rice Noodle \u7c89 \u4e2d\u5473",
+    "name": "LQ Snail Flavour Rice Noodle 粉 中味",
     "price": 2.59,
     "qty": 1,
     "unit": "ea",
     "regular_price": 2.99,
-    "deal_text": "Reg $2.99 \u00b7 save $0.40",
+    "deal_text": "Reg $2.99 · save $0.40",
     "crop": [
      42,
      81,
@@ -594,7 +594,7 @@
     ]
    },
    {
-    "name": "Haday Signature Oyster Flavour Sauce \u6d77\u5929\u62db\u724c\u8814\u6cb9",
+    "name": "Haday Signature Oyster Flavour Sauce 海天招牌蠔油",
     "price": 5.99,
     "qty": 1,
     "unit": "ea",
@@ -608,7 +608,7 @@
     ]
    },
    {
-    "name": "HJYHPanFriedFish Fillet HJ Leek Pockets \u7687\u5bb6\u5c0f\u864e\u9b5a\u6392",
+    "name": "HJYHPanFriedFish Fillet HJ Leek Pockets 皇家小虎魚排",
     "price": 4.99,
     "qty": 1,
     "unit": "ea",
@@ -622,12 +622,12 @@
     ]
    },
    {
-    "name": "Baskets Dried Beancurd Pickled Radish \u4e03\u500b\u7c43\u5b50\u4e94\u9999\u8c46\u4e7e",
+    "name": "Baskets Dried Beancurd Pickled Radish 七個籃子五香豆乾",
     "price": 5.0,
     "qty": 2,
     "unit": "ea",
     "regular_price": 3.99,
-    "deal_text": "Reg $3.99 \u00b7 save $2.98",
+    "deal_text": "Reg $3.99 · save $2.98",
     "crop": [
      1910,
      291,
@@ -636,12 +636,12 @@
     ]
    },
    {
-    "name": "Premium Dried Longan \u7279\u7d1a\u9f8d\u773c\u8089",
+    "name": "Premium Dried Longan 特級龍眼肉",
     "price": 6.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 9.99,
-    "deal_text": "Reg $9.99 \u00b7 save $3.00",
+    "deal_text": "Reg $9.99 · save $3.00",
     "crop": [
      37,
      277,
@@ -650,12 +650,12 @@
     ]
    },
    {
-    "name": "Hot Kid Milk Flavour Drink \u65fa\u4ed4\u725b\u5976",
+    "name": "Hot Kid Milk Flavour Drink 旺仔牛奶",
     "price": 6.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 11.99,
-    "deal_text": "Reg $11.99 \u00b7 save $9.99",
+    "deal_text": "Reg $11.99 · save $9.99",
     "crop": [
      633,
      285,
@@ -664,12 +664,12 @@
     ]
    },
    {
-    "name": "Toast Bread Series \u5410\u53f8\u9762\u5305\u7cfb\u5217",
+    "name": "Toast Bread Series 吐司面包系列",
     "price": 2.59,
     "qty": 1,
     "unit": "ea",
     "regular_price": 6.99,
-    "deal_text": "Reg $6.99 \u00b7 save $4.40",
+    "deal_text": "Reg $6.99 · save $4.40",
     "crop": [
      935,
      284,
@@ -678,12 +678,12 @@
     ]
    },
    {
-    "name": "\u970d\u5609\u97ed\u83dc\u76d2\u5b50",
+    "name": "霍嘉韭菜盒子",
     "price": 5.0,
     "qty": 2,
     "unit": "ea",
     "regular_price": 3.99,
-    "deal_text": "Reg $3.99 \u00b7 save $2.98",
+    "deal_text": "Reg $3.99 · save $2.98",
     "crop": [
      1612,
      312,
@@ -692,12 +692,12 @@
     ]
    },
    {
-    "name": "\u9ec4\u863f\u4e0b \u689d",
+    "name": "黄蘿下 條",
     "price": 4.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 5.99,
-    "deal_text": "Reg $5.99 \u00b7 save $1.00",
+    "deal_text": "Reg $5.99 · save $1.00",
     "crop": [
      2205,
      310,
@@ -706,12 +706,12 @@
     ]
    },
    {
-    "name": "KSF Haoziwei Instant Noodle Series \u5eb7\u5e2b\u5085\u597d\u6ecb\u5473\u9eb5\u7cfb\u5217",
+    "name": "KSF Haoziwei Instant Noodle Series 康師傅好滋味麵系列",
     "price": 2.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 3.99,
-    "deal_text": "Reg $3.99 \u00b7 save $1.00",
+    "deal_text": "Reg $3.99 · save $1.00",
     "crop": [
      339,
      281,
@@ -720,12 +720,12 @@
     ]
    },
    {
-    "name": "River Shrimp \u6cb3 \u8766",
+    "name": "River Shrimp 河 蝦",
     "price": 6.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 7.99,
-    "deal_text": "Reg $7.99 \u00b7 save $1.00",
+    "deal_text": "Reg $7.99 · save $1.00",
     "crop": [
      1318,
      494,
@@ -734,12 +734,12 @@
     ]
    },
    {
-    "name": "Orion Seaweed Flavour Snack \u597d \u53cb\u6d77",
+    "name": "Orion Seaweed Flavour Snack 好 友海",
     "price": 2.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 4.99,
-    "deal_text": "Reg $4.99 \u00b7 save $2.00",
+    "deal_text": "Reg $4.99 · save $2.00",
     "crop": [
      336,
      474,
@@ -748,7 +748,7 @@
     ]
    },
    {
-    "name": "Orange Juice \u6a59\u6c41",
+    "name": "Orange Juice 橙汁",
     "price": 6.99,
     "qty": 1,
     "unit": "ea",
@@ -762,12 +762,12 @@
     ]
    },
    {
-    "name": "Canned Yellow Peach \u9ec4\u6843\u7f50\u982d",
+    "name": "Canned Yellow Peach 黄桃罐頭",
     "price": 3.0,
     "qty": 2,
     "unit": "ea",
     "regular_price": 2.59,
-    "deal_text": "Reg $2.59 \u00b7 save $75.00",
+    "deal_text": "Reg $2.59 · save $75.00",
     "crop": [
      932,
      676,
@@ -781,7 +781,7 @@
     "qty": 1,
     "unit": "ea",
     "regular_price": 7.99,
-    "deal_text": "Reg $7.99 \u00b7 save $4.00",
+    "deal_text": "Reg $7.99 · save $4.00",
     "crop": [
      339,
      673,
@@ -790,12 +790,12 @@
     ]
    },
    {
-    "name": "Lotte Milkies \u97d3\u570b\u9178\u5976\u78b3\u9178\u98f2\u54c1",
+    "name": "Lotte Milkies 韓國酸奶碳酸飲品",
     "price": 2.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 3.99,
-    "deal_text": "Reg $3.99 \u00b7 save $1.00",
+    "deal_text": "Reg $3.99 · save $1.00",
     "crop": [
      636,
      673,
@@ -804,7 +804,7 @@
     ]
    },
    {
-    "name": "Fresh Chicken Wings \u65b0\u9bae\u96de\u4e2d\u7fc5",
+    "name": "Fresh Chicken Wings 新鮮雞中翅",
     "price": 4.99,
     "qty": 1,
     "unit": "ea",
@@ -818,12 +818,12 @@
     ]
    },
    {
-    "name": "Fresh Pork Shoulder Blade Fresh Chicken Leg Meat \u65b0\u9c9c\u897f\u65bd\u9aa8",
+    "name": "Fresh Pork Shoulder Blade Fresh Chicken Leg Meat 新鲜西施骨",
     "price": 2.79,
     "qty": 1,
     "unit": "ea",
     "regular_price": 3.59,
-    "deal_text": "Reg $3.59 \u00b7 save $0.80",
+    "deal_text": "Reg $3.59 · save $0.80",
     "crop": [
      1315,
      957,
@@ -832,12 +832,12 @@
     ]
    },
    {
-    "name": "\u65b0\u9bae\u96de\u813e\u8089",
+    "name": "新鮮雞脾肉",
     "price": 5.59,
     "qty": 1,
     "unit": "ea",
     "regular_price": 6.99,
-    "deal_text": "Reg $6.99 \u00b7 save $1.40",
+    "deal_text": "Reg $6.99 · save $1.40",
     "crop": [
      1614,
      980,
@@ -846,12 +846,12 @@
     ]
    },
    {
-    "name": "CBC Lamb Shoulder Roll \u712f\u8a18\u7f8a\u8089\u5377",
+    "name": "CBC Lamb Shoulder Roll 焯記羊肉卷",
     "price": 10.99,
     "qty": 1,
     "unit": "lb",
     "regular_price": 12.99,
-    "deal_text": "Reg $12.99 \u00b7 save $2.00",
+    "deal_text": "Reg $12.99 · save $2.00",
     "crop": [
      1910,
      957,
@@ -860,7 +860,7 @@
     ]
    },
    {
-    "name": "CBC Beef Blade Roll \u712f\u8a18\u725b\u8089\u5377",
+    "name": "CBC Beef Blade Roll 焯記牛肉卷",
     "price": 8.99,
     "qty": 1,
     "unit": "lb",
@@ -874,12 +874,12 @@
     ]
    },
    {
-    "name": "Fresh Sea Bream \u65b0\u9c9c\u6d77\u9280",
+    "name": "Fresh Sea Bream 新鲜海銀",
     "price": 6.99,
     "qty": 1,
     "unit": "lb",
     "regular_price": 9.99,
-    "deal_text": "Reg $9.99 \u00b7 save $3.00",
+    "deal_text": "Reg $9.99 · save $3.00",
     "crop": [
      1712,
      1203,
@@ -888,12 +888,12 @@
     ]
    },
    {
-    "name": "Frozen Fresh Whelk \u51b0\u9c9c\u6771\u98a8 \u87ba",
+    "name": "Frozen Fresh Whelk 冰鲜東風 螺",
     "price": 3.99,
     "qty": 1,
     "unit": "lb",
     "regular_price": 6.99,
-    "deal_text": "Reg $6.99 \u00b7 save $3.00",
+    "deal_text": "Reg $6.99 · save $3.00",
     "crop": [
      2102,
      1205,
@@ -902,12 +902,12 @@
     ]
    },
    {
-    "name": "ive OysterIn Shell \u9bae\u6d3b\u6709\u6bbc\u5927\u751f\u8814",
+    "name": "ive OysterIn Shell 鮮活有殼大生蠔",
     "price": 2.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 4.99,
-    "deal_text": "Reg $4.99 \u00b7 save $2.00",
+    "deal_text": "Reg $4.99 · save $2.00",
     "crop": [
      1316,
      1387,
@@ -916,12 +916,12 @@
     ]
    },
    {
-    "name": "Bawang Black-Sesame Conditioner \u9738\u738b\u9ed1\u829d\u9ebb\u67d4\u9806\u8b77\u767c\u7d20",
+    "name": "Bawang Black-Sesame Conditioner 霸王黑芝麻柔順護發素",
     "price": 4.99,
     "qty": 1,
     "unit": "ea",
     "regular_price": 6.99,
-    "deal_text": "Reg $6.99 \u00b7 save $2.00",
+    "deal_text": "Reg $6.99 · save $2.00",
     "crop": [
      41,
      1351,

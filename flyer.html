@@ -1,0 +1,922 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flyer Panel Editor</title>
+<style>
+  :root {
+    --nav: #131921; --nav2: #232f3e; --accent: #febd69;
+    --bg: #eaeded; --card: #fff; --text: #0f1111; --muted: #565959; --line: #d5d9d9;
+    --link: #007185; --deal: #cc0c39; --best: #067d62; --badge: #c45500; --chip: #e7f4f5;
+    --p-auto: #1a73e8; --p-mine: #067d62; --p-tpl: #7b3fb0; --p-sel: #ff8c00; --p-bad: #cc0c39;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1418; --card: #1a2128; --text: #e6e8ea; --muted: #9aa4ad; --line: #2b343c;
+      --link: #4fc3d4; --deal: #ff6b81; --best: #3ddc97; --chip: #17323a;
+    }
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; font: 14px/1.4 Arial, sans-serif; background: var(--bg); color: var(--text); }
+  button, input, select { font: inherit; }
+  header { background: var(--nav); color: #fff; display: flex; gap: 16px; align-items: center; padding: 12px 16px; }
+  .logo { font-weight: 700; font-size: 20px; color: #fff; text-decoration: none; }
+  .logo span { color: var(--accent); }
+  header h1 { font-size: 18px; margin: 0; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  header .back { margin-left: auto; color: #fff; text-decoration: none; border: 1px solid transparent; padding: 6px 8px; border-radius: 3px; white-space: nowrap; }
+  header .back:hover { border-color: #fff; }
+  .lang { background: var(--nav); color: #fff; border: 1px solid #485769; border-radius: 4px; padding: 4px; }
+  .bar { background: var(--nav2); color: #fff; padding: 8px 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .bar .grp { display: flex; gap: 4px; }
+  .bar button { border: 1px solid #485769; background: var(--nav2); color: #fff; border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+  .bar button.on { background: #fff; color: #0f1111; }
+  .bar .spacer { flex: 1; }
+  .bar .primary { background: #ffd814; border-color: #fcd200; color: #0f1111; font-weight: 700; }
+  .bar button:disabled { opacity: .5; cursor: default; }
+  #dirty { color: var(--accent); font-size: 13px; }
+  #note { padding: 8px 16px; font-size: 13px; background: var(--card); border-bottom: 1px solid var(--line); }
+  #note.warn { background: #fff8e1; color: #5b4500; }
+  #msg { font-size: 13px; }
+  #msg.err { color: #ffb3b3; }
+
+  main { display: grid; grid-template-columns: minmax(0, 1fr) 330px; height: calc(100vh - 150px); min-height: 420px; }
+  #stage { overflow: auto; background: #8a8f94; touch-action: none; }
+  #canvas { position: relative; margin: 12px; display: inline-block; }
+  #canvas.cut-v { cursor: col-resize; } #canvas.cut-h { cursor: row-resize; } #canvas.cut-line { cursor: crosshair; }
+  #canvas.cut-line .line { pointer-events: none; }  /* draw straight over existing lines */
+  .line.merge::after { background: #e11d48; box-shadow: 0 0 0 3px rgba(225, 29, 72, .35); }
+  #canvas img { display: block; user-select: none; -webkit-user-drag: none; }
+  /* panels tile the page; their borders are drawn by the lines, so only tint them */
+  .panel { position: absolute; background: rgba(26, 115, 232, .06); cursor: pointer; }
+  .panel.mine { background: rgba(6, 125, 98, .10); }
+  .panel.tpl { background: rgba(123, 63, 176, .10); }
+  .panel.bad { background: rgba(204, 12, 57, .10); }
+  .panel.sel { outline: 3px solid var(--p-sel); outline-offset: -3px; background: rgba(255, 140, 0, .14); z-index: 1; }
+  #canvas.cut-v .panel, #canvas.cut-h .panel, #canvas.cut-line .panel { cursor: inherit; }
+  .panel .tag { display: none; position: absolute; left: 2px; top: 2px; font-size: 11px; color: #fff; background: var(--p-auto); padding: 0 4px; border-radius: 3px; max-width: calc(100% - 4px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; }
+  .panel:hover .tag, .panel.sel .tag, .labels .panel .tag { display: block; }
+  .panel.mine .tag { background: var(--p-mine); } .panel.tpl .tag { background: var(--p-tpl); }
+  .panel.bad .tag { background: var(--p-bad); }
+  .panel.sel .tag { background: var(--p-sel); color: #000; }
+  .line { position: absolute; z-index: 3; }
+  .line::after { content: ""; position: absolute; background: #111; box-shadow: 0 0 0 1px rgba(255,255,255,.85); }
+  .line.v { cursor: col-resize; width: 12px; margin-left: -6px; } .line.v::after { left: 5px; width: 2px; top: 0; bottom: 0; }
+  .line.h { cursor: row-resize; height: 12px; margin-top: -6px; } .line.h::after { top: 5px; height: 2px; left: 0; right: 0; }
+  .line:hover::after, .line.sel::after { background: var(--p-sel); box-shadow: 0 0 0 2px rgba(255,140,0,.4); }
+  .line.v:hover::after, .line.v.sel::after { left: 4px; width: 4px; } .line.h:hover::after, .line.h.sel::after { top: 4px; height: 4px; }
+  .frame { position: absolute; inset: 0; border: 2px solid #111; pointer-events: none; z-index: 2; }
+  /* areas (containers): only these parts of the page are read; the rest is dimmed */
+  .dim { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 1; }
+  .area { position: absolute; border: 3px dashed #0ea5e9; pointer-events: none; z-index: 2; }
+  .area.sel { border-color: var(--p-sel); border-style: solid; }
+  .area .alabel { position: absolute; left: -3px; top: -21px; background: #0ea5e9; color: #fff; font-size: 12px; padding: 1px 7px;
+    border-radius: 3px 3px 0 0; cursor: pointer; pointer-events: auto; white-space: nowrap; }
+  .area.sel .alabel { background: var(--p-sel); color: #000; }
+  .edge { position: absolute; z-index: 5; }
+  .edge.l, .edge.r { width: 12px; margin-left: -6px; cursor: ew-resize; }
+  .edge.t, .edge.b { height: 12px; margin-top: -6px; cursor: ns-resize; }
+  .edge:hover { background: rgba(14, 165, 233, .35); }
+  #canvas.cut-area { cursor: crosshair; }
+  #canvas.cut-area .line, #canvas.cut-area .edge, #canvas.cut-line .edge { pointer-events: none; }
+  .word { position: absolute; z-index: 6; border: 1px solid rgba(255, 140, 0, .9); background: rgba(255, 140, 0, .12); cursor: copy; }
+  .word:hover { background: rgba(255, 140, 0, .45); }
+  #words { display: flex; flex-wrap: wrap; gap: 4px; }
+  #words button { border: 1px solid var(--line); background: var(--bg); color: var(--text); border-radius: 12px; padding: 2px 8px; font-size: 13px; cursor: copy;
+    max-width: 100%; white-space: normal; overflow-wrap: anywhere; text-align: left; }
+  #words button:hover { border-color: var(--p-sel); }
+  form input.active { outline: 2px solid var(--p-sel); }
+  .areadraw { position: absolute; border: 3px dashed var(--p-sel); background: rgba(14, 165, 233, .12); pointer-events: none; z-index: 6; }
+  .preview { position: absolute; background: var(--p-sel); pointer-events: none; z-index: 4; }
+
+  aside { background: var(--card); border-left: 1px solid var(--line); overflow-x: hidden; overflow-y: auto; min-width: 0; overflow-wrap: anywhere; padding: 12px 14px; display: flex; flex-direction: column; gap: 12px; }
+  aside h2 { font-size: 15px; margin: 0; }
+  .hint { font-size: 12px; color: var(--muted); margin: 0; }
+  form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+  form label { display: flex; flex-direction: column; gap: 2px; font-size: 12px; color: var(--muted); min-width: 0; }
+  form label.wide, form .wide { grid-column: 1 / -1; }
+  form label.check { flex-direction: row; align-items: center; gap: 6px; font-size: 13px; color: var(--text); }
+  form input:not([type=checkbox]), form select { width: 100%; min-width: 0; padding: 6px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--card); color: var(--text); font-size: 14px; }
+  form input.edited { border-color: var(--p-mine); }
+  form fieldset { border: 0; padding: 0; margin: 0; display: contents; }
+  .acts { display: flex; gap: 6px; flex-wrap: wrap; }
+  .btn { border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+  .btn.danger { color: var(--deal); }
+  #items { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+  #items li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; padding: 5px 8px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+  #items li:hover { background: var(--bg); }
+  #items li.sel { background: var(--chip); }
+  #items li .p { font-weight: 700; white-space: nowrap; }
+  #items li.bad .p { color: var(--deal); font-weight: 400; font-size: 12px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--muted); }
+  .legend i { display: inline-block; width: 14px; height: 10px; margin-right: 4px; vertical-align: -1px; border: 1px solid #888; }
+  @media (max-width: 820px) {
+    main { grid-template-columns: 1fr; height: auto; }
+    #stage { height: 60vh; }
+    aside { border-left: 0; border-top: 1px solid var(--line); }
+  }
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="/">flyer<span>deals</span></a>
+  <h1 id="title"></h1>
+  <a class="back" href="stores.html" data-i18n="edBack"></a>
+  <select class="lang" id="lang"></select>
+</header>
+<div class="bar">
+  <div class="grp" id="tabs"></div>
+  <div class="grp" id="tools">
+    <button data-tool="select" class="on" data-i18n="toolSelect"></button>
+    <button data-tool="v" data-i18n="toolCutV"></button>
+    <button data-tool="h" data-i18n="toolCutH"></button>
+    <button data-tool="line" data-i18n="toolDraw"></button>
+    <button data-tool="area" data-i18n="toolArea"></button>
+  </div>
+  <div class="grp">
+    <button id="zOut" data-i18n-aria="zoomOut">−</button>
+    <button id="zFit" data-i18n="zoomFit"></button>
+    <button id="zIn" data-i18n-aria="zoomIn">+</button>
+  </div>
+  <span class="spacer"></span>
+  <span id="msg"></span>
+  <span id="dirty"></span>
+  <button id="reset" data-i18n="resetPage"></button>
+  <button id="save" class="primary" data-i18n="savePage"></button>
+</div>
+<div id="note"></div>
+<main>
+  <div id="stage"><div id="canvas"><img id="img" alt=""><div class="frame"></div></div></div>
+  <aside>
+    <p class="hint" data-i18n="edHint2"></p>
+    <div class="legend">
+      <span><i style="background:rgba(26,115,232,.35)"></i><span data-i18n="lgAuto"></span></span>
+      <span><i style="background:rgba(6,125,98,.4)"></i><span data-i18n="lgMine"></span></span>
+      <span><i style="background:rgba(123,63,176,.4)"></i><span data-i18n="lgTpl"></span></span>
+      <span><i style="background:rgba(204,12,57,.35)"></i><span data-i18n="lgBad"></span></span>
+    </div>
+    <section>
+      <p class="hint" id="noSel" data-i18n="noSel2"></p>
+      <div id="areaBox" hidden>
+        <p class="hint" data-i18n="areaHint"></p>
+        <div class="acts">
+          <button type="button" class="btn" id="rereadArea" data-i18n="rereadArea"></button>
+          <button type="button" class="btn danger" id="delArea" data-i18n="delArea"></button>
+        </div>
+      </div>
+      <div id="lineBox" hidden>
+        <p class="hint" data-i18n="lineHint"></p>
+        <div class="acts">
+          <button type="button" class="btn" id="splitLine" data-i18n="splitLine"></button>
+          <button type="button" class="btn danger" id="delLine" data-i18n="delLine"></button>
+        </div>
+        <p class="hint" id="splitHint"></p>
+      </div>
+      <form id="form" hidden onsubmit="return false">
+        <fieldset id="fields">
+          <label class="wide"><span data-i18n="fName"></span><input id="fName" data-f="name" autocomplete="off"></label>
+          <label><span data-i18n="fPrice"></span><input id="fPrice" data-f="price" type="number" step="0.01" min="0" inputmode="decimal"></label>
+          <label><span data-i18n="fUnit"></span>
+            <select id="fUnit" data-f="unit">
+              <option value="ea" data-i18n="uEa"></option><option value="lb" data-i18n="uLb"></option>
+              <option value="kg" data-i18n="uKg"></option><option value="100g" data-i18n="u100g"></option>
+            </select></label>
+          <label><span data-i18n="fQty"></span><input id="fQty" data-f="qty" type="number" step="1" min="1" inputmode="numeric"></label>
+          <label><span data-i18n="fReg"></span><input id="fReg" data-f="regular_price" type="number" step="0.01" min="0" inputmode="decimal"></label>
+          <label class="wide"><span data-i18n="fDeal"></span><input id="fDeal" data-f="deal_text" autocomplete="off"></label>
+        </fieldset>
+        <div class="acts wide">
+          <button type="button" class="btn" id="reread" data-i18n="reReadPanel"></button>
+          <button type="button" class="btn" id="splitV" data-i18n="splitV"></button>
+          <button type="button" class="btn" id="splitH" data-i18n="splitH"></button>
+        </div>
+        <div class="wide">
+          <p class="hint" data-i18n="wordsH"></p>
+          <div id="words"></div>
+          <div class="acts" style="margin-top:6px"><button type="button" class="btn" id="sharpen" data-i18n="sharpen"></button></div>
+        </div>
+      </form>
+    </section>
+    <section>
+      <h2 id="itemsH"></h2>
+      <ul id="items"></ul>
+    </section>
+  </aside>
+</main>
+
+<script src="i18n.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+applyI18n();
+langPicker($("lang"));
+const api = (path, body) => fetch(path, {
+  method: body ? "POST" : "GET",
+  headers: { "X-Flyer-Deals": "1", "Content-Type": "application/json" },
+  body: body ? JSON.stringify(body) : undefined,
+}).then(async r => { const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || r.statusText); return j; });
+
+const store = new URLSearchParams(location.search).get("store") || "";
+$("title").textContent = document.title = `${t("edTitle")} · ${store}`;
+
+const FIELDS = ["name", "price", "qty", "unit", "regular_price", "deal_text"];
+const MIN = 12;  // smallest panel, in image pixels
+let state = null, pageIdx = 0, layout = null, size = [1, 1], zoom = 0, dirty = false, tool = "select";
+let sel = null;  // {kind: "panel", leaf} | {kind: "line", node, i} | {kind: "area", c}
+let pageWords = [], activeField = "name";  // OCR words of this page; the field a clicked word goes into
+
+// ------------------------------------------------------------ the panel tree
+// leaf: {t:"leaf", name, price, ...}; split: {t:"split", dir:"v"|"h", cuts:[abs positions], kids:[...]}
+const page = () => state.pages[pageIdx];
+const newLeaf = () => ({ t: "leaf", edited: [], name: "", price: null, qty: 1, unit: "ea", regular_price: null, deal_text: "" });
+const complete = l => l.name && l.name.trim() && +l.price > 0;
+
+// Every panel (leaf + rect) and every line (split + index + segment), with parents, for the current layout
+// layout = {containers: [{rect, grid, whole}]}: each area has its own grid; "whole" = the page itself
+function walk() {
+  const panels = [], lines = [];
+  layout.containers.forEach((cont, c) => (function rec(node, r, parent) {
+    if (node.t === "leaf") { panels.push({ leaf: node, r, parent, c }); return; }
+    const ax = node.dir === "v" ? 0 : 1;
+    const b = [r[ax], ...node.cuts, r[ax] + r[ax + 2]];
+    node.cuts.forEach((cut, i) => lines.push({ node, i, dir: node.dir, pos: cut, r, c }));
+    node.kids.forEach((k, i) => {
+      const s = [...r]; s[ax] = b[i]; s[ax + 2] = b[i + 1] - b[i];
+      rec(k, s, { node, i });
+    });
+  })(cont.grid, [...cont.rect], null));
+  return { panels, lines };
+}
+const leaves = node => node.t === "leaf" ? [node] : node.kids.flatMap(leaves);
+const allLeaves = () => layout.containers.flatMap(c => leaves(c.grid));
+const areas = () => layout.containers.filter(c => !c.whole);
+const overlaps = (a, b) => a[0] < b[0] + b[2] && b[0] < a[0] + a[2] && a[1] < b[1] + b[3] && b[1] < a[1] + a[3];
+// same-direction cuts inside a subtree: a line can't be dragged past them
+const innerCuts = (node, dir) => node.t === "leaf" ? [] : (node.dir === dir ? node.cuts : []).concat(node.kids.flatMap(k => innerCuts(k, dir)));
+
+function cutPanel(p, dir, at) {
+  // cut panel p with a dir line at absolute position at; joins its parent's row/column when it runs the same way
+  const ax = dir === "v" ? 0 : 1;
+  if (at < p.r[ax] + MIN || at > p.r[ax] + p.r[ax + 2] - MIN) return null;
+  at = Math.round(at);
+  const a = { ...p.leaf, edited: [] }, b = newLeaf();
+  if (p.parent && p.parent.node.dir === dir) {
+    const { node, i } = p.parent;
+    node.cuts.splice(i, 0, at); node.kids.splice(i, 1, a, b);
+  } else {
+    const split = { t: "split", dir, cuts: [at], kids: [a, b] };
+    if (p.parent) p.parent.node.kids[p.parent.i] = split; else layout.containers[p.c].grid = split;
+  }
+  return [a, b];
+}
+
+function removeLine(line) {
+  // merge the two panels/areas on either side of the line into one panel
+  const { node, i } = line;
+  const merged = newLeaf();
+  node.cuts.splice(i, 1); node.kids.splice(i, 2, merged);
+  if (node.kids.length === 1) {  // a split with one child is just that child
+    const only = node.kids[0];
+    Object.keys(node).forEach(k => delete node[k]); Object.assign(node, only);
+    return node;
+  }
+  return merged;
+}
+
+// ------------------------------------------------------------ loading
+function setMsg(text, err) { $("msg").textContent = text || ""; $("msg").className = err ? "err" : ""; }
+function setDirty(d) { dirty = d; $("dirty").textContent = d ? t("unsaved") : ""; }
+window.addEventListener("beforeunload", e => { if (dirty) { e.preventDefault(); e.returnValue = ""; } });
+
+async function load(keepPage) {
+  try { state = await api("/api/editor?store=" + encodeURIComponent(store)); }
+  catch (e) { $("note").className = "warn"; $("note").textContent = t("noFlyerYet"); return; }
+  if (!keepPage) pageIdx = 0;
+  $("tabs").innerHTML = state.pages.map((p, i) =>
+    `<button data-i="${i}" class="${i === pageIdx ? "on" : ""}">${esc(t("edPage", { n: p.n }))}</button>`).join("");
+  openPage(pageIdx);
+}
+
+function openPage(i) {
+  pageIdx = i; sel = null; setDirty(false); setMsg("");
+  $("tabs").querySelectorAll("button").forEach(b => b.classList.toggle("on", +b.dataset.i === i));
+  const p = page();
+  layout = JSON.parse(JSON.stringify(p.layout));
+  if (!layout.containers) layout = { containers: [{ rect: [0, 0, ...p.size], grid: layout, whole: true }] };
+  allLeaves().forEach(l => { delete l.skip; l.edited = l.edited || []; if (p.source === "manual" && !l.edited.length) l.edited = [...FIELDS]; });
+  size = p.size;
+  const notes = { auto: t("srcAuto2"), manual: t("srcManual"), template: t("srcTemplate") };
+  $("note").className = p.has_words ? "" : "warn";
+  $("note").textContent = p.has_words ? notes[p.source] : t("preparing");
+  $("img").onload = () => { if (!zoom) fit(); else draw(); };
+  $("img").src = `/api/flyer-image?store=${encodeURIComponent(store)}&n=${p.n}`;
+  loadWords();
+  if (!p.has_words) prepare();
+  draw();
+}
+
+async function prepare() {
+  try { await api("/api/editor/prepare", { store }); } catch {}
+  while (true) {
+    await new Promise(r => setTimeout(r, 2000));
+    let j; try { j = await fetch("/api/status").then(r => r.json()); } catch { return; }
+    if (j.running) { $("note").textContent = `${t("preparing")} ${j.message || ""}`; continue; }
+    if (j.error) { $("note").textContent = j.error; return; }
+    return load(true);
+  }
+}
+
+// ------------------------------------------------------------ drawing
+function fit() { zoom = Math.max(0.1, Math.min(1.5, ($("stage").clientWidth - 30) / size[0])); draw(); }
+function setZoom(z) { zoom = Math.max(0.1, Math.min(3, z)); draw(); }
+const px = v => v * zoom + "px";
+
+function draw() {
+  if (!layout) return;
+  $("img").style.width = px(size[0]); $("img").style.height = px(size[1]);
+  const cv = $("canvas");
+  cv.classList.toggle("labels", zoom >= 0.7);
+  // exactly one tool class; a leftover cut-line class would keep lines unclickable in Select mode
+  ["v", "h", "line", "area"].forEach(m => cv.classList.toggle("cut-" + m, tool === m));
+  cv.querySelectorAll(".panel, .line, .area, .edge, .dim").forEach(e => e.remove());
+  const { panels, lines } = walk();
+  const kind = page().source === "template" ? "tpl" : "";
+  panels.forEach((p, i) => {
+    const l = p.leaf, d = document.createElement("div");
+    const look = !complete(l) ? "bad" : l.edited.length || page().source === "manual" ? "mine" : kind;
+    d.className = `panel ${look}${sel?.leaf === l ? " sel" : ""}`;
+    d.dataset.i = i;
+    Object.assign(d.style, { left: px(p.r[0]), top: px(p.r[1]), width: px(p.r[2]), height: px(p.r[3]) });
+    d.innerHTML = `<span class="tag">${esc(complete(l) ? `${l.name} · $${(+l.price).toFixed(2)}` : t("needsPrice"))}</span>`;
+    cv.append(d);
+  });
+  lines.forEach((ln, i) => {
+    const d = document.createElement("div");
+    d.className = `line ${ln.dir}${sel?.kind === "line" && sel.node === ln.node && sel.i === ln.i ? " sel" : ""}`;
+    d.dataset.l = i;
+    if (ln.dir === "v") Object.assign(d.style, { left: px(ln.pos), top: px(ln.r[1]), height: px(ln.r[3]) });
+    else Object.assign(d.style, { top: px(ln.pos), left: px(ln.r[0]), width: px(ln.r[2]) });
+    cv.append(d);
+  });
+  drawAreas();
+  drawWords(panels);
+  drawPanel(panels);
+}
+
+// The OCR words inside a panel, in reading order
+function wordsIn(r) {
+  return pageWords.filter(w => w.x + w.w / 2 >= r[0] && w.x + w.w / 2 <= r[0] + r[2] && w.y + w.h / 2 >= r[1] && w.y + w.h / 2 <= r[1] + r[3])
+    .sort((a, b) => Math.abs(a.y - b.y) < Math.min(a.h, b.h) * 0.6 ? a.x - b.x : a.y - b.y);
+}
+function drawWords(panels) {
+  $("canvas").querySelectorAll(".word").forEach(e => e.remove());
+  const p = sel?.kind === "panel" && tool === "select" && panels.find(q => q.leaf === sel.leaf);
+  if (!p) return;
+  wordsIn(p.r).forEach(w => {
+    const d = document.createElement("div");
+    d.className = "word"; d.title = w.t; d.dataset.t = w.t;
+    Object.assign(d.style, { left: px(w.x), top: px(w.y), width: px(w.w), height: px(w.h) });
+    $("canvas").append(d);
+  });
+}
+async function loadWords() {
+  try { pageWords = (await api(`/api/editor/words?store=${encodeURIComponent(store)}&digest=${page().digest}`)).words; }
+  catch { pageWords = []; }
+  if (sel?.kind === "panel") draw();
+}
+
+function drawAreas() {
+  const cv = $("canvas"), list = layout.containers;
+  if (!areas().length) return;
+  // dim everything outside the areas (one path: the page, with a hole per area)
+  const [W, H] = size, hole = r => `M${r[0]} ${r[1]}h${r[2]}v${r[3]}h${-r[2]}z`;
+  cv.insertAdjacentHTML("beforeend", `<svg class="dim" width="${W * zoom}" height="${H * zoom}" viewBox="0 0 ${W} ${H}">
+    <path fill="rgba(15,20,25,.55)" fill-rule="evenodd" d="M0 0h${W}v${H}h${-W}z ${areas().map(c => hole(c.rect)).join(" ")}"/></svg>`);
+  list.forEach((cont, c) => {
+    if (cont.whole) return;
+    const [x, y, w, h] = cont.rect, isSel = sel?.kind === "area" && sel.c === c;
+    const d = document.createElement("div");
+    d.className = "area" + (isSel ? " sel" : "");
+    Object.assign(d.style, { left: px(x), top: px(y), width: px(w), height: px(h) });
+    d.innerHTML = `<span class="alabel" data-c="${c}">${esc(t("areaLabel", { n: areas().indexOf(cont) + 1 }))}</span>`;
+    cv.append(d);
+    for (const [side, st] of [["l", { left: px(x), top: px(y), height: px(h) }], ["r", { left: px(x + w), top: px(y), height: px(h) }],
+                              ["t", { top: px(y), left: px(x), width: px(w) }], ["b", { top: px(y + h), left: px(x), width: px(w) }]]) {
+      const e = document.createElement("div");
+      e.className = "edge " + side; e.dataset.c = c; e.dataset.side = side;
+      Object.assign(e.style, st);
+      cv.append(e);
+    }
+  });
+}
+
+// How far an area edge can move: not past its own grid lines, and not into another area
+function edgeLimits(c, side) {
+  const cont = layout.containers[c], [x, y, w, h] = cont.rect, [W, H] = size;
+  const others = areas().filter(o => o !== cont).map(o => o.rect);
+  const vCuts = innerCuts(cont.grid, "v"), hCuts = innerCuts(cont.grid, "h");
+  const rowsOverlap = o => o[1] < y + h && y < o[1] + o[3], colsOverlap = o => o[0] < x + w && x < o[0] + o[2];
+  if (side === "l") return [Math.max(0, ...others.filter(o => rowsOverlap(o) && o[0] + o[2] <= x).map(o => o[0] + o[2])), Math.min(x + w, ...vCuts) - MIN];
+  if (side === "r") return [Math.max(x, ...vCuts) + MIN, Math.min(W, ...others.filter(o => rowsOverlap(o) && o[0] >= x + w).map(o => o[0]))];
+  if (side === "t") return [Math.max(0, ...others.filter(o => colsOverlap(o) && o[1] + o[3] <= y).map(o => o[1] + o[3])), Math.min(y + h, ...hCuts) - MIN];
+  return [Math.max(y, ...hCuts) + MIN, Math.min(H, ...others.filter(o => colsOverlap(o) && o[1] >= y + h).map(o => o[1]))];
+}
+
+function drawPanel(panels = walk().panels) {
+  const items = panels;
+  $("itemsH").textContent = t("itemsH", { n: items.filter(p => complete(p.leaf)).length });
+  $("items").innerHTML = items.map(p => `<li data-i="${panels.indexOf(p)}" class="${sel?.leaf === p.leaf ? "sel" : ""}${complete(p.leaf) ? "" : " bad"}">
+    <span>${esc(p.leaf.name || "—")}</span><span class="p">${complete(p.leaf) ? "$" + (+p.leaf.price).toFixed(2) + (p.leaf.qty > 1 ? ` ×${p.leaf.qty}` : "") : esc(t("needsPrice"))}</span></li>`).join("");
+  $("noSel").hidden = !!sel;
+  $("areaBox").hidden = sel?.kind !== "area";
+  $("lineBox").hidden = sel?.kind !== "line";
+  if (sel?.kind === "line") {
+    const n = lineSections(sel.node, sel.i).length;
+    $("splitLine").disabled = n < 2;
+    $("splitHint").textContent = n < 2 ? t("splitNone") : t("splitHint", { n });
+  }
+  $("form").hidden = sel?.kind !== "panel";
+  if (sel?.kind !== "panel") return;
+  const l = sel.leaf;
+  $("fName").value = l.name || ""; $("fPrice").value = l.price ?? ""; $("fQty").value = l.qty || 1;
+  $("fUnit").value = l.unit || "ea"; $("fReg").value = l.regular_price ?? ""; $("fDeal").value = l.deal_text || "";
+  $("form").querySelectorAll("[data-f]").forEach(el => {
+    el.classList.toggle("edited", l.edited.includes(el.dataset.f));
+    el.classList.toggle("active", el.dataset.f === activeField);
+  });
+  const p = panels.find(q => q.leaf === l), ws = p ? wordsIn(p.r) : [];
+  $("words").innerHTML = ws.length ? ws.map(w => `<button type="button" data-t="${esc(w.t)}">${esc(w.t)}</button>`).join("")
+    : `<span class="hint">${t("noWords")}</span>`;
+}
+
+function selectLeaf(leaf, scroll) {
+  sel = leaf ? { kind: "panel", leaf } : null; draw();
+  if (scroll && leaf) {
+    const i = walk().panels.findIndex(p => p.leaf === leaf);
+    $("canvas").querySelector(`.panel[data-i="${i}"]`)?.scrollIntoView({ block: "center", inline: "center", behavior: "smooth" });
+  }
+}
+
+// ------------------------------------------------------------ reading panels
+// Fill panels from the page's OCR text. Fields you typed are kept; overwrite=true re-reads everything.
+async function readPanels(leafList, overwrite) {
+  if (!leafList.length || !page().has_words) return;
+  const rects = new Map(walk().panels.map(p => [p.leaf, p.r]));
+  setMsg(t("reading"));
+  try {
+    const { fields } = await api("/api/editor/parse", { store, digest: page().digest, boxes: leafList.map(l => rects.get(l)) });
+    leafList.forEach((l, i) => {
+      for (const f of FIELDS) if (overwrite || !l.edited.includes(f)) l[f] = fields[i][f] ?? ({ qty: 1, unit: "ea" }[f] ?? (f.includes("price") ? null : ""));
+      if (overwrite) l.edited = [];
+    });
+    setMsg("");
+  } catch (e) { setMsg(e.message, true); }
+  draw();
+}
+
+// ------------------------------------------------------------ pointer: select, cut, drag lines
+let drag = null;
+const toImg = e => { const r = $("img").getBoundingClientRect(); return [(e.clientX - r.left) / zoom, (e.clientY - r.top) / zoom]; };
+const panelAt = ([x, y]) => walk().panels.find(p => x >= p.r[0] && x <= p.r[0] + p.r[2] && y >= p.r[1] && y <= p.r[1] + p.r[3]);
+
+// How far a line can move: its neighbours in this row/column, and same-way lines inside the panels on each side
+function lineLimits(ln) {
+  const ax = ln.dir === "v" ? 0 : 1, b = [ln.r[ax], ...ln.node.cuts, ln.r[ax] + ln.r[ax + 2]];
+  return {
+    ax,
+    lo: Math.max(b[ln.i], ...innerCuts(ln.node.kids[ln.i], ln.dir)) + MIN,
+    hi: Math.min(b[ln.i + 2], ...innerCuts(ln.node.kids[ln.i + 1], ln.dir)) - MIN,
+  };
+}
+
+// A drawn line runs along one axis: vertical if you dragged mostly up/down
+function drawnLine(start, pt) {
+  const dir = Math.abs(pt[1] - start[1]) >= Math.abs(pt[0] - start[0]) ? "v" : "h";
+  const ax = dir === "v" ? 0 : 1, oth = 1 - ax;
+  return { dir, ax, oth, pos: start[ax], a: Math.min(start[oth], pt[oth]), b: Math.max(start[oth], pt[oth]) };
+}
+// Existing parallel lines that overlap the drawn one and sit within a few pixels of it: they merge onto it
+function mergeable(d) {
+  const snap = 12 / zoom;
+  return walk().lines.map((ln, i) => ({ ln, i })).filter(({ ln }) => ln.dir === d.dir &&
+    Math.abs(ln.pos - d.pos) <= snap && ln.r[d.oth] < d.b && ln.r[d.oth] + ln.r[d.oth + 2] > d.a);
+}
+
+function applyDrawnLine(d) {
+  const touched = new Set();
+  // 1) close parallel lines move onto the drawn line (where the panels beside them allow)
+  for (const { ln } of mergeable(d)) {
+    const { lo, hi } = lineLimits(ln);
+    if (d.pos < lo || d.pos > hi) continue;
+    ln.node.cuts[ln.i] = Math.round(d.pos);
+    [...leaves(ln.node.kids[ln.i]), ...leaves(ln.node.kids[ln.i + 1])].forEach(l => touched.add(l));
+  }
+  // 2) cut every panel the line runs across (for at least half of the panel's length)
+  const crossed = walk().panels.filter(p => {
+    const along = Math.min(d.b, p.r[d.oth] + p.r[d.oth + 2]) - Math.max(d.a, p.r[d.oth]);
+    return along >= p.r[d.oth + 2] * 0.5 && d.pos > p.r[d.ax] + MIN && d.pos < p.r[d.ax] + p.r[d.ax + 2] - MIN;
+  }).map(p => p.leaf);
+  for (const leaf of crossed) {
+    const p = walk().panels.find(q => q.leaf === leaf);
+    const made = p && cutPanel(p, d.dir, d.pos);
+    if (made) made.forEach(l => touched.add(l));
+  }
+  const live = new Set(allLeaves());
+  return [...touched].filter(l => live.has(l));
+}
+
+$("canvas").addEventListener("pointerdown", e => {
+  if (e.button !== 0) return;
+  const pt = toImg(e);
+  const lineEl = e.target.closest(".line"), edgeEl = e.target.closest(".edge"), labelEl = e.target.closest(".alabel");
+  const wordEl = e.target.closest(".word");
+  if (wordEl) { applyWord(wordEl.dataset.t); e.preventDefault(); return; }
+  if (tool === "area") {
+    drag = { area: true, start: pt, el: Object.assign(document.createElement("div"), { className: "areadraw" }) };
+    $("canvas").append(drag.el);
+  } else if (tool === "select" && labelEl) {
+    sel = { kind: "area", c: +labelEl.dataset.c }; draw();
+  } else if (tool === "select" && edgeEl) {
+    const c = +edgeEl.dataset.c, side = edgeEl.dataset.side;
+    sel = { kind: "area", c };
+    drag = { edge: true, c, side, limits: edgeLimits(c, side), moved: false };
+    draw();
+  } else if (tool === "line") {
+    drag = { draw: true, start: pt, el: Object.assign(document.createElement("div"), { className: "preview drawline" }) };
+    $("canvas").append(drag.el);
+  } else if (lineEl) {
+    const ln = walk().lines[+lineEl.dataset.l];
+    const { ax, lo, hi } = lineLimits(ln);
+    sel = { kind: "line", node: ln.node, i: ln.i };
+    drag = { line: ln, ax, lo, hi, start: pt, moved: false };
+    draw();
+  } else if (tool !== "select") {
+    const p = panelAt(pt);
+    if (p) {
+      const made = cutPanel(p, tool, pt[tool === "v" ? 0 : 1]);
+      if (made) { setDirty(true); sel = { kind: "panel", leaf: made[1] }; draw(); readPanels(made, false); }
+    }
+  } else {
+    const p = panelAt(pt);
+    selectLeaf(p ? p.leaf : null);
+  }
+  $("canvas").setPointerCapture(e.pointerId);
+  e.preventDefault();
+});
+$("canvas").addEventListener("pointermove", e => {
+  const pt = toImg(e);
+  if (drag?.area) {  // drawing an area: a rectangle
+    const [sx, sy] = drag.start, [W, H] = size;
+    const x = Math.max(0, Math.min(sx, pt[0])), y = Math.max(0, Math.min(sy, pt[1]));
+    drag.rect = [x, y, Math.min(W, Math.max(sx, pt[0])) - x, Math.min(H, Math.max(sy, pt[1])) - y].map(Math.round);
+    Object.assign(drag.el.style, { left: px(drag.rect[0]), top: px(drag.rect[1]), width: px(drag.rect[2]), height: px(drag.rect[3]) });
+    return;
+  }
+  if (drag?.edge) {  // moving an area edge: the panels along it grow or shrink
+    const r = layout.containers[drag.c].rect, [lo, hi] = drag.limits;
+    const v = Math.round(Math.max(lo, Math.min(hi, drag.side === "l" || drag.side === "r" ? pt[0] : pt[1])));
+    if (drag.side === "l") { r[2] += r[0] - v; r[0] = v; }
+    else if (drag.side === "r") r[2] = v - r[0];
+    else if (drag.side === "t") { r[3] += r[1] - v; r[1] = v; }
+    else r[3] = v - r[1];
+    drag.moved = true; draw();
+    return;
+  }
+  if (drag?.draw) {  // drawing: straight preview line, and highlight the lines it will merge with
+    const d = drawnLine(drag.start, pt);
+    const [W, H] = size, clamp = (v, m) => Math.max(0, Math.min(m, v));
+    if (d.dir === "v") Object.assign(drag.el.style, { left: px(d.pos), top: px(clamp(d.a, H)), width: "3px", height: px(clamp(d.b, H) - clamp(d.a, H)) });
+    else Object.assign(drag.el.style, { top: px(d.pos), left: px(clamp(d.a, W)), height: "3px", width: px(clamp(d.b, W) - clamp(d.a, W)) });
+    const hit = new Set(mergeable(d).map(m => m.i));
+    $("canvas").querySelectorAll(".line").forEach(el => el.classList.toggle("merge", hit.has(+el.dataset.l)));
+    return;
+  }
+  if (drag) {
+    const v = Math.round(Math.max(drag.lo, Math.min(drag.hi, pt[drag.ax])));
+    if (v !== drag.line.node.cuts[drag.line.i]) { drag.line.node.cuts[drag.line.i] = v; drag.moved = true; draw(); }
+    return;
+  }
+  // cut tools: preview the line under the pointer
+  $("canvas").querySelector(".preview:not(.drawline)")?.remove();
+  if (tool === "select" || tool === "line" || tool === "area" || e.target.closest(".line")) return;
+  const p = panelAt(pt);
+  if (!p) return;
+  const d = Object.assign(document.createElement("div"), { className: "preview" });
+  if (tool === "v") Object.assign(d.style, { left: px(pt[0]), top: px(p.r[1]), height: px(p.r[3]), width: "2px" });
+  else Object.assign(d.style, { top: px(pt[1]), left: px(p.r[0]), width: px(p.r[2]), height: "2px" });
+  $("canvas").append(d);
+});
+$("canvas").addEventListener("pointerleave", () => $("canvas").querySelector(".preview:not(.drawline)")?.remove());
+$("canvas").addEventListener("pointerup", e => {
+  if (!drag) return;
+  const d = drag; drag = null;
+  if (d.area) {
+    d.el.remove();
+    if (!d.rect || d.rect[2] < 40 || d.rect[3] < 40) { if (d.rect) setMsg(t("areaTooSmall"), true); return; }
+    if (areas().some(o => overlaps(o.rect, d.rect))) { setMsg(t("areaOverlap"), true); return; }
+    addArea(d.rect);
+    return;
+  }
+  if (d.edge) {
+    if (d.moved) { setDirty(true); readPanels(leaves(layout.containers[d.c].grid), false); }
+    return;
+  }
+  if (d.draw) {
+    d.el.remove();
+    const ln = drawnLine(d.start, toImg(e));
+    if (ln.b - ln.a < 20 / zoom) { draw(); return; }  // too short to be a line
+    const changed = applyDrawnLine(ln);
+    if (changed.length) { setDirty(true); sel = null; draw(); readPanels(changed, false); } else draw();
+    return;
+  }
+  if (d.moved) {  // every panel on both sides changed size: re-read them (keeping what you typed)
+    setDirty(true);
+    readPanels([...leaves(d.line.node.kids[d.line.i]), ...leaves(d.line.node.kids[d.line.i + 1])], false);
+  }
+});
+
+// ------------------------------------------------------------ side panel + keys
+const onField = e => {
+  const f = e.target.dataset.f, l = sel?.leaf;
+  if (!f || !l) return;
+  const v = e.target.value;
+  l[f] = ["price", "regular_price"].includes(f) ? (v === "" ? null : +v) : f === "qty" ? Math.max(1, +v || 1) : v;
+  if (!l.edited.includes(f)) l.edited.push(f);
+  e.target.classList.add("edited");
+  setDirty(true);
+  refreshLabels();
+};
+$("form").addEventListener("input", onField);
+$("form").addEventListener("change", onField);
+function refreshLabels() {  // update tags + list without rebuilding the form you're typing in
+  const panels = walk().panels;
+  $("canvas").querySelectorAll(".panel").forEach(d => {
+    const l = panels[+d.dataset.i].leaf;
+    d.classList.toggle("bad", !complete(l));
+    d.classList.toggle("mine", complete(l));
+    d.querySelector(".tag").textContent = complete(l) ? `${l.name} · $${(+l.price).toFixed(2)}` : t("needsPrice");
+  });
+  $("items").querySelectorAll("li").forEach(li => {
+    const l = panels[+li.dataset.i].leaf;
+    li.classList.toggle("bad", !complete(l));
+    li.children[0].textContent = l.name || "—";
+    li.children[1].textContent = complete(l) ? "$" + (+l.price).toFixed(2) + (l.qty > 1 ? ` ×${l.qty}` : "") : t("needsPrice");
+  });
+  $("itemsH").textContent = t("itemsH", { n: panels.filter(p => complete(p.leaf)).length });
+}
+$("reread").onclick = () => sel?.leaf && readPanels([sel.leaf], true);
+function splitSelected(dir) {
+  const p = walk().panels.find(p => p.leaf === sel?.leaf); if (!p) return;
+  const ax = dir === "v" ? 0 : 1;
+  const made = cutPanel(p, dir, p.r[ax] + p.r[ax + 2] / 2);
+  if (made) { setDirty(true); sel = { kind: "panel", leaf: made[0] }; draw(); readPanels(made, false); }
+}
+$("splitV").onclick = () => splitSelected("v");
+$("splitH").onclick = () => splitSelected("h");
+let delArmed = null;  // removing a line between whole sections merges them all: ask for a second press
+$("delLine").onclick = () => {
+  if (sel?.kind !== "line") return;
+  const n = leaves(sel.node.kids[sel.i]).length + leaves(sel.node.kids[sel.i + 1]).length;
+  if (n > 2 && !(delArmed && delArmed.node === sel.node && delArmed.i === sel.i)) {
+    delArmed = { node: sel.node, i: sel.i };
+    setMsg(t("delLineMany", { n }), true);
+    setTimeout(() => { delArmed = null; }, 5000);
+    return;
+  }
+  delArmed = null; setMsg("");
+  const merged = removeLine(sel);
+  setDirty(true);
+  sel = merged.t === "leaf" ? { kind: "panel", leaf: merged } : null;
+  draw();
+  if (merged.t === "leaf") readPanels([merged], false);
+};
+$("items").onclick = e => { const li = e.target.closest("li"); if (li) selectLeaf(walk().panels[+li.dataset.i].leaf, true); };
+
+function setTool(tl) {
+  tool = tl;
+  $("tools").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.tool === tl));
+  draw();
+}
+$("tools").onclick = e => { if (e.target.dataset.tool) setTool(e.target.dataset.tool); };
+document.addEventListener("keydown", e => {
+  if (e.target.matches?.("input, select, textarea")) return;
+  const k = e.key.toLowerCase();
+  if (k === "v" || k === "h") setTool(k);
+  else if (k === "l") setTool("line");
+  else if (k === "a") setTool("area");
+  else if (k === "s" || k === "escape") { setTool("select"); if (k === "escape") { sel = null; draw(); } }
+  else if ((e.key === "Delete" || e.key === "Backspace") && sel?.kind === "line") { e.preventDefault(); $("delLine").click(); }
+});
+
+$("tabs").onclick = e => {
+  const i = e.target.dataset.i;
+  if (i === undefined || +i === pageIdx) return;
+  if (dirty && !confirmLeave()) return;
+  openPage(+i);
+};
+let leaveArmed = false;  // no pop-ups: switching pages with unsaved work needs a second click
+function confirmLeave() {
+  if (leaveArmed) { leaveArmed = false; return true; }
+  leaveArmed = true; setMsg(t("unsavedSwitch"), true);
+  setTimeout(() => { leaveArmed = false; }, 4000);
+  return false;
+}
+$("zIn").onclick = () => setZoom(zoom * 1.25);
+$("zOut").onclick = () => setZoom(zoom / 1.25);
+$("zFit").onclick = fit;
+
+// ------------------------------------------------------------ text in a panel
+// Click a word (on the flyer or in the side panel) to put it into the field you last clicked into.
+$("form").addEventListener("focusin", e => {
+  if (!e.target.dataset.f) return;
+  activeField = e.target.dataset.f;
+  $("form").querySelectorAll("[data-f]").forEach(el => el.classList.toggle("active", el === e.target));
+});
+$("words").onclick = e => { const b = e.target.closest("button[data-t]"); if (b) applyWord(b.dataset.t); };
+
+// "$1.59", "S1.59", "1.59", "$0:99" -> 1.59; big flyer prices with raised cents "699" -> 6.99; "79¢"/"79t" -> 0.79
+function wordPrice(text) {
+  const tx = text.trim().replace(/^[Ss$&]/, "").replace(/[oO]/g, "0").replace(/[:,]/g, ".");
+  let m = tx.match(/^(\d{1,3})\.(\d{2})/);
+  if (m) return +(m[1] + "." + m[2]);
+  m = tx.match(/^(\d{2})[¢tcC]$/);
+  if (m) return +m[1] / 100;
+  m = tx.match(/^(\d{2,4})$/);
+  return m ? +m[1] / 100 : null;
+}
+function applyWord(text) {
+  const l = sel?.leaf; if (!l) return;
+  const f = activeField;
+  const multi = f === "price" && text.trim().match(/^(\d)\s*\/\s*(.+)$/);  // "2/799" = 2 for $7.99
+  if (multi && wordPrice(multi[2]) !== null) {
+    l.qty = +multi[1]; l.price = wordPrice(multi[2]);
+    if (!l.edited.includes("qty")) l.edited.push("qty");
+  } else if (["price", "regular_price"].includes(f)) {
+    const v = wordPrice(text);
+    if (v === null) { setMsg(t("wordNotNumber"), true); return; }
+    l[f] = v;
+  } else if (f === "qty") {
+    const v = parseInt(text, 10);
+    if (!(v > 0)) { setMsg(t("wordNotNumber"), true); return; }
+    l[f] = v;
+  } else if (f === "unit") {
+    const u = text.toLowerCase().replace(/[^a-z0-9]/g, "");
+    l[f] = u.startsWith("lb") ? "lb" : u.startsWith("kg") ? "kg" : u.startsWith("100g") ? "100g" : "ea";
+  } else {
+    l[f] = l[f] ? `${l[f]} ${text}` : text;
+  }
+  if (!l.edited.includes(f)) l.edited.push(f);
+  setMsg(""); setDirty(true); draw();
+}
+
+$("sharpen").onclick = async () => {
+  const p = walk().panels.find(q => q.leaf === sel?.leaf); if (!p) return;
+  const l = p.leaf;
+  setMsg(t("sharpening")); $("sharpen").disabled = true;
+  try {
+    const { fields } = await api("/api/editor/sharpen", { store, digest: page().digest, box: p.r });
+    for (const f of FIELDS) if (!l.edited.includes(f) && fields[f] != null && fields[f] !== "") l[f] = fields[f];
+    await loadWords();
+    setMsg(t("sharpenDone"));
+  } catch (e) { setMsg(e.message, true); }
+  $("sharpen").disabled = false;
+  draw();
+};
+
+// ------------------------------------------------------------ splitting a long line
+// A line is one cut of a split; it runs past several panels on each side. It can be broken into
+// sections where lines on BOTH sides meet it at the same spot: each section can then be moved
+// or removed on its own.
+const perp = d => d === "v" ? "h" : "v";
+// Positions where a d-direction line runs across the WHOLE of X. It may be one cut, or matching
+// cuts in every column (e.g. each column has its own row line at the same height).
+const near = (a, b) => Math.abs(a - b) <= 12 / zoom;
+function fullCuts(X, d) {
+  if (X.t === "leaf") return [];
+  const inner = X.kids.map(k => fullCuts(k, d));
+  if (X.dir === d) return [...X.cuts, ...inner.flat()];       // stacked bands: each band spans X
+  return inner.reduce((acc, ys) => acc.filter(y => ys.some(v => near(v, y))));  // side by side: all must have it
+}
+function crossings(node, i) {  // where lines on BOTH sides of this line meet it at the same spot
+  const d = perp(node.dir), b = fullCuts(node.kids[i + 1], d);
+  return [...new Set(fullCuts(node.kids[i], d).filter(y => b.some(v => near(v, y))))].sort((p, q) => p - q);
+}
+function lineSections(node, i) { return [null, ...crossings(node, i)]; }  // n crossings -> n+1 sections
+
+// Cut X in two along a full-length d-line at y (lining up any cut within a few px of y)
+const mk = (dir, cuts, kids) => kids.length === 1 ? kids[0] : { t: "split", dir, cuts, kids };
+function cutAt(X, d, y) {
+  if (X.t === "leaf") throw new Error("no line here");
+  if (X.dir === d) {
+    const j = X.cuts.findIndex(c => near(c, y));
+    if (j >= 0) return [mk(d, X.cuts.slice(0, j), X.kids.slice(0, j + 1)), mk(d, X.cuts.slice(j + 1), X.kids.slice(j + 1))];
+    const k = X.cuts.filter(c => c < y).length;  // the band the line runs through
+    const [top, bottom] = cutAt(X.kids[k], d, y);
+    return [mk(d, X.cuts.slice(0, k), [...X.kids.slice(0, k), top]), mk(d, X.cuts.slice(k), [bottom, ...X.kids.slice(k + 1)])];
+  }
+  const parts = X.kids.map(k => cutAt(k, d, y));  // columns: cut each one at the same height
+  return [mk(X.dir, X.cuts, parts.map(q => q[0])), mk(X.dir, X.cuts, parts.map(q => q[1]))];
+}
+function bands(X, d, ys) {
+  const out = [];
+  let rest = X;
+  for (const y of ys) { const [top, bottom] = cutAt(rest, d, y); out.push(top); rest = bottom; }
+  return [...out, rest];
+}
+function splitLine(node, i) {
+  const d = perp(node.dir), ys = crossings(node, i);
+  if (!ys.length) return 0;
+  let bandsA, bandsB;
+  try { bandsA = bands(node.kids[i], d, ys); bandsB = bands(node.kids[i + 1], d, ys); }
+  catch { return 0; }  // (checked before changing anything, so the grid is untouched)
+  const sections = { t: "split", dir: d, cuts: ys.map(Math.round),
+    kids: bandsA.map((a, k) => ({ t: "split", dir: node.dir, cuts: [node.cuts[i]], kids: [a, bandsB[k]] })) };
+  if (node.kids.length === 2) { Object.keys(node).forEach(k => delete node[k]); Object.assign(node, sections); }
+  else { node.cuts.splice(i, 1); node.kids.splice(i, 2, sections); }
+  return ys.length + 1;
+}
+$("splitLine").onclick = () => {
+  if (sel?.kind !== "line") return;
+  const sideB = leaves(sel.node.kids[sel.i + 1]);  // its crossings may shift a few px to line up
+  const n = splitLine(sel.node, sel.i);
+  if (!n) { setMsg(t("splitNone"), true); return; }
+  sel = null; setDirty(true); draw();
+  setMsg(t("splitDone", { n }));
+  readPanels(sideB, false);
+};
+
+// ------------------------------------------------------------ areas
+// Drawing an area reads just that part of the page (cropped + enlarged OCR) and grids it.
+// The first area replaces the whole-page grid: from then on only your areas are read.
+async function addArea(rect, replaceIdx) {
+  setMsg(t("readingArea")); setTool("select");
+  document.body.style.cursor = "progress";
+  try {
+    const { container } = await api("/api/editor/area", { store, digest: page().digest, rect });
+    leaves(container.grid).forEach(l => { l.edited = []; });
+    if (replaceIdx !== undefined) layout.containers[replaceIdx] = container;
+    else {
+      layout.containers = layout.containers.filter(c => !c.whole);
+      layout.containers.push(container);
+    }
+    page().has_words = true;
+    sel = { kind: "area", c: layout.containers.indexOf(container) };
+    setDirty(true); draw();
+    setMsg(t("areaAdded", { n: leaves(container.grid).filter(complete).length }));
+  } catch (e) { setMsg(e.message, true); }
+  document.body.style.cursor = "";
+}
+let rereadArmed = false;
+$("rereadArea").onclick = () => {
+  if (sel?.kind !== "area") return;
+  const cont = layout.containers[sel.c];
+  if (!rereadArmed && leaves(cont.grid).some(l => l.edited.length)) {  // your fixes in it would be replaced
+    rereadArmed = true; setMsg(t("clickAgainArea"), true);
+    setTimeout(() => { rereadArmed = false; }, 5000);
+    return;
+  }
+  rereadArmed = false;
+  addArea([...cont.rect], sel.c);
+};
+$("delArea").onclick = () => {
+  if (sel?.kind !== "area") return;
+  layout.containers.splice(sel.c, 1);
+  if (!layout.containers.length) {  // no areas left: back to the whole page (its automatic grid if we have it)
+    const whole = page().layout.containers?.find(c => c.whole);
+    layout.containers = [whole ? JSON.parse(JSON.stringify(whole)) : { rect: [0, 0, ...size], grid: newLeaf(true), whole: true }];
+    allLeaves().forEach(l => { l.edited = l.edited || []; });
+  }
+  sel = null; setDirty(true); draw();
+};
+
+// ------------------------------------------------------------ save / reset
+$("save").onclick = async () => {
+  $("save").disabled = true; setMsg(t("saving"));
+  try {
+    const r = await api("/api/editor/save", { store, digest: page().digest, layout });
+    const missing = walk().panels.filter(p => !complete(p.leaf)).length;
+    state = r.state; setDirty(false);
+    const m = t("savedN", { n: r.saved }) + (missing ? " " + t("skippedN", { n: missing }) : "");
+    openPage(pageIdx); setMsg(m);
+  } catch (e) { setMsg(e.message, true); }
+  $("save").disabled = false;
+};
+let resetArmed = false;
+$("reset").onclick = async () => {
+  if (!resetArmed) {
+    resetArmed = true; $("reset").textContent = t("clickAgainReset");
+    setTimeout(() => { resetArmed = false; $("reset").textContent = t("resetPage"); }, 4000);
+    return;
+  }
+  resetArmed = false; $("reset").textContent = t("resetPage");
+  try { const r = await api("/api/editor/reset", { store, digest: page().digest }); state = r.state; openPage(pageIdx); setMsg(t("resetDone")); }
+  catch (e) { setMsg(e.message, true); }
+};
+
+window.addEventListener("resize", () => { if (state) draw(); });
+setInterval(() => api("/api/ping", {}).catch(() => {}), 60_000);
+load();
+</script>
+</body>
+</html>

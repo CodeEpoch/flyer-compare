@@ -27,6 +27,7 @@ STATIC = {
     "/data/catalog.js": ("data/catalog.js", "text/javascript; charset=utf-8"),
     "/stores.html": ("stores.html", "text/html; charset=utf-8"),
     "/i18n.js": ("i18n.js", "text/javascript; charset=utf-8"),
+    "/flyer.html": ("flyer.html", "text/html; charset=utf-8"),
 }
 
 job = {"running": False, "message": "", "error": "", "finished_at": None}
@@ -105,7 +106,7 @@ def validate(body, cfg):
             raise ValueError("Time must look like 08:00.")
         new["refresh_time"] = body["refresh_time"]
     if "ocr_engine" in body:
-        if body["ocr_engine"] not in ("auto", "paddle", "windows", "claude"):
+        if body["ocr_engine"] not in ("auto", "paddle", "claude"):
             raise ValueError("Unknown flyer reader.")
         new["ocr_engine"] = body["ocr_engine"]
     if body.get("anthropic_api_key"):  # blank = keep the saved key
@@ -187,6 +188,67 @@ def set_store_address(body):
     return None
 
 
+IMAGE_TYPES = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp",
+               ".gif": "image/gif", ".bmp": "image/bmp"}
+
+
+def custom_store(name):
+    """Only stores you added a flyer link for can be edited (and their files served)."""
+    return next((e["store"] for e in grocery.load_config()["custom_flyers"] if e["store"] == name), None)
+
+
+def editor_action(path, body):
+    """Box editor API. Returns (status, response)."""
+    store = custom_store(str(body.get("store") or ""))
+    if not store:
+        return 404, {"error": "Unknown store."}
+    digest = str(body.get("digest") or "")
+    if path == "/api/editor/prepare":  # make sure each page has OCR words to read boxes from
+        if not run_job(lambda: customflyer.ensure_words(store, grocery.log)):
+            return 409, {"error": "Busy with another update; try again in a moment."}
+        return 202, {"ok": True}
+    if path == "/api/editor/parse":  # read several panels at once: {"boxes": [[x, y, w, h], ...]}
+        words = customflyer.load_words(store, digest)
+        boxes = body.get("boxes")
+        if not words:
+            return 400, {"error": "No text found for this page yet."}
+        if not isinstance(boxes, list) or len(boxes) > 500 or any(not (isinstance(b, list) and len(b) == 4) for b in boxes):
+            return 400, {"error": "Bad request"}
+        return 200, {"fields": [customflyer.parse_box(words["meta"], words["words"], [float(v) for v in b]) for b in boxes]}
+    if path == "/api/editor/area":  # OCR one area you drew (cropped + enlarged) and grid it: ~10-30 s
+        rect = body.get("rect")
+        if not (isinstance(rect, list) and len(rect) == 4 and all(isinstance(v, (int, float)) for v in rect)) \
+                or rect[2] < 20 or rect[3] < 20:
+            return 400, {"error": "Draw a bigger area."}
+        try:
+            return 200, {"container": customflyer.read_area(store, digest, rect, grocery.log)}
+        except (ValueError, RuntimeError) as e:
+            return 400, {"error": str(e)}
+    if path == "/api/editor/sharpen":  # OCR one panel, enlarged, for text the reading missed: ~10 s
+        box = body.get("box")
+        if not (isinstance(box, list) and len(box) == 4 and all(isinstance(v, (int, float)) for v in box)) \
+                or box[2] < 8 or box[3] < 8:
+            return 400, {"error": "Bad request"}
+        try:
+            fields = customflyer.sharpen_panel(store, digest, box, grocery.log)
+        except (ValueError, RuntimeError) as e:
+            return 400, {"error": str(e)}
+        return 200, {"fields": fields}
+    if path == "/api/editor/save":
+        try:
+            n = customflyer.save_manual(store, digest, body.get("layout"))
+        except ValueError as e:
+            return 400, {"error": str(e)}
+    elif path == "/api/editor/reset":
+        customflyer.reset_manual(store, digest)
+        n = None
+    else:
+        return 404, {"error": "Not found"}
+    total = grocery.reassemble_custom(store)
+    request_rebuild()
+    return 200, {"saved": n, "total": total, "state": customflyer.editor_state(store)}
+
+
 def stores_overview():
     """Every store the app knows about, for the Stores page."""
     cfg = grocery.load_config()
@@ -240,6 +302,27 @@ class Handler(BaseHTTPRequestHandler):
             return self.send(200, f.read_bytes(), ctype) if f.exists() else self.send(404, b"", "text/plain")
         if path == "/api/status":
             return self.send(200, job)
+        query = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+        if path == "/api/flyer-image":  # a downloaded flyer page, for the box editor
+            store = custom_store(query.get("store", [""])[0])
+            cur = customflyer._load(customflyer.folder_for(store) / "current.json", None) if store else None
+            page = next((p for p in (cur or {}).get("pages", []) if str(p["n"]) == query.get("n", [""])[0]), None)
+            f = customflyer.folder_for(store) / page["file"] if page else None
+            if not f or not f.exists() or f.suffix.lower() not in IMAGE_TYPES:
+                return self.send(404, b"", "text/plain")
+            return self.send(200, f.read_bytes(), IMAGE_TYPES[f.suffix.lower()])
+        if path == "/api/editor/words":  # a page's OCR words, so the editor can show what's in a panel
+            if not self.trusted():
+                return self.send(403, {"error": "forbidden"})
+            store = custom_store(query.get("store", [""])[0])
+            words = customflyer.load_words(store, query.get("digest", [""])[0]) if store else None
+            return self.send(200, {"words": (words or {}).get("words", [])})
+        if path == "/api/editor":
+            if not self.trusted():
+                return self.send(403, {"error": "forbidden"})
+            store = custom_store(query.get("store", [""])[0])
+            state = customflyer.editor_state(store) if store else None
+            return self.send(200, state) if state else self.send(404, {"error": "Read this flyer first."})
         if path in ("/api/settings", "/api/stores"):
             if not self.trusted():
                 return self.send(403, {"error": "forbidden"})
@@ -254,7 +337,7 @@ class Handler(BaseHTTPRequestHandler):
         if not self.trusted():
             return self.send(403, {"error": "forbidden"})
         try:
-            length = min(int(self.headers.get("Content-Length") or 0), 10_000)
+            length = min(int(self.headers.get("Content-Length") or 0), 500_000)  # a page of boxes can be ~60 KB
             body = json.loads(self.rfile.read(length) or b"{}")
         except ValueError:
             return self.send(400, {"error": "Bad request"})
@@ -269,6 +352,10 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send(400, {"error": "Enter your address first."})
             started = run_job(lambda: grocery.refresh(cfg))
             return self.send(202 if started else 409, job)
+
+        if path.startswith("/api/editor/"):
+            code, out = editor_action(path, body)
+            return self.send(code, out)
 
         if path == "/api/custom" and job["running"]:
             return self.send(409, {"error": "Busy with another update; try again in a moment."})

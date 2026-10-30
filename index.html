@@ -72,6 +72,7 @@
   #exclNote a { color: var(--link); cursor: pointer; }
   .crop { width: 100%; height: 180px; }
   .ocr { font-size: 11px; color: var(--badge); }
+  .checked { font-size: 11px; color: var(--best); }
 
   #notice { background: var(--card); border-left: 4px solid var(--accent-dark); padding: 10px 12px; border-radius: 4px; margin-bottom: 10px; display: none; }
   #notice button { margin-left: 8px; }
@@ -110,15 +111,16 @@
   #sentinel { height: 40px; }
   .empty { padding: 40px; text-align: center; color: var(--muted); grid-column: 1 / -1; }
 
-  dialog { border: 0; border-radius: 8px; padding: 0; width: min(520px, calc(100vw - 32px)); background: var(--card); color: var(--text); box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+  dialog { border: 0; border-radius: 8px; padding: 0; width: min(520px, calc(100vw - 32px)); overflow-x: hidden; overflow-wrap: anywhere; background: var(--card); color: var(--text); box-shadow: 0 10px 40px rgba(0,0,0,.35); }
   dialog::backdrop { background: rgba(0,0,0,.45); }
   .dlg-head { background: var(--nav2); color: #fff; padding: 12px 16px; font-size: 16px; font-weight: 700; display: flex; justify-content: space-between; }
   .dlg-head button { background: none; border: 0; color: #fff; font-size: 20px; cursor: pointer; line-height: 1; }
   .dlg-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
-  .dlg-body fieldset { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .dlg-body fieldset { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; margin: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
   .dlg-body legend { font-weight: 700; padding: 0 4px; }
-  .dlg-body input[type=text], .dlg-body select, .dlg-body input[type=time] { padding: 7px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--card); color: var(--text); }
-  .dlg-body input[type=text] { width: 100%; }
+  .dlg-body input[type=text], .dlg-body input[type=password], .dlg-body select, .dlg-body input[type=time] { max-width: 100%; padding: 7px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--card); color: var(--text); }
+  .dlg-body input[type=text], .dlg-body input[type=password] { width: 100%; }
+  .dlg-body #sEngine { flex: 1 1 100%; width: 100%; }  /* its long options would otherwise widen the dialog */
   .dlg-body .line { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   .dlg-body .note { font-size: 12px; color: var(--muted); }
   .dlg-body .found { font-size: 12px; color: var(--best); }
@@ -241,7 +243,6 @@
           <select id="sEngine">
             <option value="auto" data-i18n="engAuto"></option>
             <option value="paddle" data-i18n="engPaddle"></option>
-            <option value="windows" data-i18n="engWindows"></option>
             <option value="claude" data-i18n="engClaude"></option>
           </select>
         </div>
@@ -540,7 +541,8 @@ function card(v) {
     <div>${b.qty > 1 ? `<span class="valid">${t("nFor", { qty: b.qty, price: money(b.price) })} · </span>` : ""}${priceHTML(b)}</div>
     ${multiStore ? `<div class="cheapest">${esc(t("lowestAt", { store: b.store }))}${km ? ` (${km})` : ""}${v.savings > 0.005 ? " · " + t("saveAmt", { amount: money(v.savings) + (b.cmp_unit === "lb" ? "/lb" : "") }) : ""}</div>` : ""}
     ${b.sale_story ? `<div class="deal">${esc(b.sale_story)}</div>` : ""}
-    ${b.ocr ? `<div class="ocr" title="${esc(t("ocrTitle"))}">${t("ocrNote")}</div>` : ""}
+    ${b.checked ? `<div class="checked" title="${esc(t("checkedTitle"))}">${t("checkedNote")}</div>`
+      : b.ocr ? `<div class="ocr" title="${esc(t("ocrTitle"))}">${t("ocrNote")}</div>` : ""}
     <div class="valid">${t("valid", { from: b.valid_from, to: b.valid_to })}</div>
     <div class="offers">${rows}${extra}</div>
   </article>`;
@@ -601,9 +603,8 @@ function fillSettings(s) {
   $("sEngine").value = s.ocr_engine;
   $("sKey").value = "";
   $("sKey").placeholder = s.claude.key_saved ? t("keySavedPh") : t("keyPh");
-  const fallback = s.paddle_ready ? "PaddleOCR" : "Windows OCR";
-  $("sKeyNote").textContent = [s.claude.ready ? t("keyReady") : t("keyUnavailable", { why: s.claude.why, fallback }),
-    s.paddle_ready ? "" : t("paddleMissing")].filter(Boolean).join(" ");
+  $("sKeyNote").textContent = s.claude.ready ? t("keyReady")
+    : s.paddle_ready ? t("keyUnavailable", { why: s.claude.why, fallback: "PaddleOCR" }) : t("paddleMissing");
   const n = s.custom_flyers.length;
   $("cfCount").textContent = n ? t("cfCount", { n }) : "";
 }
